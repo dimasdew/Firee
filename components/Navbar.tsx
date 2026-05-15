@@ -8,7 +8,7 @@ import {
   ChevronDown, Package, CheckCircle2, Sun, Moon, Menu, X, ShoppingBag,
 } from "lucide-react";
 import { useApp } from "../context/AppContext";
-import { timeAgo, shortenAddress } from "../lib/utils";
+import { timeAgo, shortenAddress, avatarUrl } from "../lib/utils";
 import CartDrawer from "./CartDrawer";
 import FireeConnectButton from "./FireeConnectButton";
 
@@ -166,7 +166,7 @@ export default function Navbar({ variant = "landing", onSearch }: NavbarProps) {
 
                 <div className="dropdown-wrap">
                   <button type="button" className="profile-trigger" onClick={() => { setProfileOpen(!profileOpen); setNotifOpen(false); }}>
-                    <span className="avatar-sm">{username[0]?.toUpperCase()}</span>
+                    <img src={avatarUrl(wallet || user?.email || username)} alt={username} className="avatar-sm" style={{ objectFit: "cover" }} />
                     <ChevronDown size={12} className="nav-link-hide-mobile" />
                   </button>
                   {profileOpen && (

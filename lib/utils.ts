@@ -5,6 +5,10 @@ export function formatUsdc(value: number, decimals = 3): string {
 /** @deprecated Use formatUsdc */
 export const formatEth = formatUsdc;
 
+export function avatarUrl(seed: string) {
+  return `https://api.dicebear.com/9.x/pixel-art/svg?seed=${encodeURIComponent(seed)}&backgroundColor=6EACDA`;
+}
+
 export function shortenAddress(addr: string, chars = 4): string {
   if (!addr) return "";
   return `${addr.slice(0, 2 + chars)}...${addr.slice(-chars)}`;

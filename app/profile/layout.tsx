@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import Navbar from "../../components/Navbar";
 import MobileBottomNav from "../../components/MobileBottomNav";
 import { useApp } from "../../context/AppContext";
-import { shortenAddress, timeAgo } from "../../lib/utils";
+import { avatarUrl, shortenAddress, timeAgo } from "../../lib/utils";
 import { UserCircle, Wallet, MapPin, Calendar, Mail, Shield, Link2 } from "lucide-react";
 
 const SIDEBAR = [
@@ -19,7 +19,7 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
   const { user } = useApp();
   const username = user?.username ?? "dimasdew";
   const displayName = user?.displayName || username;
-  const initial = displayName[0]?.toUpperCase() ?? "D";
+  const seed = user?.walletAddress || user?.email || username;
   const joinedLabel = user?.joinedAt ? timeAgo(user.joinedAt) : "Just now";
   const providerLabel = user?.authProvider === "google" ? "Google" : user?.authProvider === "wallet" ? "Wallet" : "Email";
 
@@ -31,7 +31,12 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
       </div>
       <div className="container">
         <div className="profile-avatar-row">
-          <div className="profile-avatar">{initial}</div>
+          <img
+            src={avatarUrl(seed)}
+            alt={displayName}
+            className="profile-avatar"
+            style={{ objectFit: "cover" }}
+          />
         </div>
         <div style={{ marginBottom: 16 }}>
           <p style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: 18, color: "var(--text, white)" }}>
