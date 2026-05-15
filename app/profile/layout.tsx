@@ -32,14 +32,14 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
       <div className="container">
         <div className="profile-avatar-row">
           <div className="profile-avatar">{initial}</div>
-          <div style={{ paddingBottom: 4, flex: 1 }}>
-            <p style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: 18, color: "var(--text, white)" }}>
-              {displayName}
-            </p>
-            <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>
-              @{username}
-            </p>
-          </div>
+        </div>
+        <div style={{ marginBottom: 16 }}>
+          <p style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: 18, color: "var(--text, white)" }}>
+            {displayName}
+          </p>
+          <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>
+            @{username}
+          </p>
         </div>
 
         {/* Info strip */}
