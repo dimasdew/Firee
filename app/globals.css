@@ -9,6 +9,9 @@
   --rk-colors-modalBackground: #03346e;
   --rk-fonts-body: 'Space Grotesk', sans-serif;
 }
+[data-theme="light"] [data-rk] {
+  --rk-colors-modalBackground: #ffffff;
+}
 
 :root {
   --sand: #E2E2B6;
