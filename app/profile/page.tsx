@@ -8,7 +8,7 @@ export default function ProfilePage() {
   const { user, showToast } = useApp();
   const [editing, setEditing] = useState(false);
   const [username, setUsername] = useState(user?.username ?? "dimasdew");
-  const [language, setLanguage] = useState("Indonesia");
+  const [language, setLanguage] = useState("English");
   const [notif, setNotif] = useState("Yes");
   const [saved, setSaved] = useState(false);
 

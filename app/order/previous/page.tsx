@@ -13,7 +13,7 @@ export default function OrderPreviousPage() {
         <div style={{ marginBottom: 24 }}>
           <p style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 4 }}>History</p>
           <h1 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: "clamp(22px, 4vw, 28px)", color: "var(--text, white)" }}>Order</h1>
-          <p style={{ fontSize: 14, color: "var(--text-muted)", marginTop: 8 }}>Riwayat pesanan yang sudah Completed.</p>
+          <p style={{ fontSize: 14, color: "var(--text-muted)", marginTop: 8 }}>History of completed orders.</p>
         </div>
 
         <OrderSubNav />

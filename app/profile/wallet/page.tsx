@@ -74,7 +74,7 @@ export default function WalletPage() {
         <div style={{ textAlign: "center", padding: "32px 0" }}>
           <Wallet size={40} color="var(--sky)" style={{ margin: "0 auto 16px", opacity: 0.6 }} />
           <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 20 }}>
-            Connect via Rainbow — MetaMask, Coinbase Wallet, WalletConnect, dan lainnya.
+            Connect via Rainbow — MetaMask, Coinbase Wallet, WalletConnect, and more.
           </p>
           <FireeConnectButton variant="sand" fullWidth />
         </div>

@@ -108,7 +108,7 @@ export default function Navbar({ variant = "landing", onSearch }: NavbarProps) {
                   {isDark ? <Sun size={14} /> : <Moon size={14} />}
                 </button>
                 <Link href="/login" className="nav-link-hide-mobile" style={{ fontSize: 13, color: navText, textDecoration: "none" }}>Login</Link>
-                <Link href="/create" className="btn-ghost" style={{ fontSize: 12 }}>Create Account</Link>
+                <Link href="/create" className="btn-ghost" style={{ fontSize: 12 }}>Create</Link>
                 <button type="button" className="icon-btn nav-menu-btn" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu">
                   {mobileOpen ? <X size={18} /> : <Menu size={18} />}
                 </button>
@@ -220,7 +220,7 @@ export default function Navbar({ variant = "landing", onSearch }: NavbarProps) {
                   <Link key={l.href} href={l.href}>{l.label}</Link>
                 ))}
                 <Link href="/login">Login</Link>
-                <Link href="/create" className="btn-primary" style={{ justifyContent: "center" }}>Create Account</Link>
+                <Link href="/create" className="btn-primary" style={{ justifyContent: "center" }}>Create</Link>
               </>
             ) : (
               <>

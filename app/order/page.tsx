@@ -18,14 +18,14 @@ export default function OrderPage() {
         <div style={{ marginBottom: 24 }}>
           <p style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 4 }}>Active</p>
           <h1 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: "clamp(22px, 4vw, 28px)", color: "var(--text, white)" }}>Order</h1>
-          <p style={{ fontSize: 14, color: "var(--text-muted)", marginTop: 8 }}>Pesanan yang masih diproses — Redeemed atau Delivering.</p>
+          <p style={{ fontSize: 14, color: "var(--text-muted)", marginTop: 8 }}>Orders currently being processed — Redeemed or Delivering.</p>
         </div>
 
         <OrderSubNav />
 
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
           <Package size={18} color="var(--sky)" />
-          <h2 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)" }}>Order Sekarang</h2>
+          <h2 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)" }}>Current Orders</h2>
           {activeCount > 0 && (
             <span className="badge badge-sand" style={{ fontSize: 10 }}>
               {activeCount}

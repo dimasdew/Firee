@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { ClipboardList, ShoppingBag } from "lucide-react";
 
 const TABS = [
-  { href: "/order", label: "Order Sekarang", icon: ShoppingBag, exact: true },
+  { href: "/order", label: "Current Orders", icon: ShoppingBag, exact: true },
   { href: "/order/previous", label: "Previous Order", icon: ClipboardList },
 ];
 

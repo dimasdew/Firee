@@ -38,12 +38,12 @@ export default function OrderList({ filter }: Props) {
       <div className="card" style={{ padding: "56px 24px", textAlign: "center" }}>
         <p style={{ fontSize: 40, marginBottom: 12, opacity: 0.25 }}>{isActive ? "🚚" : "📦"}</p>
         <p style={{ fontSize: 15, fontWeight: 600, color: "var(--text, white)", marginBottom: 8 }}>
-          {isActive ? "Tidak ada order aktif" : "Belum ada pesanan selesai"}
+          {isActive ? "No active orders" : "No completed orders yet"}
         </p>
         <p style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 20 }}>
           {isActive
-            ? "Checkout produk dari cart untuk melihat pesanan yang sedang diproses di sini."
-            : "Pesanan yang sudah Completed akan muncul di riwayat ini."}
+            ? "Checkout products from your cart to see orders being processed here."
+            : "Completed orders will appear in this history."}
         </p>
         {isActive ? (
           <Link href="/dashboard" className="btn-sand">
@@ -51,7 +51,7 @@ export default function OrderList({ filter }: Props) {
           </Link>
         ) : (
           <Link href="/order" className="btn-ghost">
-            Lihat Order Aktif
+            View Active Orders
           </Link>
         )}
       </div>
@@ -61,7 +61,7 @@ export default function OrderList({ filter }: Props) {
   return (
     <>
       <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 12 }}>
-        {filtered.length} pesanan{isActive ? " aktif" : ""}
+        {filtered.length} order{filtered.length !== 1 ? "s" : ""}{isActive ? " active" : ""}
       </p>
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         {filtered.map((order) => (
