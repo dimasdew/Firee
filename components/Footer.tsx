@@ -25,7 +25,7 @@ export default function Footer() {
         <div>
           <p className="footer-heading">Account</p>
           <Link href="/login">Login</Link>
-          <Link href="/create">Create Account</Link>
+          <Link href="/create">Create</Link>
           <Link href="/profile">Profile</Link>
           <Link href="/order">Orders</Link>
         </div>

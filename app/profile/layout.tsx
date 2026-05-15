@@ -7,6 +7,7 @@ import MobileBottomNav from "../../components/MobileBottomNav";
 import { useApp } from "../../context/AppContext";
 import { avatarUrl, shortenAddress, timeAgo } from "../../lib/utils";
 import { UserCircle, Wallet, MapPin, Calendar, Mail, Shield, Link2 } from "lucide-react";
+import AuthGuard from "../../components/AuthGuard";
 
 const SIDEBAR = [
   { href: "/profile", label: "Profile", icon: UserCircle, exact: true },
@@ -24,6 +25,7 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
   const providerLabel = user?.authProvider === "google" ? "Google" : user?.authProvider === "wallet" ? "Wallet" : "Email";
 
   return (
+    <AuthGuard>
     <div className="page-shell">
       <Navbar variant="dashboard" />
       <div className="profile-banner">
@@ -99,5 +101,6 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
       </div>
       <MobileBottomNav />
     </div>
+    </AuthGuard>
   );
 }

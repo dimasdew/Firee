@@ -1,73 +1,79 @@
-# Portfolio — Next.js
+# Firee — Decentralized Marketplace
 
-Dark, minimalist portfolio built with **Next.js 14 + Tailwind CSS**.
+A Web3-powered marketplace built with **Next.js 15**, **RainbowKit**, and **Tailwind CSS**. Connect your wallet, browse products priced in USDC, and track orders — all with a polished dark/light theme.
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
-# 1. Install dependencies
 npm install
-
-# 2. Run dev server
-npm run dev
-
-# 3. Open http://localhost:3000
+cp .env.example .env.local   # add your WalletConnect project ID
+npm run dev                   # open http://localhost:3000
 ```
 
-## 📁 Structure
+## Features
+
+- **Wallet connect** — RainbowKit (MetaMask, Coinbase, WalletConnect, Rainbow)
+- **Dark / Light theme** — full palette sync including RainbowKit modals
+- **Product marketplace** — browse, search, filter, sort, add to cart, redeem
+- **Order tracking** — active orders → delivering → completed
+- **Profile** — personal info, shipping addresses, wallet management
+- **DiceBear avatars** — unique pixel art per user
+- **Responsive** — mobile bottom nav, collapsible sidebar, drawer cart
+
+## Structure
 
 ```
-portfolio/
-├── app/
-│   ├── globals.css       ← CSS variables, base styles, animations
-│   ├── layout.jsx        ← Root layout + metadata (edit title/desc here)
-│   └── page.jsx          ← Main page (composes all components)
-│
-├── components/
-│   ├── Navbar.jsx        ← Top navigation
-│   ├── Hero.jsx          ← Hero section
-│   ├── Marquee.jsx       ← Scrolling skills strip
-│   ├── Projects.jsx      ← Projects grid
-│   ├── projects.data.js  ← ⭐ EDIT THIS to update your projects
-│   ├── About.jsx         ← About + skills section
-│   ├── Contact.jsx       ← Contact CTA section
-│   ├── Footer.jsx        ← Footer with social links
-│   └── Cursor.jsx        ← Custom cursor
+app/
+├── page.tsx              Landing page (hero, features, CTA)
+├── dashboard/            Product grid + detail pages
+├── order/                Active & previous orders
+├── profile/              Settings, address, wallet
+├── login/ & create/      Auth pages (email, Google, wallet)
+├── about/ & support/     Info & FAQ pages
+└── layout.tsx            Root layout + providers
+
+components/               Navbar, Footer, ProductCard, CartDrawer,
+                          FireeConnectButton, WalletBridge, etc.
+
+context/AppContext.tsx     Global state (user, cart, orders, notifications)
+lib/                      wagmi config, products data, types, utils
 ```
 
-## ✏️ Customization
+## Environment Variables
 
-### Your info
-Search and replace `hello@yourname.com`, `yourusername`, `yourprofile` across all files.
-
-### Projects
-Edit `components/projects.data.js` — add/remove objects from the array.
-To add a real screenshot: add `image: '/images/project1.png'` to the data and update `Projects.jsx` to use `<Image>` from `next/image`.
-
-### Your photo (About section)
-In `components/About.jsx`, replace the placeholder `<span>YOU</span>` with:
-```jsx
-import Image from 'next/image'
-<Image src="/images/photo.jpg" alt="Your name" fill className="object-cover" />
 ```
-Then put `photo.jpg` inside the `public/images/` folder.
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id
+```
 
-### Metadata (SEO)
-Edit `app/layout.jsx` → `export const metadata`.
+Get one free at [cloud.walletconnect.com](https://cloud.walletconnect.com).
 
-### Logo
-Edit `components/Navbar.jsx` → change `A.DEV` to your initials.
+## Deploy
 
-## 🌐 Deploy to Vercel (free)
+1. Push to GitHub
+2. Import on [vercel.com](https://vercel.com)
+3. Add `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` in Vercel env settings
+4. Deploy
 
-1. Push this folder to a GitHub repo
-2. Go to [vercel.com](https://vercel.com) → New Project
-3. Import your repo → click **Deploy**
-4. Done! Live in ~1 minute ✅
+## Tech Stack
 
-## 🛠 Tech stack
+- **Next.js 15** (App Router, TypeScript)
+- **RainbowKit + wagmi + viem** (wallet connection)
+- **Tailwind CSS** + custom CSS variables
+- **@tanstack/react-query** (async state)
+- **Lucide React** (icons)
+- **DiceBear** (pixel art avatars)
+- **Google Fonts** — Space Grotesk + Space Mono
 
-- **Next.js 14** (App Router)
-- **Tailwind CSS**
-- **Google Fonts** — Syne + DM Sans
-- Vanilla JS only for cursor + scroll effects (no external animation libs)
+## Color Palette
+
+| Color     | Hex       | Usage                  |
+|-----------|-----------|------------------------|
+| Sand      | `#E2E2B6` | CTAs, prices, accents  |
+| Sky       | `#6EACDA` | Links, icons, badges   |
+| Navy      | `#03346E` | Surfaces, buttons      |
+| Midnight  | `#021526` | Dark backgrounds       |
+| Snow      | `#F5F5F5` | Light mode background  |
+
+---
+
+Built by [@dimasdew](https://github.com/dimasdew)

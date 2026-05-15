@@ -4,9 +4,11 @@ import Navbar from "../../../components/Navbar";
 import MobileBottomNav from "../../../components/MobileBottomNav";
 import OrderSubNav from "../../../components/OrderSubNav";
 import OrderList from "../../../components/OrderList";
+import AuthGuard from "../../../components/AuthGuard";
 
 export default function OrderPreviousPage() {
   return (
+    <AuthGuard>
     <div className="page-shell">
       <Navbar variant="dashboard" />
       <main className="container" style={{ padding: "28px 0 48px" }}>
@@ -23,5 +25,6 @@ export default function OrderPreviousPage() {
       </main>
       <MobileBottomNav />
     </div>
+    </AuthGuard>
   );
 }

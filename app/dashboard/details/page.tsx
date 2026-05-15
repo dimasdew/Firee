@@ -112,7 +112,6 @@ function DetailsContent() {
         </div>
       </main>
       <MobileBottomNav />
-      <style jsx>{`.back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); text-decoration: none; margin-bottom: 24px; } .back-link:hover { color: var(--sky); }`}</style>
     </div>
   );
 }

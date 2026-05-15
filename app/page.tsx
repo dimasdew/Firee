@@ -38,7 +38,7 @@ export default function Home() {
             Decentralized Marketplace
           </div>
 
-          <h1 className="fade-up d2" style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: "clamp(32px, 6vw, 68px)", lineHeight: 1.05, letterSpacing: "-0.03em", color: "white", marginBottom: 20 }}>
+          <h1 className="fade-up d2" style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: "clamp(32px, 6vw, 68px)", lineHeight: 1.05, letterSpacing: "-0.03em", color: "var(--text, white)", marginBottom: 20 }}>
             The Era of <span style={{ color: "var(--sand)" }}>Decentralized</span> Marketplace
           </h1>
 
@@ -48,7 +48,7 @@ export default function Home() {
 
           <div className="fade-up d4" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>
             <Link href="/dashboard" className="btn-sand">Start Journey <ArrowRight size={14} /></Link>
-            <Link href="/create" className="btn-ghost">Create Account</Link>
+            <Link href="/create" className="btn-ghost">Create</Link>
           </div>
 
           <div className="fade-up d5" style={{ marginTop: 56, display: "flex", justifyContent: "center", gap: "clamp(24px, 6vw, 56px)", flexWrap: "wrap" }}>
@@ -98,7 +98,7 @@ export default function Home() {
       <section className="section">
         <div className="container">
           <div className="cta-box">
-            <h2 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: "clamp(22px, 4vw, 32px)", color: "white", marginBottom: 12 }}>Ready to trade on your terms?</h2>
+            <h2 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: "clamp(22px, 4vw, 32px)", color: "var(--text, white)", marginBottom: 12 }}>Ready to trade on your terms?</h2>
             <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 28, maxWidth: 440, margin: "0 auto 28px" }}>Join thousands of users buying and selling on the first truly decentralized marketplace.</p>
             <Link href="/dashboard" className="btn-sand">Explore Marketplace <ArrowRight size={14} /></Link>
           </div>

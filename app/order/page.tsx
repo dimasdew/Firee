@@ -6,12 +6,14 @@ import MobileBottomNav from "../../components/MobileBottomNav";
 import OrderSubNav from "../../components/OrderSubNav";
 import OrderList from "../../components/OrderList";
 import { useApp } from "../../context/AppContext";
+import AuthGuard from "../../components/AuthGuard";
 
 export default function OrderPage() {
   const { orders } = useApp();
   const activeCount = orders.filter((o) => o.status !== 2).length;
 
   return (
+    <AuthGuard>
     <div className="page-shell">
       <Navbar variant="dashboard" />
       <main className="container" style={{ padding: "28px 0 48px" }}>
@@ -37,5 +39,6 @@ export default function OrderPage() {
       </main>
       <MobileBottomNav />
     </div>
+    </AuthGuard>
   );
 }

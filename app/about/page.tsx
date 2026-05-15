@@ -1,7 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { Flame, Users, Shield, TrendingUp } from "lucide-react";
+
+export const metadata: Metadata = { title: "About" };
 
 const STATS = [
   { icon: Users, label: "Active traders", value: "3,800+" },
