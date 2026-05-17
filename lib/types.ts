@@ -33,6 +33,11 @@ export interface CartItem {
   qty: number;
 }
 
+export interface WishlistItem {
+  productId: number;
+  addedAt: string;
+}
+
 export interface Notification {
   id: string;
   title: string;

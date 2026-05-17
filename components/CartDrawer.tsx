@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { X, Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
+import { X, Minus, Plus, ShoppingBag, Trash2, AlertTriangle } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { getProduct } from "../lib/products";
 import UsdcAmount from "./UsdcAmount";
@@ -14,7 +15,8 @@ interface Props {
 
 export default function CartDrawer({ open, onClose }: Props) {
   const router = useRouter();
-  const { cart, cartTotalEth, updateCartQty, removeFromCart, checkout, isLoggedIn } = useApp();
+  const { cart, cartTotalEth, updateCartQty, removeFromCart, checkout, isLoggedIn, cartCount } = useApp();
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   const handleCheckout = () => {
     if (!isLoggedIn) {
@@ -22,6 +24,11 @@ export default function CartDrawer({ open, onClose }: Props) {
       router.push("/login");
       return;
     }
+    setConfirmOpen(true);
+  };
+
+  const confirmCheckout = () => {
+    setConfirmOpen(false);
     checkout();
     onClose();
     router.push("/order");
@@ -47,8 +54,9 @@ export default function CartDrawer({ open, onClose }: Props) {
         <div className="cart-drawer-body">
           {cart.length === 0 ? (
             <div className="cart-empty">
-              <p style={{ fontSize: 40, opacity: 0.2, marginBottom: 12 }}>🛒</p>
+              <img src="/illustrations/empty-cart.svg" alt="" style={{ width: 80, height: 80, margin: "0 auto 12px", opacity: 0.8 }} />
               <p style={{ fontSize: 14, color: "var(--text-muted)", fontWeight: 500 }}>Cart is empty</p>
+              <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4, opacity: 0.6 }}>Add products to get started</p>
               <Link href="/dashboard" className="btn-ghost" style={{ marginTop: 16 }} onClick={onClose}>
                 Browse Products
               </Link>
@@ -100,6 +108,27 @@ export default function CartDrawer({ open, onClose }: Props) {
           </div>
         )}
       </aside>
+
+      {/* Confirm Checkout Modal */}
+      {confirmOpen && (
+        <>
+          <div className="drawer-backdrop" style={{ zIndex: 1001 }} onClick={() => setConfirmOpen(false)} aria-hidden />
+          <div style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)", zIndex: 1002, width: "90%", maxWidth: 380, background: "var(--card-bg, #0a1929)", border: "1px solid var(--border)", borderRadius: 14, padding: 28, textAlign: "center" }}>
+            <div style={{ width: 48, height: 48, borderRadius: "50%", background: "rgba(226,226,182,0.08)", border: "1px solid rgba(226,226,182,0.15)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
+              <ShoppingBag size={22} color="var(--sand)" />
+            </div>
+            <h3 style={{ fontSize: 17, fontWeight: 700, color: "var(--text, white)", marginBottom: 8 }}>Confirm Checkout</h3>
+            <p style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 20, lineHeight: 1.5 }}>
+              You&apos;re about to redeem <strong>{cartCount} item{cartCount !== 1 ? "s" : ""}</strong> for a total of:
+            </p>
+            <UsdcAmount value={cartTotalEth} iconSize={20} style={{ fontSize: 24, fontWeight: 700, color: "var(--sand)", justifyContent: "center", marginBottom: 24 }} />
+            <div style={{ display: "flex", gap: 10 }}>
+              <button type="button" className="btn-ghost" style={{ flex: 1, justifyContent: "center" }} onClick={() => setConfirmOpen(false)}>Cancel</button>
+              <button type="button" className="btn-sand" style={{ flex: 1, justifyContent: "center" }} onClick={confirmCheckout}>Confirm</button>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }

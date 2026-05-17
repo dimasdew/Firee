@@ -7,13 +7,14 @@ import Navbar from "../../components/Navbar";
 import MobileBottomNav from "../../components/MobileBottomNav";
 import { useApp } from "../../context/AppContext";
 import { avatarUrl, shortenAddress, timeAgo } from "../../lib/utils";
-import { UserCircle, Wallet, MapPin, Calendar, Mail, Shield, Link2 } from "lucide-react";
+import { UserCircle, Wallet, MapPin, Calendar, Mail, Shield, Link2, Heart } from "lucide-react";
 import AuthGuard from "../../components/AuthGuard";
 
 const SIDEBAR = [
   { href: "/profile", label: "Profile", icon: UserCircle, exact: true },
   { href: "/profile/address", label: "Address", icon: MapPin },
   { href: "/profile/wallet", label: "Wallet", icon: Wallet },
+  { href: "/profile/wishlist", label: "Wishlist", icon: Heart },
 ];
 
 export default function ProfileLayout({ children }: { children: React.ReactNode }) {

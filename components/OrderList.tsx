@@ -36,7 +36,7 @@ export default function OrderList({ filter }: Props) {
   if (filtered.length === 0) {
     return (
       <div className="card" style={{ padding: "56px 24px", textAlign: "center" }}>
-        <p style={{ fontSize: 40, marginBottom: 12, opacity: 0.25 }}>{isActive ? "🚚" : "📦"}</p>
+        <img src="/illustrations/empty-orders.svg" alt="" style={{ width: 80, height: 80, margin: "0 auto 12px", opacity: 0.8 }} />
         <p style={{ fontSize: 15, fontWeight: 600, color: "var(--text, white)", marginBottom: 8 }}>
           {isActive ? "No active orders" : "No completed orders yet"}
         </p>
@@ -65,7 +65,8 @@ export default function OrderList({ filter }: Props) {
       </p>
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         {filtered.map((order) => (
-          <article key={order.id} className="card" style={{ padding: 0, overflow: "hidden" }}>
+          <Link key={order.id} href={`/order/${order.id}`} style={{ textDecoration: "none" }}>
+          <article className="card card-lift" style={{ padding: 0, overflow: "hidden" }}>
             <div style={{ padding: "14px 16px", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
               <div
                 style={{
@@ -102,6 +103,7 @@ export default function OrderList({ filter }: Props) {
               </div>
             </div>
           </article>
+          </Link>
         ))}
       </div>
     </>

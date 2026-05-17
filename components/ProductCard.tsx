@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Heart } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import UsdcAmount from "./UsdcAmount";
 import type { Product } from "../lib/types";
@@ -9,11 +9,20 @@ import type { Product } from "../lib/types";
 interface Props extends Pick<Product, "id" | "name" | "price" | "category" | "emoji" | "image"> {}
 
 export default function ProductCard({ id, name, price, category, emoji, image }: Props) {
-  const { addToCart } = useApp();
+  const { addToCart, toggleWishlist, isWishlisted } = useApp();
+  const wishlisted = isWishlisted(id);
 
   return (
     <article className="card card-lift" style={{ padding: 0, overflow: "hidden", display: "flex", flexDirection: "column" }}>
-      <div style={{ padding: "12px 14px 10px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+      <div style={{ padding: "12px 14px 10px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <button
+          type="button"
+          onClick={() => toggleWishlist(id)}
+          aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
+          style={{ background: "none", border: "none", cursor: "pointer", padding: 4, display: "flex", color: wishlisted ? "#f87171" : "var(--text-muted)", transition: "color 0.2s" }}
+        >
+          <Heart size={14} fill={wishlisted ? "#f87171" : "none"} />
+        </button>
         <span className="badge badge-sky" style={{ fontSize: 9, padding: "2px 7px" }}>
           {category}
         </span>

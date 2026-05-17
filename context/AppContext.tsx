@@ -11,7 +11,7 @@ import {
   type ReactNode,
 } from "react";
 import { getProduct } from "../lib/products";
-import type { CartItem, Notification, Order, OrderStatus, User } from "../lib/types";
+import type { CartItem, Notification, Order, OrderStatus, User, WishlistItem } from "../lib/types";
 
 const STORAGE_KEY = "firee-app-v1";
 
@@ -20,6 +20,7 @@ interface StoredState {
   cart: CartItem[];
   orders: Order[];
   notifications: Notification[];
+  wishlist: WishlistItem[];
 }
 
 const DEFAULT_NOTIFICATIONS: Notification[] = [
@@ -55,20 +56,23 @@ interface AppContextValue {
   markAllNotificationsRead: () => void;
   showToast: (msg: string) => void;
   unreadCount: number;
+  wishlist: WishlistItem[];
+  toggleWishlist: (productId: number) => void;
+  isWishlisted: (productId: number) => boolean;
 }
 
 const AppContext = createContext<AppContextValue | null>(null);
 
 function loadState(): StoredState {
   if (typeof window === "undefined") {
-    return { user: null, cart: [], orders: [], notifications: DEFAULT_NOTIFICATIONS };
+    return { user: null, cart: [], orders: [], notifications: DEFAULT_NOTIFICATIONS, wishlist: [] };
   }
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return { user: null, cart: [], orders: [], notifications: DEFAULT_NOTIFICATIONS };
+    if (!raw) return { user: null, cart: [], orders: [], notifications: DEFAULT_NOTIFICATIONS, wishlist: [] };
     return JSON.parse(raw) as StoredState;
   } catch {
-    return { user: null, cart: [], orders: [], notifications: DEFAULT_NOTIFICATIONS };
+    return { user: null, cart: [], orders: [], notifications: DEFAULT_NOTIFICATIONS, wishlist: [] };
   }
 }
 
@@ -80,6 +84,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [notifications, setNotifications] = useState<Notification[]>(DEFAULT_NOTIFICATIONS);
   const [toast, setToast] = useState<string | null>(null);
   const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
+  const [wishlist, setWishlist] = useState<WishlistItem[]>([]);
 
   useEffect(() => {
     const s = loadState();
@@ -87,13 +92,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setCart(s.cart);
     setOrders(s.orders ?? []);
     setNotifications(s.notifications.length ? s.notifications : DEFAULT_NOTIFICATIONS);
+    setWishlist(s.wishlist ?? []);
     setHydrated(true);
   }, []);
 
   useEffect(() => {
     if (!hydrated) return;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ user, cart, orders, notifications }));
-  }, [hydrated, user, cart, orders, notifications]);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ user, cart, orders, notifications, wishlist }));
+  }, [hydrated, user, cart, orders, notifications, wishlist]);
 
   const showToast = useCallback((msg: string) => {
     setToast(msg);
@@ -302,6 +308,23 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setNotifications((prev) => prev.map((n) => ({ ...n, unread: false })));
   }, []);
 
+  const toggleWishlist = useCallback((productId: number) => {
+    setWishlist((prev) => {
+      const exists = prev.find((w) => w.productId === productId);
+      if (exists) {
+        showToast("Removed from wishlist");
+        return prev.filter((w) => w.productId !== productId);
+      }
+      const p = getProduct(productId);
+      showToast(p ? `${p.name} added to wishlist` : "Added to wishlist");
+      return [...prev, { productId, addedAt: new Date().toISOString() }];
+    });
+  }, [showToast]);
+
+  const isWishlisted = useCallback((productId: number) => {
+    return wishlist.some((w) => w.productId === productId);
+  }, [wishlist]);
+
   const cartCount = useMemo(() => cart.reduce((s, c) => s + c.qty, 0), [cart]);
 
   const cartTotalEth = useMemo(
@@ -343,6 +366,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
     markAllNotificationsRead,
     showToast,
     unreadCount,
+    wishlist,
+    toggleWishlist,
+    isWishlisted,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
