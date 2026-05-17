@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="150" viewBox="0 0 120 150" fill="none">
+  <path d="M40 25 L25 40 L35 50 L40 45 L40 125 L80 125 L80 45 L85 50 L95 40 L80 25 L70 35 Q60 42 50 35 Z" fill="#E2E2B6" opacity="0.12" stroke="#E2E2B6" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="M50 35 Q60 42 70 35" fill="none" stroke="#E2E2B6" stroke-width="1.5"/>
+  <circle cx="60" cy="75" r="8" fill="none" stroke="#6EACDA" stroke-width="1" opacity="0.3"/>
+  <text x="60" y="79" text-anchor="middle" fill="#6EACDA" font-size="8" font-family="monospace" opacity="0.5">F</text>
+</svg>

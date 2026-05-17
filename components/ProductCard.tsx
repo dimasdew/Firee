@@ -6,9 +6,9 @@ import { useApp } from "../context/AppContext";
 import UsdcAmount from "./UsdcAmount";
 import type { Product } from "../lib/types";
 
-interface Props extends Pick<Product, "id" | "name" | "price" | "category" | "emoji"> {}
+interface Props extends Pick<Product, "id" | "name" | "price" | "category" | "emoji" | "image"> {}
 
-export default function ProductCard({ id, name, price, category, emoji }: Props) {
+export default function ProductCard({ id, name, price, category, emoji, image }: Props) {
   const { addToCart } = useApp();
 
   return (
@@ -21,8 +21,8 @@ export default function ProductCard({ id, name, price, category, emoji }: Props)
 
       <div style={{ padding: "16px 14px", flex: 1, display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
         <p style={{ fontWeight: 600, fontSize: 13, marginBottom: 12, color: "var(--text, white)" }}>{name}</p>
-        <div style={{ width: 72, height: 88, borderRadius: 8, background: "rgba(110,172,218,0.06)", border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 32, marginBottom: 12 }}>
-          {emoji}
+        <div style={{ width: 72, height: 88, borderRadius: 8, background: "rgba(110,172,218,0.06)", border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 32, marginBottom: 12, overflow: "hidden" }}>
+          {image ? <img src={image} alt={name} style={{ width: "100%", height: "100%", objectFit: "contain" }} /> : emoji}
         </div>
         <UsdcAmount value={price} showLabel={false} iconSize={13} style={{ color: "var(--sand)", fontWeight: 600, fontSize: 13 }} />
       </div>

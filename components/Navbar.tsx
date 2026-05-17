@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import {
   Search, Bell, User, HelpCircle, Wallet, LogOut, Flame,
@@ -166,7 +167,7 @@ export default function Navbar({ variant = "landing", onSearch }: NavbarProps) {
 
                 <div className="dropdown-wrap">
                   <button type="button" className="profile-trigger" onClick={() => { setProfileOpen(!profileOpen); setNotifOpen(false); }}>
-                    <img src={avatarUrl(wallet || user?.email || username)} alt={username} className="avatar-sm" style={{ objectFit: "cover" }} />
+                    <Image src={avatarUrl(wallet || user?.email || username)} alt={username} width={28} height={28} className="avatar-sm" style={{ objectFit: "cover" }} unoptimized />
                     <ChevronDown size={12} className="nav-link-hide-mobile" />
                   </button>
                   {profileOpen && (

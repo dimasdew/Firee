@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Navbar from "../../components/Navbar";
 import MobileBottomNav from "../../components/MobileBottomNav";
@@ -33,11 +34,14 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
       </div>
       <div className="container">
         <div className="profile-avatar-row">
-          <img
+          <Image
             src={avatarUrl(seed)}
             alt={displayName}
+            width={96}
+            height={96}
             className="profile-avatar"
             style={{ objectFit: "cover" }}
+            unoptimized
           />
         </div>
         <div style={{ marginBottom: 16 }}>

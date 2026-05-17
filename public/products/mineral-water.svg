@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="150" viewBox="0 0 120 150" fill="none">
+  <rect x="35" y="10" width="50" height="14" rx="4" fill="#6EACDA" opacity="0.3"/>
+  <rect x="30" y="24" width="60" height="110" rx="10" fill="#6EACDA" opacity="0.15" stroke="#6EACDA" stroke-width="1.5"/>
+  <rect x="35" y="40" width="50" height="24" rx="4" fill="#6EACDA" opacity="0.25"/>
+  <text x="60" y="57" text-anchor="middle" fill="#6EACDA" font-size="10" font-family="monospace" font-weight="bold">PURE</text>
+  <path d="M50 80 Q55 72 60 80 Q65 88 70 80" stroke="#6EACDA" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <path d="M45 95 Q52 87 60 95 Q68 103 75 95" stroke="#6EACDA" stroke-width="1" fill="none" opacity="0.3"/>
+</svg>

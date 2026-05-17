@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Wallet } from "lucide-react";
+import Image from "next/image";
 import { shortenAddress, avatarUrl } from "../lib/utils";
 
 type Variant = "sand" | "ghost" | "nav";
@@ -55,7 +56,7 @@ export default function FireeConnectButton({
                   onClick={openAccountModal}
                   title={account.address}
                 >
-                  <img src={avatarUrl(account.address)} alt="" className="avatar-sm" style={{ objectFit: "cover" }} />
+                  <Image src={avatarUrl(account.address)} alt="" width={28} height={28} className="avatar-sm" style={{ objectFit: "cover" }} unoptimized />
                   <span
                     className="nav-link-hide-mobile mono"
                     style={{ fontSize: 11, maxWidth: 88, overflow: "hidden", textOverflow: "ellipsis" }}

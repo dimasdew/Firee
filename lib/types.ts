@@ -6,6 +6,7 @@ export interface Product {
   price: string;
   category: Exclude<ProductCategory, "All">;
   emoji: string;
+  image?: string;
   company: string;
   tagline: string;
   description: string;

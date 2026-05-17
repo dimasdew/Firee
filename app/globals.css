@@ -408,7 +408,7 @@ select.input { cursor: pointer; }
 .nav-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
 .nav-search { flex: 1; max-width: 420px; margin: 0 auto !important; }
 .nav-menu-btn { display: none !important; }
-.nav-link-hide-mobile { /* toggled via media query */ }
+.nav-link-hide-mobile { display: inline-flex; }
 .mobile-nav {
   display: none; flex-direction: column; gap: 4px; padding: 12px 24px 16px;
   border-top: 1px solid var(--border); background: rgba(2,21,38,0.95);
@@ -498,6 +498,18 @@ select.input { cursor: pointer; }
 }
 [data-theme="light"] .toast { background: var(--midnight); color: #F5F5F5; box-shadow: 0 8px 32px rgba(2,21,38,0.2); }
 @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(12px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+
+/* ── Skeleton ── */
+.skeleton {
+  background: linear-gradient(90deg, rgba(110,172,218,0.06) 25%, rgba(110,172,218,0.12) 50%, rgba(110,172,218,0.06) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+[data-theme="light"] .skeleton {
+  background: linear-gradient(90deg, rgba(3,52,110,0.06) 25%, rgba(3,52,110,0.1) 50%, rgba(3,52,110,0.06) 75%);
+  background-size: 200% 100%;
+}
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
 /* ── Loader ── */
 .firee-loader { display: flex; gap: 8px; align-items: center; }

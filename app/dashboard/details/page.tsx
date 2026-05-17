@@ -50,8 +50,8 @@ function DetailsContent() {
               </div>
               <div style={{ padding: "32px 24px", textAlign: "center" }}>
                 <p style={{ fontWeight: 600, fontSize: 16, marginBottom: 20, color: "var(--text, white)" }}>{product.name}</p>
-                <div style={{ width: 100, height: 120, margin: "0 auto 20px", borderRadius: 10, background: "rgba(110,172,218,0.05)", border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 48 }}>
-                  {product.emoji}
+                <div style={{ width: 100, height: 120, margin: "0 auto 20px", borderRadius: 10, background: "rgba(110,172,218,0.05)", border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 48, overflow: "hidden" }}>
+                  {product.image ? <img src={product.image} alt={product.name} style={{ width: "100%", height: "100%", objectFit: "contain" }} /> : product.emoji}
                 </div>
                 <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 16px", borderRadius: 8, background: "rgba(226,226,182,0.06)", border: "1px solid rgba(226,226,182,0.15)", marginBottom: 20 }}>
                   <UsdcAmount value={product.price} showLabel={false} iconSize={16} style={{ fontSize: 18, fontWeight: 700, color: "var(--sand)" }} />
