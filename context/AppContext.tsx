@@ -12,6 +12,7 @@ import {
 } from "react";
 import { getProduct } from "../lib/products";
 import type { CartItem, Notification, Order, OrderStatus, User, WishlistItem } from "../lib/types";
+import { createClient } from "../lib/supabase/client";
 
 const STORAGE_KEY = "firee-app-v1";
 
@@ -39,10 +40,10 @@ interface AppContextValue {
   isLoggedIn: boolean;
   cartCount: number;
   cartTotalUsdc: number;
-  login: (email: string, password: string) => boolean;
-  register: (email: string, password: string) => boolean;
-  loginWithGoogle: (email: string, displayName?: string) => boolean;
-  logout: () => void;
+  login: (email: string, password: string) => Promise<boolean>;
+  register: (email: string, password: string) => Promise<boolean>;
+  loginWithGoogle: () => Promise<boolean>;
+  logout: () => Promise<void>;
   connectWallet: () => void;
   disconnectWallet: () => void;
   syncWalletFromRainbow: (address: string | null) => void;
@@ -159,57 +160,98 @@ export function AppProvider({ children }: { children: ReactNode }) {
     [pushNotification, scheduleOrderCompletion]
   );
 
-  const login = useCallback((email: string, _password: string) => {
-    if (!email.includes("@")) return false;
-    const username = email.split("@")[0];
-    setUser({
-      email,
-      username,
-      authProvider: "email",
-      walletAddress: null,
-      joinedAt: new Date().toISOString(),
-    });
-    showToast(`Welcome back, ${username}!`);
-    return true;
-  }, [showToast]);
+  const supabase = useMemo(() => createClient(), []);
 
-  const register = useCallback((email: string, _password: string) => {
-    if (!email.includes("@")) return false;
-    const username = email.split("@")[0];
-    setUser({
-      email,
-      username,
-      authProvider: "email",
-      walletAddress: null,
-      joinedAt: new Date().toISOString(),
+  // Listen for Supabase auth state changes
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      if (session?.user) {
+        const su = session.user;
+        const email = su.email || "";
+        const username = email.split("@")[0] || `user_${su.id.slice(0, 8)}`;
+        const provider = su.app_metadata?.provider;
+        setUser({
+          email,
+          username,
+          displayName: su.user_metadata?.full_name || username,
+          avatarUrl: su.user_metadata?.avatar_url || undefined,
+          authProvider: provider === "google" ? "google" : "email",
+          walletAddress: null,
+          joinedAt: su.created_at,
+        });
+      } else {
+        setUser(null);
+      }
     });
-    pushNotification({ title: "Account Created", desc: "Your Firee account is ready", type: "system" });
-    showToast("Account created successfully!");
-    return true;
-  }, [pushNotification, showToast]);
-
-  const loginWithGoogle = useCallback((email: string, displayName?: string) => {
-    if (!email.includes("@")) return false;
-    const username = email.split("@")[0];
-    const name = displayName?.trim() || username;
-    setUser({
-      email,
-      username,
-      displayName: name,
-      avatarUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=6EACDA&color=021526&size=128`,
-      authProvider: "google",
-      walletAddress: null,
-      joinedAt: new Date().toISOString(),
+    // Check existing session on mount
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        const su = session.user;
+        const email = su.email || "";
+        const username = email.split("@")[0] || `user_${su.id.slice(0, 8)}`;
+        const provider = su.app_metadata?.provider;
+        setUser({
+          email,
+          username,
+          displayName: su.user_metadata?.full_name || username,
+          avatarUrl: su.user_metadata?.avatar_url || undefined,
+          authProvider: provider === "google" ? "google" : "email",
+          walletAddress: null,
+          joinedAt: su.created_at,
+        });
+      }
     });
-    pushNotification({ title: "Signed in with Google", desc: email, type: "system" });
-    showToast(`Welcome, ${name}!`);
-    return true;
-  }, [pushNotification, showToast]);
+    return () => subscription.unsubscribe();
+  }, [supabase]);
 
-  const logout = useCallback(() => {
+  const login = useCallback(async (email: string, password: string): Promise<boolean> => {
+    try {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) { showToast(error.message); return false; }
+      showToast(`Welcome back!`);
+      return true;
+    } catch {
+      showToast("Login failed");
+      return false;
+    }
+  }, [supabase, showToast]);
+
+  const register = useCallback(async (email: string, password: string): Promise<boolean> => {
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { full_name: email.split("@")[0] } },
+      });
+      if (error) { showToast(error.message); return false; }
+      pushNotification({ title: "Account Created", desc: "Your Firee account is ready", type: "system" });
+      showToast("Account created! Check your email to confirm.");
+      return true;
+    } catch {
+      showToast("Registration failed");
+      return false;
+    }
+  }, [supabase, pushNotification, showToast]);
+
+  const loginWithGoogle = useCallback(async (): Promise<boolean> => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: `${window.location.origin}/dashboard` },
+      });
+      if (error) { showToast(error.message); return false; }
+      return true;
+    } catch {
+      showToast("Google sign-in failed");
+      return false;
+    }
+  }, [supabase, showToast]);
+
+  const logout = useCallback(async () => {
+    await supabase.auth.signOut();
     setUser(null);
     showToast("Logged out");
-  }, [showToast]);
+  }, [supabase, showToast]);
 
   const walletDisconnectRef = useRef<(() => void) | null>(null);
   const lastSyncedWallet = useRef<string | null>(null);

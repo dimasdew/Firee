@@ -16,11 +16,12 @@ export default function CreatePage() {
   const [form, setForm] = useState({ email: "", password: "", retype: "" });
   const [error, setError] = useState("");
 
-  const submit = () => {
+  const submit = async () => {
     if (!form.email.includes("@")) { setError("Enter a valid email."); return; }
     if (form.password !== form.retype) { setError("Passwords don't match."); return; }
     if (form.password.length < 6) { setError("Password must be at least 6 characters."); return; }
-    if (register(form.email, form.password)) router.push("/dashboard");
+    const ok = await register(form.email, form.password);
+    if (ok) router.push("/dashboard");
     else setError("Registration failed.");
   };
 

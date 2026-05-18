@@ -76,8 +76,8 @@ export default function Navbar({ variant = "landing", onSearch }: NavbarProps) {
   const username = user?.username ?? "guest";
   const wallet = user?.walletAddress;
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     setProfileOpen(false);
     router.push("/");
   };

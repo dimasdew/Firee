@@ -17,10 +17,11 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [form, setForm] = useState({ email: "", password: "" });
 
-  const submit = () => {
+  const submit = async () => {
     if (!form.email.includes("@")) { setError("Enter a valid email."); return; }
     if (form.password.length < 4) { setError("Password too short."); return; }
-    if (login(form.email, form.password)) router.push("/dashboard");
+    const ok = await login(form.email, form.password);
+    if (ok) router.push("/dashboard");
     else setError("Login failed.");
   };
 

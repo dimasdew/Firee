@@ -1,14 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { X } from "lucide-react";
+import { useState } from "react";
 import { useApp } from "../context/AppContext";
-
-const GOOGLE_ACCOUNTS = [
-  { email: "dimasdew@gmail.com", name: "Dimas Dew", color: "#6EACDA" },
-  { email: "firee.demo@gmail.com", name: "Firee Demo", color: "#E2E2B6" },
-];
 
 function GoogleLogo() {
   return (
@@ -23,94 +16,29 @@ function GoogleLogo() {
 
 interface Props {
   mode?: "signin" | "signup";
-  redirectTo?: string;
 }
 
-export default function GoogleSignInButton({ mode = "signin", redirectTo = "/dashboard" }: Props) {
-  const router = useRouter();
+export default function GoogleSignInButton({ mode = "signin" }: Props) {
   const { loginWithGoogle } = useApp();
-  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const label = mode === "signup" ? "Sign up with Google" : "Continue with Google";
 
-  useEffect(() => {
-    if (!open) return;
-    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
-    document.addEventListener("keydown", handler);
-    return () => document.removeEventListener("keydown", handler);
-  }, [open]);
-
-  const pickAccount = (email: string, name: string) => {
+  const handleClick = async () => {
     setLoading(true);
-    setOpen(false);
-    setTimeout(() => {
-      if (loginWithGoogle(email, name)) router.push(redirectTo);
-      setLoading(false);
-    }, 400);
+    await loginWithGoogle();
+    // OAuth redirects — loading state stays until redirect
   };
 
   return (
-    <>
-      <button
-        type="button"
-        className="btn-google"
-        disabled={loading}
-        onClick={() => setOpen(true)}
-        aria-haspopup="dialog"
-        aria-expanded={open}
-      >
-        <GoogleLogo />
-        {loading ? "Connecting…" : label}
-      </button>
-
-      {open && (
-        <>
-          <div className="drawer-backdrop" onClick={() => setOpen(false)} aria-hidden />
-          <div
-            className="google-picker"
-            role="dialog"
-            aria-labelledby="google-picker-title"
-            aria-modal="true"
-          >
-            <div className="google-picker-header">
-              <GoogleLogo />
-              <div>
-                <p id="google-picker-title" style={{ fontWeight: 600, fontSize: 14, color: "var(--text, white)" }}>
-                  Sign in with Google
-                </p>
-                <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>Choose an account to continue to Firee</p>
-              </div>
-              <button type="button" className="icon-btn" onClick={() => setOpen(false)} aria-label="Close">
-                <X size={16} />
-              </button>
-            </div>
-
-            <div className="google-picker-list">
-              {GOOGLE_ACCOUNTS.map((acc) => (
-                <button
-                  key={acc.email}
-                  type="button"
-                  className="google-account-row"
-                  onClick={() => pickAccount(acc.email, acc.name)}
-                >
-                  <span className="google-account-avatar" style={{ background: acc.color }}>
-                    {acc.name.charAt(0)}
-                  </span>
-                  <span style={{ textAlign: "left", flex: 1, minWidth: 0 }}>
-                    <span style={{ display: "block", fontSize: 13, fontWeight: 600, color: "var(--text, white)" }}>{acc.name}</span>
-                    <span style={{ display: "block", fontSize: 12, color: "var(--text-muted)", overflow: "hidden", textOverflow: "ellipsis" }}>{acc.email}</span>
-                  </span>
-                </button>
-              ))}
-            </div>
-
-            <p style={{ fontSize: 11, color: "var(--text-muted)", textAlign: "center", padding: "12px 16px", borderTop: "1px solid var(--border)" }}>
-              Demo mode — picks a Google account locally (no OAuth server required).
-            </p>
-          </div>
-        </>
-      )}
-    </>
+    <button
+      type="button"
+      className="btn-google"
+      disabled={loading}
+      onClick={handleClick}
+    >
+      <GoogleLogo />
+      {loading ? "Redirecting…" : label}
+    </button>
   );
 }
