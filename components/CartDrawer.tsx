@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { X, Minus, Plus, ShoppingBag, Trash2, AlertTriangle } from "lucide-react";
@@ -33,6 +33,20 @@ export default function CartDrawer({ open, onClose }: Props) {
     onClose();
     router.push("/order");
   };
+
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === "Escape") {
+      if (confirmOpen) setConfirmOpen(false);
+      else onClose();
+    }
+  }, [confirmOpen, onClose]);
+
+  useEffect(() => {
+    if (open) {
+      document.addEventListener("keydown", handleKeyDown);
+      return () => document.removeEventListener("keydown", handleKeyDown);
+    }
+  }, [open, handleKeyDown]);
 
   if (!open) return null;
 

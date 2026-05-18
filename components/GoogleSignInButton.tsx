@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import { useApp } from "../context/AppContext";
@@ -33,6 +33,13 @@ export default function GoogleSignInButton({ mode = "signin", redirectTo = "/das
   const [loading, setLoading] = useState(false);
 
   const label = mode === "signup" ? "Sign up with Google" : "Continue with Google";
+
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [open]);
 
   const pickAccount = (email: string, name: string) => {
     setLoading(true);

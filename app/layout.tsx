@@ -7,6 +7,8 @@ export const metadata: Metadata = {
   title: { default: "Firee — Decentralized Marketplace", template: "%s | Firee" },
   description: "Trade freely. Own truly. Peer-to-peer marketplace on blockchain.",
   keywords: ["marketplace", "decentralized", "web3", "usdc", "firee", "blockchain"],
+  manifest: "/manifest.json",
+  themeColor: "#021526",
   openGraph: {
     title: "Firee — Decentralized Marketplace",
     description: "Trade freely. Own truly. Peer-to-peer marketplace on blockchain.",

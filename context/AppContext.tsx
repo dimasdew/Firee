@@ -258,15 +258,21 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }
 
   const addToCart = useCallback((productId: number, qty = 1) => {
+    const p = getProduct(productId);
+    if (!p) return;
     setCart((prev) => {
       const existing = prev.find((c) => c.productId === productId);
+      const currentQty = existing ? existing.qty : 0;
+      if (currentQty + qty > p.stock) {
+        showToast(`Only ${p.stock} in stock`);
+        return prev;
+      }
       if (existing) {
         return prev.map((c) => (c.productId === productId ? { ...c, qty: c.qty + qty } : c));
       }
       return [...prev, { productId, qty }];
     });
-    const p = getProduct(productId);
-    showToast(p ? `${p.name} added to cart` : "Added to cart");
+    showToast(`${p.name} added to cart`);
   }, [showToast]);
 
   const updateCartQty = useCallback((productId: number, qty: number) => {
@@ -274,8 +280,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
       setCart((prev) => prev.filter((c) => c.productId !== productId));
       return;
     }
+    const p = getProduct(productId);
+    if (p && qty > p.stock) {
+      showToast(`Only ${p.stock} in stock`);
+      return;
+    }
     setCart((prev) => prev.map((c) => (c.productId === productId ? { ...c, qty } : c)));
-  }, []);
+  }, [showToast]);
 
   const removeFromCart = useCallback((productId: number) => {
     setCart((prev) => prev.filter((c) => c.productId !== productId));

@@ -9,15 +9,25 @@ import MobileBottomNav from "../../../components/MobileBottomNav";
 import { useApp } from "../../../context/AppContext";
 import { getProduct, PRODUCTS } from "../../../lib/products";
 import UsdcAmount from "../../../components/UsdcAmount";
-import { ArrowLeft, Minus, Plus, ShoppingBag, CheckCircle, ShoppingCart } from "lucide-react";
+import { ArrowLeft, Minus, Plus, ShoppingBag, CheckCircle, ShoppingCart, Share2 } from "lucide-react";
 
 function DetailsContent() {
   const params = useSearchParams();
   const id = Number(params.get("id") || "1");
   const product = getProduct(id) ?? getProduct(1)!;
-  const { addToCart, redeemProduct } = useApp();
+  const { addToCart, redeemProduct, showToast } = useApp();
   const [qty, setQty] = useState(1);
   const [redeemed, setRedeemed] = useState(false);
+
+  const handleShare = async () => {
+    const url = `${window.location.origin}/dashboard/details?id=${product.id}`;
+    if (navigator.share) {
+      try { await navigator.share({ title: product.name, text: product.tagline, url }); } catch {}
+    } else {
+      await navigator.clipboard.writeText(url);
+      showToast("Link copied to clipboard!");
+    }
+  };
 
   const related = useMemo(
     () => PRODUCTS.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 3),
@@ -46,7 +56,10 @@ function DetailsContent() {
                 <span className="mono" style={{ fontSize: 11, color: "var(--text-muted)" }}>
                   Verified
                 </span>
-                <span className="badge badge-green" style={{ marginLeft: "auto", fontSize: 9 }}>Live</span>
+                <button type="button" onClick={handleShare} className="icon-btn" style={{ marginLeft: "auto" }} aria-label="Share product">
+                  <Share2 size={13} />
+                </button>
+                <span className="badge badge-green" style={{ fontSize: 9 }}>Live</span>
               </div>
               <div style={{ padding: "32px 24px", textAlign: "center" }}>
                 <p style={{ fontWeight: 600, fontSize: 16, marginBottom: 20, color: "var(--text, white)" }}>{product.name}</p>
