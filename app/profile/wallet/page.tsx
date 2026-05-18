@@ -12,7 +12,7 @@ function explorerUrl(address: string, chainId?: number) {
 }
 
 export default function WalletPage() {
-  const { user, disconnectWallet, cartTotalEth, showToast } = useApp();
+  const { user, disconnectWallet, cartTotalUsdc, showToast } = useApp();
   const { address, isConnected, chain } = useAccount();
   const wallet = (isConnected && address ? address : user?.walletAddress) ?? null;
 
@@ -63,7 +63,7 @@ export default function WalletPage() {
             </div>
             <div className="card" style={{ padding: 16, textAlign: "center" }}>
               <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>Cart pending</p>
-              <UsdcAmount value={cartTotalEth} iconSize={16} style={{ fontSize: 18, fontWeight: 700, color: "var(--sky)", justifyContent: "center" }} />
+              <UsdcAmount value={cartTotalUsdc} iconSize={16} style={{ fontSize: 18, fontWeight: 700, color: "var(--sky)", justifyContent: "center" }} />
             </div>
           </div>
           <button type="button" className="logout-btn" style={{ width: "100%" }} onClick={disconnectWallet}>

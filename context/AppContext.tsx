@@ -38,7 +38,7 @@ interface AppContextValue {
   setCartDrawerOpen: (open: boolean) => void;
   isLoggedIn: boolean;
   cartCount: number;
-  cartTotalEth: number;
+  cartTotalUsdc: number;
   login: (email: string, password: string) => boolean;
   register: (email: string, password: string) => boolean;
   loginWithGoogle: (email: string, displayName?: string) => boolean;
@@ -143,7 +143,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         product: product.name,
         emoji: product.emoji,
         qty,
-        priceEth: parseFloat(product.price),
+        priceUsdc: parseFloat(product.price),
         status,
         createdAt: new Date().toISOString(),
       };
@@ -253,9 +253,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
     showToast("Wallet disconnected");
   }, [showToast]);
 
-  function shortenAddr(a: string) {
-    return `${a.slice(0, 6)}...${a.slice(-4)}`;
-  }
 
   const addToCart = useCallback((productId: number, qty = 1) => {
     const p = getProduct(productId);
@@ -338,7 +335,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const cartCount = useMemo(() => cart.reduce((s, c) => s + c.qty, 0), [cart]);
 
-  const cartTotalEth = useMemo(
+  const cartTotalUsdc = useMemo(
     () =>
       cart.reduce((sum, item) => {
         const p = getProduct(item.productId);
@@ -359,7 +356,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setCartDrawerOpen,
     isLoggedIn: !!user,
     cartCount,
-    cartTotalEth,
+    cartTotalUsdc,
     login,
     register,
     loginWithGoogle,

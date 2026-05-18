@@ -23,7 +23,7 @@ export interface Order {
   product: string;
   emoji: string;
   qty: number;
-  priceEth: number;
+  priceUsdc: number;
   status: OrderStatus;
   createdAt: string;
 }

@@ -39,7 +39,7 @@ function OrderDetailContent({ params }: { params: Promise<{ id: string }> }) {
   }
 
   const product = getProduct(order.productId);
-  const total = order.priceEth * order.qty;
+  const total = order.priceUsdc * order.qty;
   const createdDate = new Date(order.createdAt);
   const statusIndex = order.status;
 
@@ -126,7 +126,7 @@ function OrderDetailContent({ params }: { params: Promise<{ id: string }> }) {
                 {[
                   { label: "Product", value: order.product },
                   { label: "Quantity", value: `${order.qty}` },
-                  { label: "Unit Price", value: `${order.priceEth} USDC` },
+                  { label: "Unit Price", value: `${order.priceUsdc} USDC` },
                   { label: "Total", value: `${total.toFixed(4)} USDC` },
                   { label: "Date", value: createdDate.toLocaleDateString() },
                 ].map((row) => (

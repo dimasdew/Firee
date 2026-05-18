@@ -15,7 +15,7 @@ interface Props {
 
 export default function CartDrawer({ open, onClose }: Props) {
   const router = useRouter();
-  const { cart, cartTotalEth, updateCartQty, removeFromCart, checkout, isLoggedIn, cartCount } = useApp();
+  const { cart, cartTotalUsdc, updateCartQty, removeFromCart, checkout, isLoggedIn, cartCount } = useApp();
   const [confirmOpen, setConfirmOpen] = useState(false);
 
   const handleCheckout = () => {
@@ -116,7 +116,7 @@ export default function CartDrawer({ open, onClose }: Props) {
           <div className="cart-drawer-footer">
             <div className="cart-total-row">
               <span style={{ fontSize: 12, color: "var(--text-muted)" }}>Total</span>
-              <UsdcAmount value={cartTotalEth} iconSize={16} style={{ fontSize: 18, fontWeight: 700, color: "var(--sand)" }} />
+              <UsdcAmount value={cartTotalUsdc} iconSize={16} style={{ fontSize: 18, fontWeight: 700, color: "var(--sand)" }} />
             </div>
             <button type="button" className="btn-sand" style={{ width: "100%", justifyContent: "center" }} onClick={handleCheckout}>
               {isLoggedIn ? "Checkout & Redeem" : "Sign in to Checkout"}
@@ -137,7 +137,7 @@ export default function CartDrawer({ open, onClose }: Props) {
             <p style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 20, lineHeight: 1.5 }}>
               You&apos;re about to redeem <strong>{cartCount} item{cartCount !== 1 ? "s" : ""}</strong> for a total of:
             </p>
-            <UsdcAmount value={cartTotalEth} iconSize={20} style={{ fontSize: 24, fontWeight: 700, color: "var(--sand)", justifyContent: "center", marginBottom: 24 }} />
+            <UsdcAmount value={cartTotalUsdc} iconSize={20} style={{ fontSize: 24, fontWeight: 700, color: "var(--sand)", justifyContent: "center", marginBottom: 24 }} />
             <div style={{ display: "flex", gap: 10 }}>
               <button type="button" className="btn-ghost" style={{ flex: 1, justifyContent: "center" }} onClick={() => setConfirmOpen(false)}>Cancel</button>
               <button type="button" className="btn-sand" style={{ flex: 1, justifyContent: "center" }} onClick={confirmCheckout}>Confirm</button>

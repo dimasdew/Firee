@@ -2,9 +2,6 @@ export function formatUsdc(value: number, decimals = 3): string {
   return value.toFixed(decimals);
 }
 
-/** @deprecated Use formatUsdc */
-export const formatEth = formatUsdc;
-
 export function avatarUrl(seed: string) {
   return `https://api.dicebear.com/9.x/pixel-art/svg?seed=${encodeURIComponent(seed)}&backgroundColor=6EACDA`;
 }

@@ -97,7 +97,7 @@ export default function OrderList({ filter }: Props) {
                   {STATUS_LABEL[order.status]}
                 </span>
                 <UsdcAmount
-                  value={order.priceEth * order.qty}
+                  value={order.priceUsdc * order.qty}
                   iconSize={14}
                   style={{ fontSize: 15, fontWeight: 700, color: "var(--sand)", justifyContent: "flex-end" }}
                 />
