@@ -67,7 +67,9 @@ export default function CartDrawer({ open, onClose }: Props) {
               if (!product) return null;
               return (
                 <div key={item.productId} className="cart-item">
-                  <div className="cart-item-emoji">{product.emoji}</div>
+                  <div className="cart-item-emoji" style={{ overflow: "hidden" }}>
+                    {product.image ? <img src={product.image} alt={product.name} style={{ width: "100%", height: "100%", objectFit: "contain" }} /> : product.emoji}
+                  </div>
                   <div className="cart-item-info">
                     <p style={{ fontWeight: 600, fontSize: 13 }}>{product.name}</p>
                     <UsdcAmount

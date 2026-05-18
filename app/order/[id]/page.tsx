@@ -1,6 +1,6 @@
 "use client";
 
-import { use } from "react";
+import { Suspense, use } from "react";
 import Link from "next/link";
 import { ArrowLeft, Package, Truck, CheckCircle, Clock, ExternalLink } from "lucide-react";
 import Navbar from "../../../components/Navbar";
@@ -16,7 +16,7 @@ const STATUS_STEPS = [
   { label: "Completed", icon: CheckCircle, desc: "Delivered successfully" },
 ];
 
-export default function OrderDetailPage({ params }: { params: Promise<{ id: string }> }) {
+function OrderDetailContent({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const { orders } = useApp();
   const order = orders.find((o) => o.id === id);
@@ -142,5 +142,13 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
         <MobileBottomNav />
       </div>
     </AuthGuard>
+  );
+}
+
+export default function OrderDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  return (
+    <Suspense fallback={<div className="page-shell" style={{ minHeight: "100vh" }} />}>
+      <OrderDetailContent params={params} />
+    </Suspense>
   );
 }

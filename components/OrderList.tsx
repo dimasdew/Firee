@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useApp } from "../context/AppContext";
+import { getProduct } from "../lib/products";
 import { timeAgo } from "../lib/utils";
 import UsdcAmount from "./UsdcAmount";
 import type { Order, OrderStatus } from "../lib/types";
@@ -80,9 +81,10 @@ export default function OrderList({ filter }: Props) {
                   justifyContent: "center",
                   fontSize: 26,
                   flexShrink: 0,
+                  overflow: "hidden",
                 }}
               >
-                {order.emoji}
+                {(() => { const p = getProduct(order.productId); return p?.image ? <img src={p.image} alt={order.product} style={{ width: "100%", height: "100%", objectFit: "contain" }} /> : order.emoji; })()}
               </div>
               <div style={{ flex: 1, minWidth: 140 }}>
                 <p style={{ fontWeight: 600, fontSize: 15, color: "var(--text, white)" }}>{order.product}</p>
