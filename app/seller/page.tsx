@@ -1,40 +1,45 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { PlusCircle, Edit, Trash2, Eye, EyeOff, Package } from "lucide-react";
+import { PlusCircle, Edit, Trash2, Eye, EyeOff, Package, Loader2 } from "lucide-react";
 import UsdcAmount from "../../components/UsdcAmount";
-
-// Placeholder data — will be replaced with Supabase queries
-const MOCK_PRODUCTS = [
-  {
-    id: "1",
-    title: "Starter UI Kit",
-    slug: "starter-ui-kit",
-    price_usdc: 19,
-    thumbnail_url: null,
-    is_published: true,
-    total_sales: 12,
-    total_revenue_usdc: 228,
-    category: "UI Kit",
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: "2",
-    title: "Dashboard Template Pro",
-    slug: "dashboard-template-pro",
-    price_usdc: 39,
-    thumbnail_url: null,
-    is_published: false,
-    total_sales: 0,
-    total_revenue_usdc: 0,
-    category: "Dashboard",
-    created_at: new Date().toISOString(),
-  },
-];
+import { useApp } from "../../context/AppContext";
+import { getSellerProducts, deleteProduct as deleteProductApi } from "../../lib/supabase/products";
+import { createClient } from "../../lib/supabase/client";
+import type { DbProduct } from "../../lib/supabase/types";
 
 export default function SellerProductsPage() {
-  const [products] = useState(MOCK_PRODUCTS);
+  const { showToast } = useApp();
+  const [products, setProducts] = useState<DbProduct[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const loadProducts = useCallback(async () => {
+    try {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) { setLoading(false); return; }
+      const data = await getSellerProducts(user.id);
+      setProducts(data);
+    } catch (err) {
+      console.error("Failed to load products:", err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { loadProducts(); }, [loadProducts]);
+
+  const handleDelete = async (id: string, title: string) => {
+    if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
+    try {
+      await deleteProductApi(id);
+      setProducts((prev) => prev.filter((p) => p.id !== id));
+      showToast("Product deleted");
+    } catch {
+      showToast("Failed to delete product");
+    }
+  };
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
@@ -69,7 +74,11 @@ export default function SellerProductsPage() {
           </Link>
         </div>
 
-        {products.length === 0 ? (
+        {loading ? (
+          <div style={{ textAlign: "center", padding: "48px 0" }}>
+            <Loader2 size={24} color="var(--sky)" style={{ margin: "0 auto", animation: "spin 1s linear infinite" }} />
+          </div>
+        ) : products.length === 0 ? (
           <div style={{ textAlign: "center", padding: "48px 0" }}>
             <Package size={48} color="var(--sky)" style={{ margin: "0 auto 16px", opacity: 0.4 }} />
             <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 8 }}>No products yet</p>
@@ -110,8 +119,8 @@ export default function SellerProductsPage() {
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <p style={{ fontSize: 14, fontWeight: 600, color: "var(--text, white)" }}>{product.title}</p>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 4, flexWrap: "wrap" }}>
-                    <span className="badge badge-sky" style={{ fontSize: 9 }}>{product.category}</span>
-                    <UsdcAmount value={product.price_usdc} showLabel={false} iconSize={11} style={{ fontSize: 12, fontWeight: 600, color: "var(--sand)" }} />
+                    <span className="badge badge-sky" style={{ fontSize: 9 }}>{product.category?.name ?? "Other"}</span>
+                    <UsdcAmount value={Number(product.price_usdc)} showLabel={false} iconSize={11} style={{ fontSize: 12, fontWeight: 600, color: "var(--sand)" }} />
                     <span style={{ fontSize: 11, color: "var(--text-muted)" }}>{product.total_sales} sales</span>
                   </div>
                 </div>
@@ -124,7 +133,7 @@ export default function SellerProductsPage() {
                   <Link href={`/seller/edit/${product.id}`} className="icon-btn" aria-label="Edit">
                     <Edit size={14} />
                   </Link>
-                  <button type="button" className="icon-btn danger" aria-label="Delete">
+                  <button type="button" className="icon-btn danger" aria-label="Delete" onClick={() => handleDelete(product.id, product.title)}>
                     <Trash2 size={14} />
                   </button>
                 </div>

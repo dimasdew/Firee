@@ -1,32 +1,41 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Upload, Image, FileText, Tag, DollarSign, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useApp } from "../../../context/AppContext";
-
-const CATEGORIES = [
-  "UI Kit", "Template", "Component", "Icon Pack",
-  "Design System", "Dashboard", "Landing Page", "Other",
-];
+import { createProduct, uploadThumbnail, uploadProductFile, getCategories } from "../../../lib/supabase/products";
+import { createClient } from "../../../lib/supabase/client";
+import type { Category } from "../../../lib/supabase/types";
 
 export default function NewProductPage() {
   const router = useRouter();
   const { showToast } = useApp();
   const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [form, setForm] = useState({
     title: "",
     description: "",
     shortDescription: "",
     price: "",
-    category: "UI Kit",
+    categoryId: 0,
     tags: "",
   });
   const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [productFile, setProductFile] = useState<File | null>(null);
 
+  useEffect(() => {
+    getCategories().then((cats) => {
+      setCategories(cats);
+      if (cats.length > 0) setForm((f) => ({ ...f, categoryId: cats[0].id }));
+    });
+  }, []);
+
   const update = (field: string, value: string) => setForm((f) => ({ ...f, [field]: value }));
+
+  const slugify = (text: string) =>
+    text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
   const handleSubmit = async (e: React.FormEvent, publish: boolean) => {
     e.preventDefault();
@@ -40,12 +49,43 @@ export default function NewProductPage() {
     }
     setLoading(true);
 
-    // TODO: Replace with Supabase upload + insert
-    setTimeout(() => {
+    try {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) { showToast("Please sign in first"); setLoading(false); return; }
+
+      // Upload files
+      let thumbnailUrl: string | undefined;
+      if (thumbnail) {
+        thumbnailUrl = await uploadThumbnail(user.id, thumbnail);
+      }
+      const fileData = await uploadProductFile(user.id, productFile);
+
+      // Create product
+      await createProduct({
+        seller_id: user.id,
+        title: form.title,
+        slug: slugify(form.title),
+        description: form.description,
+        short_description: form.shortDescription || undefined,
+        price_usdc: parseFloat(form.price),
+        category_id: form.categoryId,
+        thumbnail_url: thumbnailUrl,
+        file_url: fileData.url,
+        file_name: fileData.name,
+        file_size_bytes: fileData.size,
+        tags: form.tags ? form.tags.split(",").map((t) => t.trim()).filter(Boolean) : [],
+        is_published: publish,
+      });
+
       showToast(publish ? "Product published!" : "Draft saved!");
-      setLoading(false);
       router.push("/seller");
-    }, 1000);
+    } catch (err: any) {
+      console.error("Create product error:", err);
+      showToast(err?.message || "Failed to create product");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -101,10 +141,10 @@ export default function NewProductPage() {
                     <label className="label">Category</label>
                     <select
                       className="input"
-                      value={form.category}
-                      onChange={(e) => update("category", e.target.value)}
+                      value={form.categoryId}
+                      onChange={(e) => setForm((f) => ({ ...f, categoryId: Number(e.target.value) }))}
                     >
-                      {CATEGORIES.map((c) => <option key={c}>{c}</option>)}
+                      {categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
                     </select>
                   </div>
                   <div>
