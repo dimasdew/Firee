@@ -1,27 +1,33 @@
 "use client";
 
-import { DollarSign, ArrowUpRight, Clock, Wallet } from "lucide-react";
+import { DollarSign, ArrowUpRight, Clock, Wallet, Loader2, ExternalLink } from "lucide-react";
+import { useAccount } from "wagmi";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import UsdcAmount from "../../../components/UsdcAmount";
 import { useApp } from "../../../context/AppContext";
+import { useSellerWithdraw } from "../../../lib/contracts/useFireeEscrow";
 
 export default function EarningsPage() {
   const { showToast } = useApp();
+  const { isConnected } = useAccount();
+  const { sellerBalance, withdraw, loading: withdrawing, error: withdrawError } = useSellerWithdraw();
 
-  // Mock data — will be replaced with Supabase queries
   const stats = {
-    totalRevenue: 456.50,
-    availableBalance: 228.25,
+    totalRevenue: sellerBalance,
+    availableBalance: sellerBalance,
     pendingPayout: 0,
-    totalWithdrawn: 228.25,
+    totalWithdrawn: 0,
   };
 
-  const recentPayouts = [
-    { id: "1", amount: 114.125, status: "completed", date: "2025-05-10", tx_hash: "0xabc...def" },
-    { id: "2", amount: 114.125, status: "completed", date: "2025-04-28", tx_hash: "0x123...456" },
-  ];
+  const recentPayouts: { id: string; amount: number; status: string; date: string; tx_hash: string }[] = [];
 
-  const handleWithdraw = () => {
-    showToast("Withdrawal initiated — connect wallet to confirm");
+  const handleWithdraw = async () => {
+    const tx = await withdraw();
+    if (tx) {
+      showToast("Withdrawal successful!");
+    } else if (withdrawError) {
+      showToast(withdrawError);
+    }
   };
 
   return (
@@ -66,15 +72,22 @@ export default function EarningsPage() {
             Transfer available balance to your connected wallet (Base network, USDC)
           </p>
         </div>
-        <button
-          type="button"
-          className="btn-sand"
-          onClick={handleWithdraw}
-          disabled={stats.availableBalance <= 0}
-          style={{ padding: "10px 24px" }}
-        >
-          <Wallet size={14} /> Withdraw {stats.availableBalance.toFixed(2)} USDC
-        </button>
+        {!isConnected ? (
+          <ConnectButton />
+        ) : (
+          <button
+            type="button"
+            className="btn-sand"
+            onClick={handleWithdraw}
+            disabled={stats.availableBalance <= 0 || withdrawing}
+            style={{ padding: "10px 24px" }}
+          >
+            {withdrawing
+              ? <><Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} /> Withdrawing...</>
+              : <><Wallet size={14} /> Withdraw {stats.availableBalance.toFixed(2)} USDC</>
+            }
+          </button>
+        )}
       </div>
 
       {/* Payout history */}

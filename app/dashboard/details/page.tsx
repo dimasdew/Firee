@@ -9,7 +9,8 @@ import MobileBottomNav from "../../../components/MobileBottomNav";
 import { useApp } from "../../../context/AppContext";
 import { getProduct, PRODUCTS } from "../../../lib/products";
 import UsdcAmount from "../../../components/UsdcAmount";
-import { ArrowLeft, Minus, Plus, ShoppingBag, CheckCircle, ShoppingCart, Share2 } from "lucide-react";
+import { ArrowLeft, Minus, Plus, ShoppingBag, CheckCircle, ShoppingCart, Share2, Wallet } from "lucide-react";
+import PurchaseModal from "../../../components/PurchaseModal";
 
 function DetailsContent() {
   const params = useSearchParams();
@@ -18,6 +19,7 @@ function DetailsContent() {
   const { addToCart, redeemProduct, showToast } = useApp();
   const [qty, setQty] = useState(1);
   const [redeemed, setRedeemed] = useState(false);
+  const [showPurchase, setShowPurchase] = useState(false);
 
   const handleShare = async () => {
     const url = `${window.location.origin}/dashboard/details?id=${product.id}`;
@@ -82,6 +84,9 @@ function DetailsContent() {
                   <button type="button" className={redeemed ? "btn-ghost" : "btn-sand"} onClick={handleRedeem} style={{ gap: 6 }}>
                     {redeemed ? <><CheckCircle size={13} /> Redeemed</> : <><ShoppingBag size={13} /> Redeem</>}
                   </button>
+                  <button type="button" className="btn-primary" onClick={() => setShowPurchase(true)} style={{ gap: 6 }}>
+                    <Wallet size={13} /> Buy with USDC
+                  </button>
                 </div>
               </div>
             </div>
@@ -119,12 +124,31 @@ function DetailsContent() {
                 <p style={{ fontSize: 11, color: "var(--text-muted)", textTransform: "uppercase", marginBottom: 2 }}>Total ({qty} item{qty > 1 ? "s" : ""})</p>
                 <UsdcAmount value={total} iconSize={18} style={{ fontSize: 20, fontWeight: 700, color: "var(--sand)" }} />
               </div>
-              <button type="button" className="btn-sand" onClick={handleRedeem}>{redeemed ? "Redeemed ✓" : "Redeem Now"}</button>
+              <button type="button" className="btn-sand" onClick={handleRedeem} style={{ marginRight: 8 }}>{redeemed ? "Redeemed ✓" : "Redeem Now"}</button>
+              <button type="button" className="btn-primary" onClick={() => setShowPurchase(true)} style={{ gap: 6 }}>
+                <Wallet size={13} /> Buy USDC
+              </button>
             </div>
           </div>
         </div>
       </main>
       <MobileBottomNav />
+
+      <PurchaseModal
+        open={showPurchase}
+        onClose={() => setShowPurchase(false)}
+        onSuccess={(txHash) => {
+          showToast("Purchase complete! Check your orders.");
+          setShowPurchase(false);
+        }}
+        product={{
+          id: String(product.id),
+          title: product.name,
+          price_usdc: parseFloat(product.price) * qty,
+          seller_wallet: "0xB84183012d8e4Af0152aaB3D1F362f4E748B8F34",
+          thumbnail_url: product.image || null,
+        }}
+      />
     </div>
   );
 }
