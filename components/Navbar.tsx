@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import {
   Search, Bell, User, HelpCircle, Wallet, LogOut, Flame,
-  ChevronDown, Package, CheckCircle2, Sun, Moon, Menu, X, ShoppingBag,
+  ChevronDown, Package, CheckCircle2, Sun, Moon, Menu, X, ShoppingBag, Store,
 } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { timeAgo, shortenAddress, avatarUrl } from "../lib/utils";
@@ -180,6 +180,7 @@ export default function Navbar({ variant = "landing", onSearch }: NavbarProps) {
                         {[
                           { icon: <User size={13} />, label: "Profile", href: "/profile" },
                           { icon: <Package size={13} />, label: "Orders", href: "/order" },
+                          { icon: <Store size={13} />, label: "Seller Dashboard", href: "/seller" },
                           { icon: <Wallet size={13} />, label: "Wallet", href: "/profile/wallet" },
                           { icon: <HelpCircle size={13} />, label: "Support", href: "/support" },
                         ].map((item) => (
