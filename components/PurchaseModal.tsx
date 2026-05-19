@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { X, Wallet, CheckCircle, Loader2, AlertCircle, ExternalLink } from "lucide-react";
+import { X, Wallet, CheckCircle, Loader2, AlertCircle, ExternalLink, Download } from "lucide-react";
 import { useAccount, useChainId, useSwitchChain } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useFireePurchase } from "../lib/contracts/useFireeEscrow";
 import { CHAIN_ID, CHAIN_NAME } from "../lib/contracts";
+import { createOrder } from "../lib/supabase/orders";
+import { createClient } from "../lib/supabase/client";
 import UsdcAmount from "./UsdcAmount";
 
 interface Props {
@@ -16,6 +18,7 @@ interface Props {
     id: string;
     title: string;
     price_usdc: number;
+    seller_id?: string;
     seller_wallet: string;
     thumbnail_url?: string | null;
   };
@@ -32,6 +35,8 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
   const total = product.price_usdc;
   const insufficientBalance = usdcBalance !== null && usdcBalance < total;
 
+  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+
   const handlePurchase = async () => {
     if (!product.seller_wallet) return;
     const tx = await purchase(
@@ -39,7 +44,35 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
       product.price_usdc,
       product.id
     );
-    if (tx) onSuccess(tx);
+    if (tx) {
+      // Record order in Supabase
+      try {
+        const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user && product.seller_id) {
+          const fee = product.price_usdc * 0.03;
+          const order = await createOrder({
+            buyer_id: user.id,
+            product_id: product.id,
+            seller_id: product.seller_id,
+            price_usdc: product.price_usdc,
+            platform_fee_usdc: fee,
+            seller_revenue_usdc: product.price_usdc - fee,
+            tx_hash: tx,
+          });
+          // Update product sales count (best-effort)
+          try {
+            await supabase.rpc("increment_product_sales", {
+              p_id: product.id,
+              amount: product.price_usdc,
+            });
+          } catch {}
+        }
+      } catch (err) {
+        console.error("Failed to record order:", err);
+      }
+      onSuccess(tx);
+    }
   };
 
   const handleClose = () => {
