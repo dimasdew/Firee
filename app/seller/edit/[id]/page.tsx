@@ -76,7 +76,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
     try {
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) { showToast("Please sign in"); setSaving(false); return; }
+      if (!user) { showToast("Please login"); setSaving(false); return; }
 
       const updates: Record<string, any> = {
         title: form.title,

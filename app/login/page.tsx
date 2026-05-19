@@ -32,7 +32,7 @@ export default function LoginPage() {
         <div className="auth-inner">
           <div className="badge badge-sky fade-up">Auth</div>
           <h1 className="fade-up d1 auth-title">Welcome back</h1>
-          <p className="fade-up d2 auth-sub">Sign in to your Firee account</p>
+          <p className="fade-up d2 auth-sub">Login to your Firee account</p>
           <div className="card fade-up d2 auth-card">
             {error && <p style={{ fontSize: 12, color: "#f87171", marginBottom: 12 }}>{error}</p>}
 
@@ -40,7 +40,7 @@ export default function LoginPage() {
 
             <div className="auth-divider">
               <div className="divider" style={{ flex: 1 }} />
-              <span>or sign in with email</span>
+              <span>or login with email</span>
               <div className="divider" style={{ flex: 1 }} />
             </div>
 
@@ -63,7 +63,7 @@ export default function LoginPage() {
               </div>
             </div>
             <button type="button" className="btn-primary" style={{ width: "100%", justifyContent: "center", marginTop: 4 }} onClick={submit}>
-              Sign In <ArrowRight size={14} />
+              Login <ArrowRight size={14} />
             </button>
 
             <div className="auth-divider">

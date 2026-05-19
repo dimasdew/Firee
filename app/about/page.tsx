@@ -39,7 +39,7 @@ export default function AboutPage() {
               </div>
             ))}
           </div>
-          <Link href="/dashboard" className="btn-sand">Explore Marketplace</Link>
+          <Link href="/login" className="btn-sand">Explore Marketplace</Link>
         </div>
       </main>
       <Footer />

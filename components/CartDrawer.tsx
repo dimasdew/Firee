@@ -119,7 +119,7 @@ export default function CartDrawer({ open, onClose }: Props) {
               <UsdcAmount value={cartTotalUsdc} iconSize={16} style={{ fontSize: 18, fontWeight: 700, color: "var(--sand)" }} />
             </div>
             <button type="button" className="btn-sand" style={{ width: "100%", justifyContent: "center" }} onClick={handleCheckout}>
-              {isLoggedIn ? "Checkout & Redeem" : "Sign in to Checkout"}
+              {isLoggedIn ? "Checkout & Redeem" : "Login to Checkout"}
             </button>
           </div>
         )}

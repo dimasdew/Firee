@@ -47,7 +47,7 @@ export default function Home() {
           </p>
 
           <div className="fade-up d4" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>
-            <Link href="/dashboard" className="btn-sand">Start Journey <ArrowRight size={14} /></Link>
+            <Link href="/login" className="btn-sand">Start Journey <ArrowRight size={14} /></Link>
             <Link href="/create" className="btn-ghost">Create</Link>
           </div>
 
@@ -100,7 +100,7 @@ export default function Home() {
           <div className="cta-box">
             <h2 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: "clamp(22px, 4vw, 32px)", color: "var(--text, white)", marginBottom: 12 }}>Ready to trade on your terms?</h2>
             <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 28, maxWidth: 440, margin: "0 auto 28px" }}>Join thousands of users buying and selling on the first truly decentralized marketplace.</p>
-            <Link href="/dashboard" className="btn-sand">Explore Marketplace <ArrowRight size={14} /></Link>
+            <Link href="/login" className="btn-sand">Explore Marketplace <ArrowRight size={14} /></Link>
           </div>
         </div>
       </section>

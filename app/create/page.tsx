@@ -38,7 +38,7 @@ export default function CreatePage() {
             <GoogleSignInButton mode="signup" />
             <div className="auth-divider">
               <div className="divider" style={{ flex: 1 }} />
-              <span>or sign up with email</span>
+              <span>or register with email</span>
               <div className="divider" style={{ flex: 1 }} />
             </div>
             <div style={{ marginBottom: 16 }}>
@@ -63,7 +63,7 @@ export default function CreatePage() {
             ))}
             <button type="button" className="btn-primary" style={{ width: "100%", justifyContent: "center", marginTop: 4 }} onClick={submit}>Create Account <ArrowRight size={14} /></button>
           </div>
-          <p className="auth-footer">Already have an account? <Link href="/login">Sign in</Link></p>
+          <p className="auth-footer">Already have an account? <Link href="/login">Login</Link></p>
         </div>
       </div>
       <Footer />

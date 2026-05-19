@@ -22,7 +22,7 @@ export default function GoogleSignInButton({ mode = "signin" }: Props) {
   const { loginWithGoogle } = useApp();
   const [loading, setLoading] = useState(false);
 
-  const label = mode === "signup" ? "Sign up with Google" : "Continue with Google";
+  const label = mode === "signup" ? "Register with Google" : "Continue with Google";
 
   const handleClick = async () => {
     setLoading(true);

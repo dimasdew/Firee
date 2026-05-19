@@ -52,7 +52,7 @@ export default function NewProductPage() {
     try {
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) { showToast("Please sign in first"); setLoading(false); return; }
+      if (!user) { showToast("Please login first"); setLoading(false); return; }
 
       // Upload files
       let thumbnailUrl: string | undefined;
