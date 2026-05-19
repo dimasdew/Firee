@@ -185,7 +185,7 @@ export default function ProductDetailPage() {
               <div>
                 <p style={{ fontSize: 12, color: "var(--text-muted)" }}>
                   By{" "}
-                  <Link href={`/seller/profile/${product.seller_id}`} style={{ color: "var(--sky)", fontWeight: 600, textDecoration: "none" }}>
+                  <Link href={`/shop/${product.seller_id}`} style={{ color: "var(--sky)", fontWeight: 600, textDecoration: "none" }}>
                     {product.seller?.display_name || product.seller?.username || "Unknown"}
                   </Link>
                 </p>

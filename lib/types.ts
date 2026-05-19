@@ -50,6 +50,7 @@ export interface Notification {
 export type AuthProvider = "email" | "google" | "wallet";
 
 export interface User {
+  id: string;
   email: string;
   username: string;
   displayName?: string;

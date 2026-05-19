@@ -3,15 +3,15 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import Navbar from "../../../../components/Navbar";
-import MobileBottomNav from "../../../../components/MobileBottomNav";
-import MarketplaceCard from "../../../../components/MarketplaceCard";
-import { StarDisplay } from "../../../../components/ReviewSection";
-import { getProfile } from "../../../../lib/supabase/auth";
-import { getSellerPublishedProducts } from "../../../../lib/supabase/products";
-import { getMultipleProductRatings } from "../../../../lib/supabase/reviews";
-import type { Profile } from "../../../../lib/supabase/types";
-import type { DbProduct } from "../../../../lib/supabase/types";
+import Navbar from "../../../components/Navbar";
+import MobileBottomNav from "../../../components/MobileBottomNav";
+import MarketplaceCard from "../../../components/MarketplaceCard";
+import { StarDisplay } from "../../../components/ReviewSection";
+import { getProfile } from "../../../lib/supabase/auth";
+import { getSellerPublishedProducts } from "../../../lib/supabase/products";
+import { getMultipleProductRatings } from "../../../lib/supabase/reviews";
+import type { Profile } from "../../../lib/supabase/types";
+import type { DbProduct } from "../../../lib/supabase/types";
 import { ArrowLeft, User, Package, ShoppingBag, Loader2 } from "lucide-react";
 
 export default function SellerProfilePage() {

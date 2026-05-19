@@ -15,7 +15,7 @@ export default function MarketplaceCard({ product, rating }: Props) {
   return (
     <article className="card card-lift" style={{ padding: 0, overflow: "hidden", display: "flex", flexDirection: "column" }}>
       <div style={{ padding: "12px 14px 10px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <Link href={`/seller/profile/${product.seller_id}`} style={{ fontSize: 11, color: "var(--text-muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "60%", textDecoration: "none" }}>
+        <Link href={`/shop/${product.seller_id}`} style={{ fontSize: 11, color: "var(--text-muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "60%", textDecoration: "none" }}>
           {product.seller?.display_name || product.seller?.username || "Seller"}
         </Link>
         <span className="badge badge-sky" style={{ fontSize: 9, padding: "2px 7px" }}>

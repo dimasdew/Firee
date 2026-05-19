@@ -188,6 +188,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         const username = email.split("@")[0] || `user_${su.id.slice(0, 8)}`;
         const provider = su.app_metadata?.provider;
         setUser({
+          id: su.id,
           email,
           username,
           displayName: su.user_metadata?.full_name || username,
@@ -211,6 +212,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         const username = email.split("@")[0] || `user_${su.id.slice(0, 8)}`;
         const provider = su.app_metadata?.provider;
         setUser({
+          id: su.id,
           email,
           username,
           displayName: su.user_metadata?.full_name || username,
@@ -237,6 +239,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   // Realtime notifications for new orders (seller) and new reviews (buyer)
   useEffect(() => {
     if (!user) return;
+    const uid = user.id;
     const channel = supabase
       .channel("firee-realtime")
       .on(
@@ -244,18 +247,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
         { event: "INSERT", schema: "public", table: "orders" },
         (payload: any) => {
           const row = payload.new;
-          // If current user is the seller
-          if (row.seller_id) {
-            supabase.auth.getUser().then(({ data: { user: u } }) => {
-              if (u && row.seller_id === u.id) {
-                pushNotification({
-                  title: "New Sale!",
-                  desc: `You earned ${Number(row.seller_revenue_usdc).toFixed(2)} USDC`,
-                  type: "order",
-                });
-                showToast("🎉 New sale received!");
-              }
+          if (row.seller_id === uid) {
+            pushNotification({
+              title: "New Sale!",
+              desc: `You earned ${Number(row.seller_revenue_usdc).toFixed(2)} USDC`,
+              type: "order",
             });
+            showToast("🎉 New sale received!");
           }
         }
       )
@@ -264,12 +262,23 @@ export function AppProvider({ children }: { children: ReactNode }) {
         { event: "INSERT", schema: "public", table: "reviews" },
         (payload: any) => {
           const row = payload.new;
-          // If current user is the buyer (notify them their review was saved)
-          supabase.auth.getUser().then(({ data: { user: u } }) => {
-            if (u && row.buyer_id === u.id) return; // don't notify self
-            // Notify seller about new review
-            // We check product ownership via orders table seller_id
-          });
+          if (row.buyer_id === uid) return; // don't notify self
+          // Notify seller: look up product to check ownership
+          supabase
+            .from("products")
+            .select("seller_id, title")
+            .eq("id", row.product_id)
+            .single()
+            .then(({ data: product }) => {
+              if (product && product.seller_id === uid) {
+                pushNotification({
+                  title: "New Review!",
+                  desc: `Someone reviewed "${product.title}" — ${row.rating}★`,
+                  type: "system",
+                });
+                showToast(`⭐ New ${row.rating}-star review!`);
+              }
+            });
         }
       )
       .subscribe();
@@ -363,6 +372,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       setUser((u) => {
         if (u) return { ...u, walletAddress: normalized };
         return {
+          id: normalized,
           email: `${normalized.slice(2, 10)}@wallet.firee`,
           username: `wallet_${normalized.slice(2, 8)}`,
           authProvider: "wallet",
