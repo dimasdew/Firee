@@ -6,6 +6,7 @@ import Link from "next/link";
 import Navbar from "../../../components/Navbar";
 import MobileBottomNav from "../../../components/MobileBottomNav";
 import PurchaseModal from "../../../components/PurchaseModal";
+import ReviewSection from "../../../components/ReviewSection";
 import UsdcAmount from "../../../components/UsdcAmount";
 import { useApp } from "../../../context/AppContext";
 import { getProductById } from "../../../lib/supabase/products";
@@ -183,7 +184,10 @@ export default function ProductDetailPage() {
               </div>
               <div>
                 <p style={{ fontSize: 12, color: "var(--text-muted)" }}>
-                  By <strong style={{ color: "var(--sky)" }}>{product.seller?.display_name || product.seller?.username || "Unknown"}</strong>
+                  By{" "}
+                  <Link href={`/seller/profile/${product.seller_id}`} style={{ color: "var(--sky)", fontWeight: 600, textDecoration: "none" }}>
+                    {product.seller?.display_name || product.seller?.username || "Unknown"}
+                  </Link>
                 </p>
               </div>
             </div>
@@ -242,6 +246,7 @@ export default function ProductDetailPage() {
             </div>
           </div>
         </div>
+        <ReviewSection productId={product.id} purchased={purchased} />
       </main>
       <MobileBottomNav />
 

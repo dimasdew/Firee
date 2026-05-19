@@ -53,6 +53,17 @@ export async function getSellerProducts(sellerId: string): Promise<DbProduct[]> 
   return data ?? [];
 }
 
+export async function getSellerPublishedProducts(sellerId: string): Promise<DbProduct[]> {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*, category:categories(*)")
+    .eq("seller_id", sellerId)
+    .eq("is_published", true)
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return data ?? [];
+}
+
 export async function createProduct(product: {
   seller_id: string;
   title: string;

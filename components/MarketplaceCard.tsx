@@ -3,19 +3,21 @@
 import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
 import UsdcAmount from "./UsdcAmount";
+import { StarDisplay } from "./ReviewSection";
 import type { DbProduct } from "../lib/supabase/types";
 
 interface Props {
   product: DbProduct;
+  rating?: { avg: number; count: number };
 }
 
-export default function MarketplaceCard({ product }: Props) {
+export default function MarketplaceCard({ product, rating }: Props) {
   return (
     <article className="card card-lift" style={{ padding: 0, overflow: "hidden", display: "flex", flexDirection: "column" }}>
       <div style={{ padding: "12px 14px 10px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <span style={{ fontSize: 11, color: "var(--text-muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "60%" }}>
+        <Link href={`/seller/profile/${product.seller_id}`} style={{ fontSize: 11, color: "var(--text-muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "60%", textDecoration: "none" }}>
           {product.seller?.display_name || product.seller?.username || "Seller"}
-        </span>
+        </Link>
         <span className="badge badge-sky" style={{ fontSize: 9, padding: "2px 7px" }}>
           {product.category?.name || "Digital"}
         </span>
@@ -36,6 +38,11 @@ export default function MarketplaceCard({ product }: Props) {
           <p style={{ fontSize: 10, color: "var(--text-muted)", marginTop: 4 }}>
             {product.total_sales} sold
           </p>
+        )}
+        {rating && rating.count > 0 && (
+          <div style={{ marginTop: 4 }}>
+            <StarDisplay avg={rating.avg} count={rating.count} size={11} />
+          </div>
         )}
       </div>
 
