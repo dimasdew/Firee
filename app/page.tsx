@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -17,7 +20,44 @@ const STEPS = [
   { n: "04", title: "Resell & Earn", desc: "List items back on Firee and earn resale royalties." },
 ];
 
+const FAQ = [
+  {
+    q: "What is Firee?",
+    a: "Firee is a decentralized digital marketplace where creators sell products directly to buyers using USDC stablecoin. All payments are secured by smart contracts on the Base blockchain — no middlemen, no chargebacks.",
+  },
+  {
+    q: "How do I pay for products?",
+    a: "All products are priced in USDC (a stablecoin pegged to the US dollar). Connect your wallet (MetaMask, Coinbase Wallet, etc.), approve the USDC amount, and the smart contract handles the rest.",
+  },
+  {
+    q: "What blockchain does Firee use?",
+    a: "Firee runs on the Base network (built on Ethereum L2). This means fast transactions, low fees, and full Ethereum security. We currently operate on Base Sepolia testnet during beta.",
+  },
+  {
+    q: "Is my payment safe?",
+    a: "Yes. Every payment goes through an on-chain escrow smart contract. Funds are held securely until the transaction is complete. The contract is verified and transparent on the blockchain.",
+  },
+  {
+    q: "How do sellers receive their money?",
+    a: "After a purchase, the seller's earnings (minus a 3% platform fee) are held in the escrow contract. Sellers can withdraw their USDC balance to their wallet at any time from the Seller Dashboard.",
+  },
+  {
+    q: "What can I sell on Firee?",
+    a: "Digital products like templates, design assets, e-books, courses, software, presets, and more. Upload your file, set a USDC price, and publish. Buyers get instant access after payment.",
+  },
+  {
+    q: "Do I need a crypto wallet?",
+    a: "You can create an account with email to browse products. To make purchases or sell products, you'll need a wallet like MetaMask or Coinbase Wallet connected to the Base network.",
+  },
+  {
+    q: "What fees does Firee charge?",
+    a: "Firee charges a flat 3% platform fee on each sale. There are no listing fees, no monthly subscriptions, and no hidden costs. Blockchain gas fees are minimal on Base.",
+  },
+];
+
 export default function Home() {
+  const [faqOpen, setFaqOpen] = useState<number | null>(null);
+
   const stats = [
     { value: "12,400+", label: "Products" },
     { value: "3,800+", label: "Active Users" },
@@ -89,6 +129,38 @@ export default function Home() {
                 <p className="step-num">{s.n}</p>
                 <h3 style={{ fontWeight: 600, fontSize: 15, marginBottom: 8, color: "var(--text, white)" }}>{s.title}</h3>
                 <p style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.6 }}>{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" className="section">
+        <div className="container" style={{ maxWidth: 680 }}>
+          <p style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(110,172,218,0.5)", marginBottom: 8 }}>FAQ</p>
+          <h2 className="section-title">Frequently Asked Questions</h2>
+          <p className="section-sub">Everything you need to know about Firee.</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {FAQ.map((item, i) => (
+              <div key={item.q} className="card" style={{ padding: 0, overflow: "hidden" }}>
+                <button
+                  type="button"
+                  onClick={() => setFaqOpen(faqOpen === i ? null : i)}
+                  style={{
+                    width: "100%", padding: "16px 18px", background: "none", border: "none",
+                    cursor: "pointer", textAlign: "left", fontFamily: "inherit", fontSize: 14,
+                    fontWeight: 600, color: "var(--text, white)", display: "flex",
+                    justifyContent: "space-between", alignItems: "center", gap: 16,
+                  }}
+                >
+                  {item.q}
+                  <span style={{ color: "var(--sky)", fontSize: 18, flexShrink: 0 }}>{faqOpen === i ? "−" : "+"}</span>
+                </button>
+                {faqOpen === i && (
+                  <p style={{ padding: "0 18px 16px", fontSize: 13, lineHeight: 1.7, color: "var(--text-muted)" }}>
+                    {item.a}
+                  </p>
+                )}
               </div>
             ))}
           </div>

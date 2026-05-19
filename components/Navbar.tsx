@@ -21,7 +21,7 @@ interface NavbarProps {
 const LANDING_LINKS = [
   { href: "/#features", label: "Features" },
   { href: "/#how", label: "How it Works" },
-  { href: "/dashboard", label: "Marketplace" },
+  { href: "/#faq", label: "FAQ" },
   { href: "/about", label: "About" },
 ];
 
