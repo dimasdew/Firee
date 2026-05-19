@@ -10,6 +10,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { getProduct } from "../lib/products";
 import type { CartItem, Notification, Order, OrderStatus, User, WishlistItem } from "../lib/types";
 import { createClient } from "../lib/supabase/client";
@@ -38,12 +39,14 @@ interface AppContextValue {
   cartDrawerOpen: boolean;
   setCartDrawerOpen: (open: boolean) => void;
   isLoggedIn: boolean;
+  needsPassword: boolean;
   cartCount: number;
   cartTotalUsdc: number;
   login: (email: string, password: string) => Promise<boolean>;
   register: (email: string, password: string) => Promise<boolean>;
   loginWithGoogle: () => Promise<boolean>;
   logout: () => Promise<void>;
+  setUserPassword: (password: string) => Promise<boolean>;
   connectWallet: () => void;
   disconnectWallet: () => void;
   syncWalletFromRainbow: (address: string | null) => void;
@@ -78,8 +81,11 @@ function loadState(): StoredState {
 }
 
 export function AppProvider({ children }: { children: ReactNode }) {
+  const router = useRouter();
+  const pathname = usePathname();
   const [hydrated, setHydrated] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [needsPassword, setNeedsPassword] = useState(false);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
   const [notifications, setNotifications] = useState<Notification[]>(DEFAULT_NOTIFICATIONS);
@@ -162,6 +168,17 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const supabase = useMemo(() => createClient(), []);
 
+  const checkNeedsPassword = useCallback((su: any) => {
+    const identities = su.identities as Array<{ provider: string }> | undefined;
+    const hasEmail = identities?.some((i) => i.provider === "email") ?? false;
+    const isGoogle = su.app_metadata?.provider === "google";
+    const needs = isGoogle && !hasEmail;
+    setNeedsPassword(needs);
+    if (needs) localStorage.setItem("firee-needs-password", "true");
+    else localStorage.removeItem("firee-needs-password");
+    return needs;
+  }, []);
+
   // Listen for Supabase auth state changes
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
@@ -179,8 +196,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
           walletAddress: null,
           joinedAt: su.created_at,
         });
+        checkNeedsPassword(su);
       } else {
         setUser(null);
+        setNeedsPassword(false);
+        localStorage.removeItem("firee-needs-password");
       }
     });
     // Check existing session on mount
@@ -199,10 +219,20 @@ export function AppProvider({ children }: { children: ReactNode }) {
           walletAddress: null,
           joinedAt: su.created_at,
         });
+        checkNeedsPassword(su);
       }
     });
     return () => subscription.unsubscribe();
-  }, [supabase]);
+  }, [supabase, checkNeedsPassword]);
+
+  // Redirect Google OAuth users to set-password if needed
+  useEffect(() => {
+    if (!hydrated) return;
+    const stored = localStorage.getItem("firee-needs-password");
+    if ((needsPassword || stored === "true") && pathname !== "/set-password") {
+      router.push("/set-password");
+    }
+  }, [hydrated, needsPassword, pathname, router]);
 
   const login = useCallback(async (email: string, password: string): Promise<boolean> => {
     try {
@@ -247,9 +277,25 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }
   }, [supabase, showToast]);
 
+  const setUserPassword = useCallback(async (password: string): Promise<boolean> => {
+    try {
+      const { error } = await supabase.auth.updateUser({ password });
+      if (error) { showToast(error.message); return false; }
+      setNeedsPassword(false);
+      localStorage.removeItem("firee-needs-password");
+      showToast("Password set successfully!");
+      return true;
+    } catch {
+      showToast("Failed to set password");
+      return false;
+    }
+  }, [supabase, showToast]);
+
   const logout = useCallback(async () => {
     await supabase.auth.signOut();
     setUser(null);
+    setNeedsPassword(false);
+    localStorage.removeItem("firee-needs-password");
     showToast("Logged out");
   }, [supabase, showToast]);
 
@@ -397,12 +443,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
     cartDrawerOpen,
     setCartDrawerOpen,
     isLoggedIn: !!user,
+    needsPassword,
     cartCount,
     cartTotalUsdc,
     login,
     register,
     loginWithGoogle,
     logout,
+    setUserPassword,
     connectWallet,
     disconnectWallet,
     syncWalletFromRainbow,
