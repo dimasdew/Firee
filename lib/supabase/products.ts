@@ -22,6 +22,16 @@ export async function getPublishedProducts(): Promise<DbProduct[]> {
   return data ?? [];
 }
 
+export async function getProductById(id: string): Promise<DbProduct | null> {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*, seller:profiles(*), category:categories(*)")
+    .eq("id", id)
+    .single();
+  if (error) return null;
+  return data;
+}
+
 export async function getProductBySlug(sellerSlug: string, slug: string): Promise<DbProduct | null> {
   const { data, error } = await supabase
     .from("products")
