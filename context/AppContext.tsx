@@ -32,6 +32,7 @@ const DEFAULT_NOTIFICATIONS: Notification[] = [
 
 interface AppContextValue {
   user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
   cart: CartItem[];
   orders: Order[];
   notifications: Notification[];
@@ -181,23 +182,31 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   // Listen for Supabase auth state changes
   useEffect(() => {
+    async function hydrateUser(su: any) {
+      const email = su.email || "";
+      const fallbackUsername = email.split("@")[0] || `user_${su.id.slice(0, 8)}`;
+      const provider = su.app_metadata?.provider;
+      // Fetch saved profile from DB
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", su.id)
+        .single();
+      setUser({
+        id: su.id,
+        email: profile?.email || email,
+        username: profile?.username || fallbackUsername,
+        displayName: profile?.display_name || su.user_metadata?.full_name || fallbackUsername,
+        avatarUrl: profile?.avatar_url || su.user_metadata?.avatar_url || undefined,
+        authProvider: provider === "google" ? "google" : "email",
+        walletAddress: profile?.wallet_address || null,
+        joinedAt: su.created_at,
+      });
+      checkNeedsPassword(su);
+    }
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (session?.user) {
-        const su = session.user;
-        const email = su.email || "";
-        const username = email.split("@")[0] || `user_${su.id.slice(0, 8)}`;
-        const provider = su.app_metadata?.provider;
-        setUser({
-          id: su.id,
-          email,
-          username,
-          displayName: su.user_metadata?.full_name || username,
-          avatarUrl: su.user_metadata?.avatar_url || undefined,
-          authProvider: provider === "google" ? "google" : "email",
-          walletAddress: null,
-          joinedAt: su.created_at,
-        });
-        checkNeedsPassword(su);
+        await hydrateUser(session.user);
       } else {
         setUser(null);
         setNeedsPassword(false);
@@ -206,23 +215,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     });
     // Check existing session on mount
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        const su = session.user;
-        const email = su.email || "";
-        const username = email.split("@")[0] || `user_${su.id.slice(0, 8)}`;
-        const provider = su.app_metadata?.provider;
-        setUser({
-          id: su.id,
-          email,
-          username,
-          displayName: su.user_metadata?.full_name || username,
-          avatarUrl: su.user_metadata?.avatar_url || undefined,
-          authProvider: provider === "google" ? "google" : "email",
-          walletAddress: null,
-          joinedAt: su.created_at,
-        });
-        checkNeedsPassword(su);
-      }
+      if (session?.user) hydrateUser(session.user);
     });
     return () => subscription.unsubscribe();
   }, [supabase, checkNeedsPassword]);
@@ -489,6 +482,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const value: AppContextValue = {
     user,
+    setUser,
     cart,
     orders,
     notifications,

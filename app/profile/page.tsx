@@ -1,22 +1,48 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useApp } from "../../context/AppContext";
-import { Pencil, Check, Camera, Image } from "lucide-react";
+import { updateProfile } from "../../lib/supabase/auth";
+import { Pencil, Check, Camera, Image, Loader2 } from "lucide-react";
 
 export default function ProfilePage() {
-  const { user, showToast } = useApp();
+  const { user, setUser, showToast } = useApp();
   const [editing, setEditing] = useState(false);
-  const [username, setUsername] = useState(user?.username ?? "dimasdew");
-  const [displayName, setDisplayName] = useState(user?.displayName ?? user?.username ?? "dimasdew");
+  const [username, setUsername] = useState(user?.username ?? "");
+  const [displayName, setDisplayName] = useState(user?.displayName ?? "");
   const [language, setLanguage] = useState("English");
   const [notif, setNotif] = useState("All");
-  const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
 
-  const save = () => {
-    setSaved(true);
-    showToast("Settings saved!");
-    setTimeout(() => setSaved(false), 2000);
+  // Sync local state when user loads/changes
+  useEffect(() => {
+    if (user) {
+      setUsername(user.username);
+      setDisplayName(user.displayName || user.username);
+    }
+  }, [user]);
+
+  const handleSaveProfile = async () => {
+    if (!user) return;
+    setSaving(true);
+    try {
+      await updateProfile(user.id, {
+        username: username.trim(),
+        display_name: displayName.trim(),
+      });
+      // Update context so UI reflects immediately
+      setUser((prev) => prev ? { ...prev, username: username.trim(), displayName: displayName.trim() } : prev);
+      setEditing(false);
+      showToast("Profile updated!");
+    } catch (err: any) {
+      if (err?.message?.includes("duplicate") || err?.message?.includes("unique")) {
+        showToast("Username already taken");
+      } else {
+        showToast("Failed to save profile");
+      }
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -31,10 +57,14 @@ export default function ProfilePage() {
           <button
             type="button"
             className={editing ? "btn-primary" : "btn-ghost"}
-            onClick={() => setEditing(!editing)}
+            onClick={editing ? handleSaveProfile : () => setEditing(true)}
+            disabled={saving}
             style={{ flexShrink: 0, padding: "8px 16px", fontSize: 12 }}
           >
-            {editing ? <><Check size={13} /> Done</> : <><Pencil size={13} /> Edit</>}
+            {saving
+              ? <><Loader2 size={13} style={{ animation: "spin 1s linear infinite" }} /> Saving...</>
+              : editing ? <><Check size={13} /> Save</> : <><Pencil size={13} /> Edit</>
+            }
           </button>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
@@ -101,8 +131,8 @@ export default function ProfilePage() {
           </div>
         </div>
         <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}>
-          <button type="button" className={saved ? "btn-ghost" : "btn-primary"} onClick={save} style={{ padding: "10px 24px" }}>
-            {saved ? <><Check size={13} /> Saved</> : "Save Changes"}
+          <button type="button" className="btn-primary" onClick={() => showToast("Preferences saved!")} style={{ padding: "10px 24px" }}>
+            Save Changes
           </button>
         </div>
       </div>
