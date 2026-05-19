@@ -27,8 +27,8 @@ export default function AboutPage() {
             No intermediaries. Transparent pricing in USDC. Full ownership of your data and transactions.
           </p>
           <p style={{ fontSize: 15, lineHeight: 1.8, color: "var(--text-muted)", marginBottom: 40 }}>
-            Built by dimasdew as a portfolio showcase of modern Web3 UX — combining Next.js, responsive design,
-            and intuitive flows for browsing, redeeming, and tracking orders on a simulated blockchain layer.
+            Built by dimasdew — combining Next.js, Supabase, and smart contracts on the Base blockchain.
+            Real USDC payments, on-chain escrow, and instant digital delivery. Web3 commerce, simplified.
           </p>
           <div className="features-grid" style={{ marginBottom: 48 }}>
             {STATS.map((s) => (

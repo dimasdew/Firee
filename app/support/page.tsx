@@ -7,10 +7,12 @@ import { useApp } from "../../context/AppContext";
 import { HelpCircle, Mail, MessageSquare, Send } from "lucide-react";
 
 const FAQ = [
-  { q: "How do I pay on Firee?", a: "All products are priced in USDC. Connect your wallet or use a Firee account to redeem items." },
-  { q: "What does Redeemed mean?", a: "Your order is confirmed on-chain. Status moves to Delivering, then Completed." },
-  { q: "Can I resell items?", a: "Yes — tokenized goods support resale with automatic royalty distribution to creators." },
-  { q: "Is my data safe?", a: "Profiles are encrypted. Wallet keys never leave your device when using Connect Wallet." },
+  { q: "I paid but didn't receive my download — what do I do?", a: "Check your Orders page — if the transaction is confirmed on-chain, the Download button should appear. If not, verify the transaction on BaseScan using your tx hash. If the issue persists, contact us with your transaction hash and we'll help." },
+  { q: "My wallet won't connect — how do I fix this?", a: "Make sure you're using a supported wallet (MetaMask, Coinbase Wallet, etc.) and that you're connected to the Base Sepolia network. Try refreshing the page or disconnecting and reconnecting your wallet." },
+  { q: "Can I get a refund?", a: "Since payments are processed through a smart contract on the blockchain, they cannot be reversed. Please make sure you're purchasing the right product before confirming the transaction." },
+  { q: "My product upload failed — what should I do?", a: "Check your file size (max 50MB) and make sure you're logged in. If the upload keeps failing, try a different browser or clear your cache. Contact us if the problem continues." },
+  { q: "How do I reset my password?", a: "Go to the Login page and click \"Forgot password?\". We'll send a reset link to your registered email address." },
+  { q: "How do I report a problem with a product?", a: "Use the contact form on this page or email us at hello@firee.app. Include the product link and describe the issue — we'll investigate and respond within 24 hours." },
 ];
 
 export default function SupportPage() {

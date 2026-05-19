@@ -20,43 +20,55 @@ const STEPS = [
   { n: "04", title: "Resell & Earn", desc: "List items back on Firee and earn resale royalties." },
 ];
 
-const FAQ = [
+const BUYER_FAQ = [
   {
-    q: "What is Firee?",
-    a: "Firee is a decentralized digital marketplace where creators sell products directly to buyers using USDC stablecoin. All payments are secured by smart contracts on the Base blockchain — no middlemen, no chargebacks.",
+    q: "How do I buy a product?",
+    a: "Browse the marketplace, click a product, then hit \"Buy with USDC\". Connect your wallet, approve the USDC amount, and the smart contract handles the payment. You'll get instant access to download the file.",
   },
   {
-    q: "How do I pay for products?",
-    a: "All products are priced in USDC (a stablecoin pegged to the US dollar). Connect your wallet (MetaMask, Coinbase Wallet, etc.), approve the USDC amount, and the smart contract handles the rest.",
-  },
-  {
-    q: "What blockchain does Firee use?",
-    a: "Firee runs on the Base network (built on Ethereum L2). This means fast transactions, low fees, and full Ethereum security. We currently operate on Base Sepolia testnet during beta.",
+    q: "What is USDC and how do I get it?",
+    a: "USDC is a stablecoin pegged 1:1 to the US dollar. You can buy USDC on exchanges like Coinbase or Binance, then send it to your wallet on the Base network.",
   },
   {
     q: "Is my payment safe?",
-    a: "Yes. Every payment goes through an on-chain escrow smart contract. Funds are held securely until the transaction is complete. The contract is verified and transparent on the blockchain.",
-  },
-  {
-    q: "How do sellers receive their money?",
-    a: "After a purchase, the seller's earnings (minus a 3% platform fee) are held in the escrow contract. Sellers can withdraw their USDC balance to their wallet at any time from the Seller Dashboard.",
-  },
-  {
-    q: "What can I sell on Firee?",
-    a: "Digital products like templates, design assets, e-books, courses, software, presets, and more. Upload your file, set a USDC price, and publish. Buyers get instant access after payment.",
+    a: "Yes. Every payment goes through an on-chain escrow smart contract on the Base blockchain. Funds are held securely and transparently — no middlemen, no chargebacks.",
   },
   {
     q: "Do I need a crypto wallet?",
-    a: "You can create an account with email to browse products. To make purchases or sell products, you'll need a wallet like MetaMask or Coinbase Wallet connected to the Base network.",
+    a: "You can create an account with email to browse products. To make purchases, you'll need a wallet like MetaMask or Coinbase Wallet connected to the Base network.",
+  },
+  {
+    q: "How do I download my purchased file?",
+    a: "After a successful payment, go to your Orders page or the product page — you'll see a Download button. Files are delivered via secure signed URLs.",
+  },
+];
+
+const SELLER_FAQ = [
+  {
+    q: "How do I start selling?",
+    a: "Create an account, go to the Seller Dashboard, and click \"New Product\". Upload your file, add a thumbnail, set a USDC price, and publish. Your product goes live immediately.",
+  },
+  {
+    q: "What can I sell on Firee?",
+    a: "Digital products like templates, design assets, e-books, courses, software, presets, fonts, and more. Any downloadable file works.",
+  },
+  {
+    q: "How do I receive my earnings?",
+    a: "After a buyer purchases your product, your earnings (minus a 3% platform fee) are held in the escrow smart contract. You can withdraw USDC to your wallet anytime from the Seller Dashboard.",
   },
   {
     q: "What fees does Firee charge?",
-    a: "Firee charges a flat 3% platform fee on each sale. There are no listing fees, no monthly subscriptions, and no hidden costs. Blockchain gas fees are minimal on Base.",
+    a: "Firee charges a flat 3% platform fee on each sale. There are no listing fees, no monthly subscriptions, and no hidden costs. Blockchain gas fees on Base are minimal.",
+  },
+  {
+    q: "What blockchain does Firee use?",
+    a: "Firee runs on the Base network (Ethereum L2) — fast transactions, low fees, and full Ethereum security. We currently operate on Base Sepolia testnet during beta.",
   },
 ];
 
 export default function Home() {
   const [faqOpen, setFaqOpen] = useState<number | null>(null);
+  const [faqTab, setFaqTab] = useState<"buyer" | "seller">("buyer");
 
   const stats = [
     { value: "12,400+", label: "Products" },
@@ -140,8 +152,26 @@ export default function Home() {
           <p style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(110,172,218,0.5)", marginBottom: 8 }}>FAQ</p>
           <h2 className="section-title">Frequently Asked Questions</h2>
           <p className="section-sub">Everything you need to know about Firee.</p>
+
+          <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
+            <button
+              type="button"
+              className={`cat-btn ${faqTab === "buyer" ? "active" : ""}`}
+              onClick={() => { setFaqTab("buyer"); setFaqOpen(null); }}
+            >
+              For Buyers
+            </button>
+            <button
+              type="button"
+              className={`cat-btn ${faqTab === "seller" ? "active" : ""}`}
+              onClick={() => { setFaqTab("seller"); setFaqOpen(null); }}
+            >
+              For Sellers
+            </button>
+          </div>
+
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {FAQ.map((item, i) => (
+            {(faqTab === "buyer" ? BUYER_FAQ : SELLER_FAQ).map((item, i) => (
               <div key={item.q} className="card" style={{ padding: 0, overflow: "hidden" }}>
                 <button
                   type="button"

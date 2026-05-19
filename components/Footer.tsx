@@ -17,7 +17,8 @@ export default function Footer() {
 
         <div>
           <p className="footer-heading">Platform</p>
-          <Link href="/dashboard">Marketplace</Link>
+          <Link href="/#features">Features</Link>
+          <Link href="/#faq">FAQ</Link>
           <Link href="/about">About</Link>
           <Link href="/support">Support</Link>
         </div>
