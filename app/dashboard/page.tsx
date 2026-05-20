@@ -200,7 +200,7 @@ export default function DashboardPage() {
         <div className="glow-line" style={{ marginBottom: 24 }} />
 
         <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 16 }}>
-          {loading ? "Loading..." : `${totalCount} product${totalCount !== 1 ? "s" : ""} found`}
+          {loading && totalCount === 0 ? "Loading..." : `${totalCount} product${totalCount !== 1 ? "s" : ""} found`}
         </p>
 
         {/* Real Supabase products */}
