@@ -10,6 +10,8 @@ export interface Profile {
   wallet_address: string | null;
   is_seller: boolean;
   seller_verified: boolean;
+  is_admin: boolean;
+  is_banned: boolean;
   created_at: string;
   updated_at: string;
 }

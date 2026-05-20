@@ -58,4 +58,5 @@ export interface User {
   authProvider: AuthProvider;
   walletAddress: string | null;
   joinedAt: string;
+  isAdmin?: boolean;
 }

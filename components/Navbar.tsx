@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import {
-  Search, Bell, User, HelpCircle, Wallet, LogOut, Flame,
+  Search, Bell, User, HelpCircle, Wallet, LogOut, Flame, Shield,
   ChevronDown, Package, CheckCircle2, Sun, Moon, Menu, X, ShoppingBag, Store,
 } from "lucide-react";
 import { useApp } from "../context/AppContext";
@@ -183,6 +183,7 @@ export default function Navbar({ variant = "landing", onSearch }: NavbarProps) {
                           { icon: <Store size={13} />, label: "Seller Dashboard", href: "/seller" },
                           { icon: <Wallet size={13} />, label: "Wallet", href: "/profile/wallet" },
                           { icon: <HelpCircle size={13} />, label: "Support", href: "/support" },
+                          ...(user?.isAdmin ? [{ icon: <Shield size={13} />, label: "Admin Panel", href: "/admin" }] : []),
                         ].map((item) => (
                           <Link key={item.label} href={item.href} className="dropdown-menu-link" onClick={() => setProfileOpen(false)}>
                             {item.icon} {item.label}

@@ -201,6 +201,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         authProvider: provider === "google" ? "google" : "email",
         walletAddress: profile?.wallet_address || null,
         joinedAt: su.created_at,
+        isAdmin: profile?.is_admin || false,
       });
       checkNeedsPassword(su);
     }
