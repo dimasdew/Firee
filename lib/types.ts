@@ -1,4 +1,4 @@
-export type ProductCategory = "Beverage" | "Electronics" | "Fashion" | "Food" | "All";
+export type ProductCategory = "Smart Contracts" | "DApp Templates" | "UI Kits" | "Tools & Scripts" | "All";
 
 export interface Product {
   id: number;
