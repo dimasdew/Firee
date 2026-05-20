@@ -1,10 +1,10 @@
 import { createClient } from "./client";
 import type { Review } from "./types";
 
-const supabase = createClient();
+function getClient() { return createClient(); }
 
 export async function getProductReviews(productId: string): Promise<Review[]> {
-  const { data, error } = await supabase
+  const { data, error } = await getClient()
     .from("reviews")
     .select("*, buyer:profiles(id, username, display_name, avatar_url)")
     .eq("product_id", productId)
@@ -14,7 +14,7 @@ export async function getProductReviews(productId: string): Promise<Review[]> {
 }
 
 export async function getProductAvgRating(productId: string): Promise<{ avg: number; count: number }> {
-  const { data, error } = await supabase
+  const { data, error } = await getClient()
     .from("reviews")
     .select("rating")
     .eq("product_id", productId);
@@ -28,7 +28,7 @@ export async function getMultipleProductRatings(
   productIds: string[]
 ): Promise<Record<string, { avg: number; count: number }>> {
   if (productIds.length === 0) return {};
-  const { data, error } = await supabase
+  const { data, error } = await getClient()
     .from("reviews")
     .select("product_id, rating")
     .in("product_id", productIds);
@@ -53,7 +53,7 @@ export async function createReview(review: {
   rating: number;
   comment?: string;
 }): Promise<Review> {
-  const { data, error } = await supabase
+  const { data, error } = await getClient()
     .from("reviews")
     .insert(review)
     .select("*, buyer:profiles(id, username, display_name, avatar_url)")
@@ -66,7 +66,7 @@ export async function getBuyerReviewForOrder(
   buyerId: string,
   orderId: string
 ): Promise<Review | null> {
-  const { data } = await supabase
+  const { data } = await getClient()
     .from("reviews")
     .select("*, buyer:profiles(id, username, display_name, avatar_url)")
     .eq("buyer_id", buyerId)

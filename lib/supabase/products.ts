@@ -1,10 +1,10 @@
 import { createClient } from "./client";
 import type { DbProduct, Category } from "./types";
 
-const supabase = createClient();
+function getClient() { return createClient(); }
 
 export async function getCategories(): Promise<Category[]> {
-  const { data, error } = await supabase
+  const { data, error } = await getClient()
     .from("categories")
     .select("*")
     .order("name");
@@ -13,7 +13,7 @@ export async function getCategories(): Promise<Category[]> {
 }
 
 export async function getPublishedProducts(): Promise<DbProduct[]> {
-  const { data, error } = await supabase
+  const { data, error } = await getClient()
     .from("products")
     .select("*, seller:profiles(*), category:categories(*)")
     .eq("is_published", true)
@@ -23,7 +23,7 @@ export async function getPublishedProducts(): Promise<DbProduct[]> {
 }
 
 export async function getProductById(id: string): Promise<DbProduct | null> {
-  const { data, error } = await supabase
+  const { data, error } = await getClient()
     .from("products")
     .select("*, seller:profiles(*), category:categories(*)")
     .eq("id", id)
@@ -33,7 +33,7 @@ export async function getProductById(id: string): Promise<DbProduct | null> {
 }
 
 export async function getProductBySlug(sellerSlug: string, slug: string): Promise<DbProduct | null> {
-  const { data, error } = await supabase
+  const { data, error } = await getClient()
     .from("products")
     .select("*, seller:profiles(*), category:categories(*)")
     .eq("slug", slug)
@@ -44,7 +44,7 @@ export async function getProductBySlug(sellerSlug: string, slug: string): Promis
 }
 
 export async function getSellerProducts(sellerId: string): Promise<DbProduct[]> {
-  const { data, error } = await supabase
+  const { data, error } = await getClient()
     .from("products")
     .select("*, category:categories(*)")
     .eq("seller_id", sellerId)
@@ -54,7 +54,7 @@ export async function getSellerProducts(sellerId: string): Promise<DbProduct[]> 
 }
 
 export async function getSellerPublishedProducts(sellerId: string): Promise<DbProduct[]> {
-  const { data, error } = await supabase
+  const { data, error } = await getClient()
     .from("products")
     .select("*, seller:profiles(*), category:categories(*)")
     .eq("seller_id", sellerId)
@@ -79,7 +79,7 @@ export async function createProduct(product: {
   tags?: string[];
   is_published?: boolean;
 }): Promise<DbProduct> {
-  const { data, error } = await supabase
+  const { data, error } = await getClient()
     .from("products")
     .insert(product)
     .select()
@@ -92,7 +92,7 @@ export async function updateProduct(
   id: string,
   updates: Partial<Omit<DbProduct, "id" | "seller_id" | "created_at">>
 ): Promise<DbProduct> {
-  const { data, error } = await supabase
+  const { data, error } = await getClient()
     .from("products")
     .update(updates)
     .eq("id", id)
@@ -103,7 +103,7 @@ export async function updateProduct(
 }
 
 export async function deleteProduct(id: string): Promise<void> {
-  const { error } = await supabase
+  const { error } = await getClient()
     .from("products")
     .delete()
     .eq("id", id);
@@ -113,18 +113,18 @@ export async function deleteProduct(id: string): Promise<void> {
 export async function uploadThumbnail(userId: string, file: File): Promise<string> {
   const ext = file.name.split(".").pop();
   const path = `${userId}/${Date.now()}.${ext}`;
-  const { error } = await supabase.storage
+  const { error } = await getClient().storage
     .from("thumbnails")
     .upload(path, file, { upsert: true });
   if (error) throw error;
-  const { data } = supabase.storage.from("thumbnails").getPublicUrl(path);
+  const { data } = getClient().storage.from("thumbnails").getPublicUrl(path);
   return data.publicUrl;
 }
 
 export async function uploadProductFile(userId: string, file: File): Promise<{ url: string; name: string; size: number }> {
   const ext = file.name.split(".").pop();
   const path = `${userId}/${Date.now()}.${ext}`;
-  const { error } = await supabase.storage
+  const { error } = await getClient().storage
     .from("products")
     .upload(path, file, { upsert: true });
   if (error) throw error;

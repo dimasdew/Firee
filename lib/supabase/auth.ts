@@ -1,10 +1,10 @@
 import { createClient } from "./client";
 import type { Profile } from "./types";
 
-const supabase = createClient();
+function getClient() { return createClient(); }
 
 export async function signUp(email: string, password: string, displayName?: string) {
-  const { data, error } = await supabase.auth.signUp({
+  const { data, error } = await getClient().auth.signUp({
     email,
     password,
     options: {
@@ -16,13 +16,13 @@ export async function signUp(email: string, password: string, displayName?: stri
 }
 
 export async function signIn(email: string, password: string) {
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  const { data, error } = await getClient().auth.signInWithPassword({ email, password });
   if (error) throw error;
   return data;
 }
 
 export async function signInWithGoogle() {
-  const { data, error } = await supabase.auth.signInWithOAuth({
+  const { data, error } = await getClient().auth.signInWithOAuth({
     provider: "google",
     options: { redirectTo: `${window.location.origin}/dashboard` },
   });
@@ -31,17 +31,17 @@ export async function signInWithGoogle() {
 }
 
 export async function signOut() {
-  const { error } = await supabase.auth.signOut();
+  const { error } = await getClient().auth.signOut();
   if (error) throw error;
 }
 
 export async function getCurrentUser() {
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user } } = await getClient().auth.getUser();
   return user;
 }
 
 export async function getProfile(userId: string): Promise<Profile | null> {
-  const { data, error } = await supabase
+  const { data, error } = await getClient()
     .from("profiles")
     .select("*")
     .eq("id", userId)
@@ -51,7 +51,7 @@ export async function getProfile(userId: string): Promise<Profile | null> {
 }
 
 export async function updateProfile(userId: string, updates: Partial<Profile>): Promise<Profile> {
-  const { data, error } = await supabase
+  const { data, error } = await getClient()
     .from("profiles")
     .update(updates)
     .eq("id", userId)
@@ -66,5 +66,5 @@ export async function becomeSeller(userId: string): Promise<Profile> {
 }
 
 export function onAuthStateChange(callback: (event: string, session: any) => void) {
-  return supabase.auth.onAuthStateChange(callback);
+  return getClient().auth.onAuthStateChange(callback);
 }

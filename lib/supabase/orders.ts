@@ -1,7 +1,7 @@
 import { createClient } from "./client";
 import type { DbOrder } from "./types";
 
-const supabase = createClient();
+function getClient() { return createClient(); }
 
 export async function createOrder(order: {
   buyer_id: string;
@@ -12,7 +12,7 @@ export async function createOrder(order: {
   seller_revenue_usdc: number;
   tx_hash: string;
 }): Promise<DbOrder> {
-  const { data, error } = await supabase
+  const { data, error } = await getClient()
     .from("orders")
     .insert({
       ...order,
@@ -25,7 +25,7 @@ export async function createOrder(order: {
 }
 
 export async function getBuyerOrders(buyerId: string): Promise<DbOrder[]> {
-  const { data, error } = await supabase
+  const { data, error } = await getClient()
     .from("orders")
     .select("*, product:products(*, seller:profiles(*))")
     .eq("buyer_id", buyerId)
@@ -35,7 +35,7 @@ export async function getBuyerOrders(buyerId: string): Promise<DbOrder[]> {
 }
 
 export async function getSellerOrders(sellerId: string): Promise<DbOrder[]> {
-  const { data, error } = await supabase
+  const { data, error } = await getClient()
     .from("orders")
     .select("*, product:products(*), buyer:profiles(*)")
     .eq("seller_id", sellerId)
@@ -53,7 +53,7 @@ export async function getDownloadUrl(
   productId: string
 ): Promise<string | null> {
   // Verify buyer has purchased this product
-  const { data: order } = await supabase
+  const { data: order } = await getClient()
     .from("orders")
     .select("id")
     .eq("buyer_id", buyerId)
@@ -64,7 +64,7 @@ export async function getDownloadUrl(
   if (!order) return null;
 
   // Get the product file_url (storage path)
-  const { data: product } = await supabase
+  const { data: product } = await getClient()
     .from("products")
     .select("file_url")
     .eq("id", productId)
@@ -73,7 +73,7 @@ export async function getDownloadUrl(
   if (!product?.file_url) return null;
 
   // Generate signed URL (valid for 1 hour)
-  const { data, error } = await supabase.storage
+  const { data, error } = await getClient().storage
     .from("products")
     .createSignedUrl(product.file_url, 3600);
 
