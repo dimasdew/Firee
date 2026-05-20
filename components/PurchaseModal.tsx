@@ -145,16 +145,16 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
           {/* Price breakdown */}
           <div style={{ marginBottom: 20, fontSize: 13 }}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, color: "var(--text-muted)" }}>
-              <span>Subtotal</span>
+              <span>Price</span>
               <span>{product.price_usdc.toFixed(2)} USDC</span>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, color: "var(--text-muted)" }}>
-              <span>Platform fee (3%)</span>
-              <span>{platformFee.toFixed(2)} USDC</span>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, color: "var(--text-muted)", fontSize: 11, opacity: 0.7 }}>
+              <span>Platform fee (3%, deducted from seller)</span>
+              <span>−{platformFee.toFixed(2)} USDC</span>
             </div>
             <div className="divider" style={{ margin: "8px 0" }} />
             <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700, color: "var(--text, white)" }}>
-              <span>Total</span>
+              <span>You pay</span>
               <span>{total.toFixed(2)} USDC</span>
             </div>
           </div>

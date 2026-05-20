@@ -56,7 +56,7 @@ export async function getSellerProducts(sellerId: string): Promise<DbProduct[]> 
 export async function getSellerPublishedProducts(sellerId: string): Promise<DbProduct[]> {
   const { data, error } = await supabase
     .from("products")
-    .select("*, category:categories(*)")
+    .select("*, seller:profiles(*), category:categories(*)")
     .eq("seller_id", sellerId)
     .eq("is_published", true)
     .order("created_at", { ascending: false });
