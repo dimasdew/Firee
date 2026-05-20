@@ -15,14 +15,21 @@ export default function LoginPage() {
   const { login } = useApp();
   const [showPwd, setShowPwd] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
 
   const submit = async () => {
     if (!form.email.includes("@")) { setError("Enter a valid email."); return; }
     if (form.password.length < 4) { setError("Password too short."); return; }
-    const ok = await login(form.email, form.password);
-    if (ok) router.push("/dashboard");
-    else setError("Login failed.");
+    setError("");
+    setLoading(true);
+    try {
+      const ok = await login(form.email, form.password);
+      if (ok) router.push("/dashboard");
+      else setError("Login failed.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -62,8 +69,8 @@ export default function LoginPage() {
                 <button type="button" className="input-eye" onClick={() => setShowPwd(!showPwd)}>{showPwd ? <EyeOff size={14} /> : <Eye size={14} />}</button>
               </div>
             </div>
-            <button type="button" className="btn-primary" style={{ width: "100%", justifyContent: "center", marginTop: 4 }} onClick={submit}>
-              Login <ArrowRight size={14} />
+            <button type="button" className="btn-primary" style={{ width: "100%", justifyContent: "center", marginTop: 4 }} onClick={submit} disabled={loading}>
+              {loading ? "Logging in..." : <>Login <ArrowRight size={14} /></>}
             </button>
 
             <div className="auth-divider">

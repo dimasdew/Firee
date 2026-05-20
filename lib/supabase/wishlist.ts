@@ -1,6 +1,6 @@
 import { createClient } from "./client";
 
-const supabase = createClient();
+function getClient() { return createClient(); }
 
 export interface WishlistEntry {
   id: string;
@@ -10,7 +10,7 @@ export interface WishlistEntry {
 }
 
 export async function getWishlist(userId: string): Promise<WishlistEntry[]> {
-  const { data, error } = await supabase
+  const { data, error } = await getClient()
     .from("wishlists")
     .select("*")
     .eq("user_id", userId)
@@ -20,7 +20,7 @@ export async function getWishlist(userId: string): Promise<WishlistEntry[]> {
 }
 
 export async function addToWishlist(userId: string, productId: string): Promise<WishlistEntry> {
-  const { data, error } = await supabase
+  const { data, error } = await getClient()
     .from("wishlists")
     .insert({ user_id: userId, product_id: productId })
     .select()
@@ -30,7 +30,7 @@ export async function addToWishlist(userId: string, productId: string): Promise<
 }
 
 export async function removeFromWishlist(userId: string, productId: string): Promise<void> {
-  const { error } = await supabase
+  const { error } = await getClient()
     .from("wishlists")
     .delete()
     .eq("user_id", userId)

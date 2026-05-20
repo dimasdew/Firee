@@ -190,12 +190,19 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const email = su.email || "";
       const fallbackUsername = email.split("@")[0] || `user_${su.id.slice(0, 8)}`;
       const provider = su.app_metadata?.provider;
-      // Fetch saved profile from DB
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", su.id)
-        .single();
+      // Fetch saved profile from DB (non-blocking — login works even if this fails)
+      let profile: any = null;
+      try {
+        const { data, error } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", su.id)
+          .single();
+        if (error) console.warn("[Firee] Profile fetch:", error.message);
+        profile = data;
+      } catch (e) {
+        console.warn("[Firee] Profile fetch failed:", e);
+      }
       setUser({
         id: su.id,
         email: profile?.email || email,
