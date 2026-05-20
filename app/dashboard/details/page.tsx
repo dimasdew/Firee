@@ -9,16 +9,15 @@ import MobileBottomNav from "../../../components/MobileBottomNav";
 import { useApp } from "../../../context/AppContext";
 import { getProduct, PRODUCTS } from "../../../lib/products";
 import UsdcAmount from "../../../components/UsdcAmount";
-import { ArrowLeft, Minus, Plus, ShoppingBag, CheckCircle, ShoppingCart, Share2, Wallet } from "lucide-react";
+import { ArrowLeft, Minus, Plus, CheckCircle, ShoppingCart, Share2, Wallet } from "lucide-react";
 import PurchaseModal from "../../../components/PurchaseModal";
 
 function DetailsContent() {
   const params = useSearchParams();
   const id = Number(params.get("id") || "1");
   const product = getProduct(id) ?? getProduct(1)!;
-  const { addToCart, redeemProduct, showToast } = useApp();
+  const { addToCart, showToast } = useApp();
   const [qty, setQty] = useState(1);
-  const [redeemed, setRedeemed] = useState(false);
   const [showPurchase, setShowPurchase] = useState(false);
 
   const handleShare = async () => {
@@ -38,10 +37,6 @@ function DetailsContent() {
 
   const total = parseFloat(product.price) * qty;
 
-  const handleRedeem = () => {
-    redeemProduct(product.id, qty);
-    setRedeemed(true);
-  };
 
   return (
     <div className="page-shell">
@@ -80,9 +75,6 @@ function DetailsContent() {
                   </div>
                   <button type="button" className="btn-ghost" onClick={() => addToCart(product.id, qty)} style={{ gap: 6 }}>
                     <ShoppingCart size={13} /> Add to Cart
-                  </button>
-                  <button type="button" className={redeemed ? "btn-ghost" : "btn-sand"} onClick={handleRedeem} style={{ gap: 6 }}>
-                    {redeemed ? <><CheckCircle size={13} /> Redeemed</> : <><ShoppingBag size={13} /> Redeem</>}
                   </button>
                   <button type="button" className="btn-primary" onClick={() => setShowPurchase(true)} style={{ gap: 6 }}>
                     <Wallet size={13} /> Buy with USDC
@@ -124,9 +116,8 @@ function DetailsContent() {
                 <p style={{ fontSize: 11, color: "var(--text-muted)", textTransform: "uppercase", marginBottom: 2 }}>Total ({qty} item{qty > 1 ? "s" : ""})</p>
                 <UsdcAmount value={total} iconSize={18} style={{ fontSize: 20, fontWeight: 700, color: "var(--sand)" }} />
               </div>
-              <button type="button" className="btn-sand" onClick={handleRedeem} style={{ marginRight: 8 }}>{redeemed ? "Redeemed ✓" : "Redeem Now"}</button>
               <button type="button" className="btn-primary" onClick={() => setShowPurchase(true)} style={{ gap: 6 }}>
-                <Wallet size={13} /> Buy USDC
+                <Wallet size={13} /> Buy with USDC
               </button>
             </div>
           </div>
