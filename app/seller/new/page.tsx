@@ -95,7 +95,7 @@ export default function NewProductPage() {
       </Link>
 
       <form onSubmit={(e) => handleSubmit(e, true)}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 20, alignItems: "start" }}>
+        <div className="seller-form-grid" style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 20, alignItems: "start" }}>
           {/* Main form */}
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {/* Basic Info */}
