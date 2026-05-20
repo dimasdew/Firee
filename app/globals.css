@@ -414,7 +414,9 @@ select.input { cursor: pointer; }
   border-top: 1px solid var(--border); background: rgba(2,21,38,0.95);
 }
 .mobile-nav a, .mobile-nav button { padding: 12px 14px; border-radius: 8px; font-size: 14px; color: var(--text-muted); text-decoration: none; }
+.mobile-nav a.btn-primary { color: var(--midnight); }
 .mobile-nav a:hover { background: rgba(110,172,218,0.06); color: var(--sky); }
+.mobile-nav a.btn-primary:hover { color: var(--midnight); }
 [data-theme="light"] .mobile-nav { background: rgba(245,245,245,0.98); }
 [data-theme="light"] .mobile-nav a, [data-theme="light"] .mobile-nav button { color: rgba(2,21,38,0.6); }
 [data-theme="light"] .mobile-nav a:hover { background: rgba(3,52,110,0.04); color: var(--navy); }

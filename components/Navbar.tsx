@@ -230,11 +230,16 @@ export default function Navbar({ variant = "landing", onSearch }: NavbarProps) {
                 <Link href="/dashboard">Dashboard</Link>
                 <Link href="/profile">Profile</Link>
                 <Link href="/order">Orders</Link>
+                <Link href="/seller">Seller Dashboard</Link>
                 <Link href="/profile/wallet">Wallet</Link>
                 <button type="button" className="btn-ghost" style={{ justifyContent: "center" }} onClick={() => { setCartDrawerOpen(true); setMobileOpen(false); }}>
                   <ShoppingBag size={14} /> Cart ({cartCount})
                 </button>
                 <Link href="/support">Support</Link>
+                {user?.isAdmin && <Link href="/admin">Admin Panel</Link>}
+                <button type="button" className="logout-btn" style={{ justifyContent: "center", marginTop: 4 }} onClick={handleLogout}>
+                  <LogOut size={14} /> Logout
+                </button>
               </>
             )}
           </div>
