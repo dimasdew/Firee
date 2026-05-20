@@ -64,6 +64,9 @@ interface AppContextValue {
   wishlist: WishlistItem[];
   toggleWishlist: (productId: number) => void;
   isWishlisted: (productId: number) => boolean;
+  marketplaceWishlist: string[];
+  toggleMarketplaceWishlist: (productId: string) => void;
+  isMarketplaceWishlisted: (productId: string) => boolean;
 }
 
 const AppContext = createContext<AppContextValue | null>(null);
@@ -93,6 +96,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [toast, setToast] = useState<string | null>(null);
   const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
   const [wishlist, setWishlist] = useState<WishlistItem[]>([]);
+  const [marketplaceWishlist, setMarketplaceWishlist] = useState<string[]>([]);
 
   useEffect(() => {
     const s = loadState();
@@ -468,6 +472,36 @@ export function AppProvider({ children }: { children: ReactNode }) {
     return wishlist.some((w) => w.productId === productId);
   }, [wishlist]);
 
+  // Marketplace wishlist (Supabase-synced)
+  useEffect(() => {
+    if (!user) { setMarketplaceWishlist([]); return; }
+    supabase
+      .from("wishlists")
+      .select("product_id")
+      .eq("user_id", user.id)
+      .then(({ data }) => {
+        if (data) setMarketplaceWishlist(data.map((d: any) => d.product_id));
+      });
+  }, [user, supabase]);
+
+  const toggleMarketplaceWishlist = useCallback(async (productId: string) => {
+    if (!user) { showToast("Please login first"); return; }
+    const exists = marketplaceWishlist.includes(productId);
+    if (exists) {
+      setMarketplaceWishlist((prev) => prev.filter((id) => id !== productId));
+      showToast("Removed from wishlist");
+      await supabase.from("wishlists").delete().eq("user_id", user.id).eq("product_id", productId);
+    } else {
+      setMarketplaceWishlist((prev) => [...prev, productId]);
+      showToast("Added to wishlist");
+      await supabase.from("wishlists").insert({ user_id: user.id, product_id: productId });
+    }
+  }, [user, marketplaceWishlist, supabase, showToast]);
+
+  const isMarketplaceWishlisted = useCallback((productId: string) => {
+    return marketplaceWishlist.includes(productId);
+  }, [marketplaceWishlist]);
+
   const cartCount = useMemo(() => cart.reduce((s, c) => s + c.qty, 0), [cart]);
 
   const cartTotalUsdc = useMemo(
@@ -515,6 +549,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
     wishlist,
     toggleWishlist,
     isWishlisted,
+    marketplaceWishlist,
+    toggleMarketplaceWishlist,
+    isMarketplaceWishlisted,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

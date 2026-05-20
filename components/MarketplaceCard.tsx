@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingBag } from "lucide-react";
+import { ShoppingBag, Heart } from "lucide-react";
 import UsdcAmount from "./UsdcAmount";
 import { StarDisplay } from "./ReviewSection";
+import { useApp } from "../context/AppContext";
 import type { DbProduct } from "../lib/supabase/types";
 
 interface Props {
@@ -12,15 +13,28 @@ interface Props {
 }
 
 export default function MarketplaceCard({ product, rating }: Props) {
+  const { isMarketplaceWishlisted, toggleMarketplaceWishlist } = useApp();
+  const wishlisted = isMarketplaceWishlisted(product.id);
+
   return (
     <article className="card card-lift" style={{ padding: 0, overflow: "hidden", display: "flex", flexDirection: "column" }}>
       <div style={{ padding: "12px 14px 10px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <Link href={`/shop/${product.seller_id}`} style={{ fontSize: 11, color: "var(--text-muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "60%", textDecoration: "none" }}>
           {product.seller?.display_name || product.seller?.username || "Seller"}
         </Link>
-        <span className="badge badge-sky" style={{ fontSize: 9, padding: "2px 7px" }}>
-          {product.category?.name || "Digital"}
-        </span>
+        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          <button
+            type="button"
+            onClick={(e) => { e.preventDefault(); toggleMarketplaceWishlist(product.id); }}
+            style={{ background: "none", border: "none", cursor: "pointer", padding: 2, display: "flex" }}
+            aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
+          >
+            <Heart size={13} fill={wishlisted ? "#f87171" : "none"} color={wishlisted ? "#f87171" : "var(--text-muted)"} />
+          </button>
+          <span className="badge badge-sky" style={{ fontSize: 9, padding: "2px 7px" }}>
+            {product.category?.name || "Digital"}
+          </span>
+        </div>
       </div>
 
       <div style={{ padding: "16px 14px", flex: 1, display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
