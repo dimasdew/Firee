@@ -92,7 +92,7 @@ export default function Navbar({ variant = "landing", onSearch }: NavbarProps) {
     <>
       <nav className="nav sticky top-0 z-50" ref={navRef}>
         <div className="nav-inner">
-          <Link href="/" className="nav-logo">
+          <Link href={user ? "/dashboard" : "/"} className="nav-logo">
             <span className="nav-logo-icon"><Flame size={15} color="var(--midnight)" /></span>
             <span className="nav-logo-text">Firee</span>
           </Link>
