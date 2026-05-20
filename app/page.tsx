@@ -7,17 +7,17 @@ import Footer from "../components/Footer";
 import { Shield, Zap, Globe, Lock, ArrowRight } from "lucide-react";
 
 const FEATURES = [
-  { icon: Shield, title: "Trustless Trading", desc: "Smart contracts escrow every transaction — no middlemen, no hidden fees." },
-  { icon: Zap, title: "Instant Settlement", desc: "Pay with USDC and receive ownership proof on-chain within seconds." },
-  { icon: Globe, title: "Global Access", desc: "Buy and sell from anywhere. Borderless peer-to-peer commerce." },
-  { icon: Lock, title: "You Own Your Data", desc: "Encrypted profiles and wallet-only authentication. Your keys, your goods." },
+  { icon: Shield, title: "Trustless Trading", desc: "Smart contract escrow handles every transaction — no middlemen, no hidden fees. 3% flat." },
+  { icon: Zap, title: "Instant Delivery", desc: "Pay with USDC and get instant download access. No waiting, no approval queues." },
+  { icon: Globe, title: "Global Access", desc: "Buy and sell from anywhere. Borderless peer-to-peer commerce for Web3 builders." },
+  { icon: Lock, title: "Secure File Hosting", desc: "Product files are stored in private buckets. Only paying buyers get signed download URLs." },
 ];
 
 const STEPS = [
-  { n: "01", title: "Connect Wallet", desc: "Link your wallet or create a Firee account to pay in USDC." },
-  { n: "02", title: "Browse & Buy", desc: "Explore verified products and redeem with USDC." },
-  { n: "03", title: "Track Orders", desc: "Follow delivery status from Redeemed to Completed." },
-  { n: "04", title: "Resell & Earn", desc: "List items back on Firee and earn resale royalties." },
+  { n: "01", title: "Create Account", desc: "Sign up with email or Google. Connect your wallet to buy or sell." },
+  { n: "02", title: "Browse & Buy", desc: "Find smart contracts, DApp templates, UI kits, and tools. Pay with USDC on Base." },
+  { n: "03", title: "Instant Download", desc: "After payment, download your files immediately. No delays." },
+  { n: "04", title: "Sell & Earn", desc: "Upload your own digital products and earn USDC with every sale. Only 3% fee." },
 ];
 
 const BUYER_FAQ = [
@@ -50,7 +50,7 @@ const SELLER_FAQ = [
   },
   {
     q: "What can I sell on Firee?",
-    a: "Digital products like templates, design assets, e-books, courses, software, presets, fonts, and more. Any downloadable file works.",
+    a: "Digital products for Web3 builders: smart contracts, DApp templates, UI kits, developer tools, scripts, and more. Any downloadable file works.",
   },
   {
     q: "How do I receive my earnings?",
@@ -91,11 +91,11 @@ export default function Home() {
           </div>
 
           <h1 className="fade-up d2" style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: "clamp(32px, 6vw, 68px)", lineHeight: 1.05, letterSpacing: "-0.03em", color: "var(--text, white)", marginBottom: 20 }}>
-            The Era of <span style={{ color: "var(--sand)" }}>Decentralized</span> Marketplace
+            The Marketplace for <span style={{ color: "var(--sand)" }}>Web3 Builders</span>
           </h1>
 
           <p className="fade-up d3" style={{ fontSize: 16, lineHeight: 1.7, color: "var(--text-muted)", maxWidth: 500, margin: "0 auto 36px" }}>
-            Trade freely. Own truly. A peer-to-peer marketplace built on transparency, trust, and blockchain technology.
+            Buy and sell smart contracts, DApp templates, UI kits, and developer tools. Pay with USDC on Base.
           </p>
 
           <div className="fade-up d4" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>
@@ -117,8 +117,8 @@ export default function Home() {
       <section id="features" className="section">
         <div className="container">
           <p style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(110,172,218,0.5)", marginBottom: 8 }}>Why Firee</p>
-          <h2 className="section-title">Built for the new economy</h2>
-          <p className="section-sub">Everything you need to buy, sell, and own digital & physical goods — decentralized.</p>
+          <h2 className="section-title">Built for Web3 builders</h2>
+          <p className="section-sub">Everything you need to buy and sell digital products — on-chain, transparent, instant.</p>
           <div className="features-grid">
             {FEATURES.map((f) => (
               <div key={f.title} className="card feature-card">
@@ -200,8 +200,8 @@ export default function Home() {
       <section className="section">
         <div className="container">
           <div className="cta-box">
-            <h2 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: "clamp(22px, 4vw, 32px)", color: "var(--text, white)", marginBottom: 12 }}>Ready to trade on your terms?</h2>
-            <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 28, maxWidth: 440, margin: "0 auto 28px" }}>Join thousands of users buying and selling on the first truly decentralized marketplace.</p>
+            <h2 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: "clamp(22px, 4vw, 32px)", color: "var(--text, white)", marginBottom: 12 }}>Start building with the best tools</h2>
+            <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 28, maxWidth: 440, margin: "0 auto 28px" }}>Join Web3 builders buying and selling smart contracts, templates, and tools on Firee.</p>
             <Link href="/login" className="btn-sand">Explore Marketplace <ArrowRight size={14} /></Link>
           </div>
         </div>

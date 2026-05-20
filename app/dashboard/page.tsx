@@ -2,10 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Navbar from "../../components/Navbar";
-import ProductCard from "../../components/ProductCard";
 import MarketplaceCard from "../../components/MarketplaceCard";
 import MobileBottomNav from "../../components/MobileBottomNav";
-import { PRODUCTS, CATEGORIES } from "../../lib/products";
 import { getPublishedProducts, getCategories } from "../../lib/supabase/products";
 import { getMultipleProductRatings } from "../../lib/supabase/reviews";
 import type { DbProduct, Category } from "../../lib/supabase/types";
@@ -40,12 +38,9 @@ export default function DashboardPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  // Merge mock categories with DB categories
   const allCategories = useMemo(() => {
     const dbCatNames = dbCategories.map((c) => c.name);
-    const mockCats = CATEGORIES.filter((c) => c !== "All");
-    const merged = ["All", ...new Set([...dbCatNames, ...mockCats])];
-    return merged;
+    return ["All", ...dbCatNames];
   }, [dbCategories]);
 
   // Collect all unique tags from DB products
@@ -55,22 +50,7 @@ export default function DashboardPage() {
     return Array.from(tags).sort();
   }, [dbProducts]);
 
-  // Filter mock products
-  const filteredMock = useMemo(() => {
-    let list = PRODUCTS.filter((p) => {
-      const matchCat = activeCat === "All" || p.category === activeCat;
-      const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
-      return matchCat && matchSearch;
-    });
-    list = [...list].sort((a, b) => {
-      if (sort === "price-asc") return parseFloat(a.price) - parseFloat(b.price);
-      if (sort === "price-desc") return parseFloat(b.price) - parseFloat(a.price);
-      return a.name.localeCompare(b.name);
-    });
-    return list;
-  }, [search, activeCat, sort]);
-
-  // Filter real products
+  // Filter products
   const filteredDb = useMemo(() => {
     const minP = priceMin ? parseFloat(priceMin) : 0;
     const maxP = priceMax ? parseFloat(priceMax) : Infinity;
@@ -98,7 +78,7 @@ export default function DashboardPage() {
     return list;
   }, [dbProducts, search, activeCat, sort, priceMin, priceMax, activeTag, ratings]);
 
-  const totalCount = filteredDb.length + filteredMock.length;
+  const totalCount = filteredDb.length;
 
   return (
     <div className="page-shell">
@@ -203,40 +183,14 @@ export default function DashboardPage() {
           {loading && totalCount === 0 ? "Loading..." : `${totalCount} product${totalCount !== 1 ? "s" : ""} found`}
         </p>
 
-        {/* Real Supabase products */}
         {filteredDb.length > 0 && (
-          <>
-            {filteredMock.length > 0 && (
-              <p style={{ fontSize: 11, fontWeight: 600, color: "var(--sky)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 10 }}>
-                Digital Products
-              </p>
-            )}
-            <div className="products-grid" style={{ marginBottom: 28 }}>
-              {filteredDb.map((p, i) => (
-                <div key={p.id} className="fade-up" style={{ animationDelay: `${i * 0.04}s`, opacity: 0 }}>
-                  <MarketplaceCard product={p} rating={ratings[p.id]} />
-                </div>
-              ))}
-            </div>
-          </>
-        )}
-
-        {/* Mock products */}
-        {filteredMock.length > 0 && (
-          <>
-            {filteredDb.length > 0 && (
-              <p style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 10 }}>
-                Demo Products
-              </p>
-            )}
-            <div className="products-grid">
-              {filteredMock.map((p, i) => (
-                <div key={p.id} className="fade-up" style={{ animationDelay: `${(filteredDb.length + i) * 0.04}s`, opacity: 0 }}>
-                  <ProductCard {...p} />
-                </div>
-              ))}
-            </div>
-          </>
+          <div className="products-grid">
+            {filteredDb.map((p, i) => (
+              <div key={p.id} className="fade-up" style={{ animationDelay: `${i * 0.04}s`, opacity: 0 }}>
+                <MarketplaceCard product={p} rating={ratings[p.id]} />
+              </div>
+            ))}
+          </div>
         )}
 
         {totalCount === 0 && !loading && (

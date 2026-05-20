@@ -38,21 +38,28 @@ export default function MarketplaceCard({ product, rating }: Props) {
       </div>
 
       <div style={{ padding: "16px 14px", flex: 1, display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
-        <p style={{ fontWeight: 600, fontSize: 13, marginBottom: 12, color: "var(--text, white)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "100%" }}>
-          {product.title}
-        </p>
-        <div style={{ width: 72, height: 88, borderRadius: 8, background: "rgba(110,172,218,0.06)", border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 32, marginBottom: 12, overflow: "hidden" }}>
+        <div style={{ width: "100%", height: 120, borderRadius: 8, background: "rgba(110,172,218,0.06)", border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 32, marginBottom: 12, overflow: "hidden" }}>
           {product.thumbnail_url
             ? <img src={product.thumbnail_url} alt={product.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-            : <ShoppingBag size={24} color="var(--sky)" style={{ opacity: 0.3 }} />
+            : <ShoppingBag size={28} color="var(--sky)" style={{ opacity: 0.3 }} />
           }
         </div>
-        <UsdcAmount value={product.price_usdc} showLabel={false} iconSize={13} style={{ color: "var(--sand)", fontWeight: 600, fontSize: 13 }} />
-        {product.total_sales > 0 && (
-          <p style={{ fontSize: 10, color: "var(--text-muted)", marginTop: 4 }}>
-            {product.total_sales} sold
+        <p style={{ fontWeight: 600, fontSize: 14, marginBottom: 4, color: "var(--text, white)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "100%" }}>
+          {product.title}
+        </p>
+        {product.short_description && (
+          <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 6, lineHeight: 1.4, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" as const }}>
+            {product.short_description}
           </p>
         )}
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: "auto" }}>
+          <UsdcAmount value={product.price_usdc} showLabel={false} iconSize={13} style={{ color: "var(--sand)", fontWeight: 600, fontSize: 13 }} />
+          {product.total_sales > 0 && (
+            <span style={{ fontSize: 10, color: "var(--text-muted)" }}>
+              · {product.total_sales} sold
+            </span>
+          )}
+        </div>
         {rating && rating.count > 0 && (
           <div style={{ marginTop: 4 }}>
             <StarDisplay avg={rating.avg} count={rating.count} size={11} />
