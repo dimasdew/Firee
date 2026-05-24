@@ -13,7 +13,7 @@ function explorerUrl(address: string, chainId?: number) {
 }
 
 export default function WalletPage() {
-  const { user, disconnectWallet, cartTotalUsdc, showToast } = useApp();
+  const { user, disconnectWallet, showToast } = useApp();
   const { address, isConnected, chain } = useAccount();
   const wallet = (isConnected && address ? address : user?.walletAddress) ?? null;
   const { usdcBalance } = useFireePurchase();

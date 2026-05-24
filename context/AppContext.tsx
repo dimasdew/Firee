@@ -11,18 +11,14 @@ import {
   type ReactNode,
 } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { getProduct } from "../lib/products";
-import type { CartItem, Notification, Order, OrderStatus, User, WishlistItem } from "../lib/types";
+import type { Notification, User } from "../lib/types";
 import { createClient } from "../lib/supabase/client";
 
 const STORAGE_KEY = "firee-app-v1";
 
 interface StoredState {
   user: User | null;
-  cart: CartItem[];
-  orders: Order[];
   notifications: Notification[];
-  wishlist: WishlistItem[];
 }
 
 const DEFAULT_NOTIFICATIONS: Notification[] = [
@@ -33,16 +29,10 @@ const DEFAULT_NOTIFICATIONS: Notification[] = [
 interface AppContextValue {
   user: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
-  cart: CartItem[];
-  orders: Order[];
   notifications: Notification[];
   toast: string | null;
-  cartDrawerOpen: boolean;
-  setCartDrawerOpen: (open: boolean) => void;
   isLoggedIn: boolean;
   needsPassword: boolean;
-  cartCount: number;
-  cartTotalUsdc: number;
   login: (email: string, password: string) => Promise<boolean>;
   register: (email: string, password: string) => Promise<boolean>;
   loginWithGoogle: () => Promise<boolean>;
@@ -52,18 +42,9 @@ interface AppContextValue {
   disconnectWallet: () => void;
   syncWalletFromRainbow: (address: string | null) => void;
   registerWalletDisconnect: (fn: () => void) => void;
-  addToCart: (productId: number, qty?: number) => void;
-  updateCartQty: (productId: number, qty: number) => void;
-  removeFromCart: (productId: number) => void;
-  clearCart: () => void;
-  checkout: () => Order[];
-  redeemProduct: (productId: number, qty: number) => Order | null;
   markAllNotificationsRead: () => void;
   showToast: (msg: string) => void;
   unreadCount: number;
-  wishlist: WishlistItem[];
-  toggleWishlist: (productId: number) => void;
-  isWishlisted: (productId: number) => boolean;
   marketplaceWishlist: string[];
   toggleMarketplaceWishlist: (productId: string) => void;
   isMarketplaceWishlisted: (productId: string) => boolean;
@@ -73,14 +54,14 @@ const AppContext = createContext<AppContextValue | null>(null);
 
 function loadState(): StoredState {
   if (typeof window === "undefined") {
-    return { user: null, cart: [], orders: [], notifications: DEFAULT_NOTIFICATIONS, wishlist: [] };
+    return { user: null, notifications: DEFAULT_NOTIFICATIONS };
   }
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return { user: null, cart: [], orders: [], notifications: DEFAULT_NOTIFICATIONS, wishlist: [] };
+    if (!raw) return { user: null, notifications: DEFAULT_NOTIFICATIONS };
     return JSON.parse(raw) as StoredState;
   } catch {
-    return { user: null, cart: [], orders: [], notifications: DEFAULT_NOTIFICATIONS, wishlist: [] };
+    return { user: null, notifications: DEFAULT_NOTIFICATIONS };
   }
 }
 
@@ -90,28 +71,21 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [hydrated, setHydrated] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [needsPassword, setNeedsPassword] = useState(false);
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [orders, setOrders] = useState<Order[]>([]);
   const [notifications, setNotifications] = useState<Notification[]>(DEFAULT_NOTIFICATIONS);
   const [toast, setToast] = useState<string | null>(null);
-  const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
-  const [wishlist, setWishlist] = useState<WishlistItem[]>([]);
   const [marketplaceWishlist, setMarketplaceWishlist] = useState<string[]>([]);
 
   useEffect(() => {
     const s = loadState();
     setUser(s.user);
-    setCart(s.cart);
-    setOrders(s.orders ?? []);
-    setNotifications(s.notifications.length ? s.notifications : DEFAULT_NOTIFICATIONS);
-    setWishlist(s.wishlist ?? []);
+    setNotifications(s.notifications?.length ? s.notifications : DEFAULT_NOTIFICATIONS);
     setHydrated(true);
   }, []);
 
   useEffect(() => {
     if (!hydrated) return;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ user, cart, orders, notifications, wishlist }));
-  }, [hydrated, user, cart, orders, notifications, wishlist]);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ user, notifications }));
+  }, [hydrated, user, notifications]);
 
   const showToast = useCallback((msg: string) => {
     setToast(msg);
@@ -127,49 +101,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
     };
     setNotifications((prev) => [item, ...prev].slice(0, 20));
   }, []);
-
-  const scheduleOrderCompletion = useCallback(
-    (orderId: string, productName: string) => {
-      if (typeof window === "undefined") return;
-      window.setTimeout(() => {
-        setOrders((prev) =>
-          prev.map((o) => (o.id === orderId && o.status !== 2 ? { ...o, status: 2 } : o))
-        );
-        pushNotification({
-          title: "Order Completed",
-          desc: `${productName} has been delivered`,
-          type: "order",
-        });
-      }, 15000);
-    },
-    [pushNotification]
-  );
-
-  const createOrder = useCallback(
-    (productId: number, qty: number, status: OrderStatus = 1): Order | null => {
-      const product = getProduct(productId);
-      if (!product) return null;
-      const order: Order = {
-        id: `o-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-        productId,
-        product: product.name,
-        emoji: product.emoji,
-        qty,
-        priceUsdc: parseFloat(product.price),
-        status,
-        createdAt: new Date().toISOString(),
-      };
-      setOrders((prev) => [order, ...prev]);
-      pushNotification({
-        title: status === 2 ? "Order Completed" : "Order Placed",
-        desc: `${product.name} x${qty} — ${(parseFloat(product.price) * qty).toFixed(3)} USDC`,
-        type: "order",
-      });
-      if (status !== 2) scheduleOrderCompletion(order.id, product.name);
-      return order;
-    },
-    [pushNotification, scheduleOrderCompletion]
-  );
 
   const supabase = useMemo(() => createClient(), []);
 
@@ -400,84 +331,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, [showToast]);
 
 
-  const addToCart = useCallback((productId: number, qty = 1) => {
-    const p = getProduct(productId);
-    if (!p) return;
-    setCart((prev) => {
-      const existing = prev.find((c) => c.productId === productId);
-      const currentQty = existing ? existing.qty : 0;
-      if (currentQty + qty > p.stock) {
-        showToast(`Only ${p.stock} in stock`);
-        return prev;
-      }
-      if (existing) {
-        return prev.map((c) => (c.productId === productId ? { ...c, qty: c.qty + qty } : c));
-      }
-      return [...prev, { productId, qty }];
-    });
-    showToast(`${p.name} added to cart`);
-  }, [showToast]);
-
-  const updateCartQty = useCallback((productId: number, qty: number) => {
-    if (qty < 1) {
-      setCart((prev) => prev.filter((c) => c.productId !== productId));
-      return;
-    }
-    const p = getProduct(productId);
-    if (p && qty > p.stock) {
-      showToast(`Only ${p.stock} in stock`);
-      return;
-    }
-    setCart((prev) => prev.map((c) => (c.productId === productId ? { ...c, qty } : c)));
-  }, [showToast]);
-
-  const removeFromCart = useCallback((productId: number) => {
-    setCart((prev) => prev.filter((c) => c.productId !== productId));
-    showToast("Removed from cart");
-  }, [showToast]);
-
-  const clearCart = useCallback(() => setCart([]), []);
-
-  const checkout = useCallback(() => {
-    const created: Order[] = [];
-    cart.forEach((item) => {
-      const o = createOrder(item.productId, item.qty, 1);
-      if (o) created.push(o);
-    });
-    clearCart();
-    if (created.length) showToast(`${created.length} order(s) placed!`);
-    return created;
-  }, [cart, clearCart, createOrder, showToast]);
-
-  const redeemProduct = useCallback(
-    (productId: number, qty: number) => {
-      const order = createOrder(productId, qty, 1);
-      if (order) showToast("Product redeemed successfully!");
-      return order;
-    },
-    [createOrder, showToast]
-  );
-
   const markAllNotificationsRead = useCallback(() => {
     setNotifications((prev) => prev.map((n) => ({ ...n, unread: false })));
   }, []);
-
-  const toggleWishlist = useCallback((productId: number) => {
-    setWishlist((prev) => {
-      const exists = prev.find((w) => w.productId === productId);
-      if (exists) {
-        showToast("Removed from wishlist");
-        return prev.filter((w) => w.productId !== productId);
-      }
-      const p = getProduct(productId);
-      showToast(p ? `${p.name} added to wishlist` : "Added to wishlist");
-      return [...prev, { productId, addedAt: new Date().toISOString() }];
-    });
-  }, [showToast]);
-
-  const isWishlisted = useCallback((productId: number) => {
-    return wishlist.some((w) => w.productId === productId);
-  }, [wishlist]);
 
   // Marketplace wishlist (Supabase-synced)
   useEffect(() => {
@@ -509,32 +365,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
     return marketplaceWishlist.includes(productId);
   }, [marketplaceWishlist]);
 
-  const cartCount = useMemo(() => cart.reduce((s, c) => s + c.qty, 0), [cart]);
-
-  const cartTotalUsdc = useMemo(
-    () =>
-      cart.reduce((sum, item) => {
-        const p = getProduct(item.productId);
-        return sum + (p ? parseFloat(p.price) * item.qty : 0);
-      }, 0),
-    [cart]
-  );
-
   const unreadCount = useMemo(() => notifications.filter((n) => n.unread).length, [notifications]);
 
   const value: AppContextValue = {
     user,
     setUser,
-    cart,
-    orders,
     notifications,
     toast,
-    cartDrawerOpen,
-    setCartDrawerOpen,
     isLoggedIn: !!user,
     needsPassword,
-    cartCount,
-    cartTotalUsdc,
     login,
     register,
     loginWithGoogle,
@@ -544,18 +383,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
     disconnectWallet,
     syncWalletFromRainbow,
     registerWalletDisconnect,
-    addToCart,
-    updateCartQty,
-    removeFromCart,
-    clearCart,
-    checkout,
-    redeemProduct,
     markAllNotificationsRead,
     showToast,
     unreadCount,
-    wishlist,
-    toggleWishlist,
-    isWishlisted,
     marketplaceWishlist,
     toggleMarketplaceWishlist,
     isMarketplaceWishlisted,

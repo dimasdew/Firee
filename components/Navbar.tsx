@@ -6,11 +6,10 @@ import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import {
   Search, Bell, User, HelpCircle, Wallet, LogOut, Flame, Shield,
-  ChevronDown, Package, CheckCircle2, Sun, Moon, Menu, X, ShoppingBag, Store,
+  ChevronDown, Package, CheckCircle2, Sun, Moon, Menu, X, Store,
 } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { timeAgo, shortenAddress, avatarUrl } from "../lib/utils";
-import CartDrawer from "./CartDrawer";
 import FireeConnectButton from "./FireeConnectButton";
 
 interface NavbarProps {
@@ -29,8 +28,8 @@ export default function Navbar({ variant = "landing", onSearch }: NavbarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const {
-    user, notifications, unreadCount, cartCount, markAllNotificationsRead,
-    logout, disconnectWallet, cartDrawerOpen, setCartDrawerOpen,
+    user, notifications, unreadCount, markAllNotificationsRead,
+    logout, disconnectWallet,
   } = useApp();
 
   const [profileOpen, setProfileOpen] = useState(false);
@@ -125,10 +124,6 @@ export default function Navbar({ variant = "landing", onSearch }: NavbarProps) {
               <div className="nav-actions">
                 <button type="button" onClick={toggleTheme} className="icon-btn" aria-label="Toggle theme">
                   {isDark ? <Sun size={14} /> : <Moon size={14} />}
-                </button>
-                <button type="button" className="icon-btn cart-btn" onClick={() => setCartDrawerOpen(true)} aria-label="Open cart">
-                  <ShoppingBag size={14} />
-                  {cartCount > 0 && <span className="cart-badge">{cartCount > 9 ? "9+" : cartCount}</span>}
                 </button>
 
                 {!wallet && (
@@ -232,9 +227,6 @@ export default function Navbar({ variant = "landing", onSearch }: NavbarProps) {
                 <Link href="/order">Orders</Link>
                 <Link href="/seller">Seller Dashboard</Link>
                 <Link href="/profile/wallet">Wallet</Link>
-                <button type="button" className="btn-ghost" style={{ justifyContent: "center" }} onClick={() => { setCartDrawerOpen(true); setMobileOpen(false); }}>
-                  <ShoppingBag size={14} /> Cart ({cartCount})
-                </button>
                 <Link href="/support">Support</Link>
                 {user?.isAdmin && <Link href="/admin">Admin Panel</Link>}
                 <button type="button" className="logout-btn" style={{ justifyContent: "center", marginTop: 4 }} onClick={handleLogout}>
@@ -246,7 +238,6 @@ export default function Navbar({ variant = "landing", onSearch }: NavbarProps) {
         )}
       </nav>
 
-      <CartDrawer open={cartDrawerOpen} onClose={() => setCartDrawerOpen(false)} />
     </>
   );
 }
