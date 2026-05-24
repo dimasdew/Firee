@@ -1,21 +1,33 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import "./globals.css";
 import Providers from "../components/Providers";
 
 export const metadata: Metadata = {
-  title: { default: "Firee — Decentralized Marketplace", template: "%s | Firee" },
-  description: "Trade freely. Own truly. Peer-to-peer marketplace on blockchain.",
-  keywords: ["marketplace", "decentralized", "web3", "usdc", "firee", "blockchain"],
+  title: { default: "Firee — Web3 Digital Marketplace", template: "%s | Firee" },
+  description: "Buy and sell smart contracts, DApp templates, UI kits, and developer tools. Pay with USDC on Base. Only 3% fee.",
+  keywords: ["marketplace", "web3", "smart contracts", "dapp templates", "usdc", "firee", "base", "blockchain", "digital products"],
   manifest: "/manifest.json",
-  themeColor: "#021526",
+  metadataBase: new URL("https://mp-firee.vercel.app"),
   openGraph: {
-    title: "Firee — Decentralized Marketplace",
-    description: "Trade freely. Own truly. Peer-to-peer marketplace on blockchain.",
+    title: "Firee — The Marketplace for Web3 Builders",
+    description: "Buy and sell smart contracts, DApp templates, UI kits, and developer tools. Pay with USDC on Base.",
     siteName: "Firee",
     type: "website",
+    url: "https://mp-firee.vercel.app",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Firee Marketplace" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Firee — Web3 Digital Marketplace",
+    description: "Buy and sell smart contracts, DApp templates, UI kits, and developer tools. Pay with USDC on Base.",
+    images: ["/og-image.png"],
   },
   robots: { index: true, follow: true },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#021526",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

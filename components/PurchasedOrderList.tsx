@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ShoppingBag, Download, Loader2, ExternalLink } from "lucide-react";
 import { createClient } from "../lib/supabase/client";
 import { getBuyerOrders, getDownloadUrl } from "../lib/supabase/orders";
+import { CHAIN_ID } from "../lib/contracts";
 import { useApp } from "../context/AppContext";
 import UsdcAmount from "./UsdcAmount";
 import type { DbOrder } from "../lib/supabase/types";
@@ -117,7 +118,7 @@ export default function PurchasedOrderList() {
                 <div style={{ display: "flex", gap: 6 }}>
                   {order.tx_hash && (
                     <a
-                      href={`https://sepolia.basescan.org/tx/${order.tx_hash}`}
+                      href={`https://${CHAIN_ID === 8453 ? "" : "sepolia."}basescan.org/tx/${order.tx_hash}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="icon-btn"

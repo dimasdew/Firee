@@ -1,14 +1,19 @@
 import FireeEscrowABI from "./FireeEscrow.abi.json";
 
-// Base Sepolia testnet
-export const CHAIN_ID = 84532;
-export const CHAIN_NAME = "Base Sepolia";
+// Network config — set NEXT_PUBLIC_CHAIN=mainnet to switch to Base mainnet
+const IS_MAINNET = process.env.NEXT_PUBLIC_CHAIN === "mainnet";
+
+export const CHAIN_ID = IS_MAINNET ? 8453 : 84532;
+export const CHAIN_NAME = IS_MAINNET ? "Base" : "Base Sepolia";
 
 // Contract addresses - update after deployment
 export const ESCROW_ADDRESS = process.env.NEXT_PUBLIC_ESCROW_ADDRESS as `0x${string}` || "0x0000000000000000000000000000000000000000";
 
-// USDC on Base Sepolia (Circle official)
-export const USDC_ADDRESS = "0x036CbD53842c5426634e7929541eC2318f3dCF7e" as `0x${string}`;
+// USDC addresses (Circle official)
+export const USDC_ADDRESS = (IS_MAINNET
+  ? "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"  // USDC on Base mainnet
+  : "0x036CbD53842c5426634e7929541eC2318f3dCF7e"   // USDC on Base Sepolia
+) as `0x${string}`;
 export const USDC_DECIMALS = 6;
 
 export { FireeEscrowABI };

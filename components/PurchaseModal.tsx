@@ -67,6 +67,21 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
               amount: product.price_usdc,
             });
           } catch {}
+          // Send email notifications (best-effort)
+          try {
+            await fetch("/api/notify", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                type: "purchase",
+                buyerEmail: user.email,
+                sellerEmail: product.seller?.email,
+                productTitle: product.title,
+                priceUsdc: product.price_usdc,
+                txHash: tx,
+              }),
+            });
+          } catch {}
         }
       } catch (err) {
         console.error("Failed to record order:", err);
