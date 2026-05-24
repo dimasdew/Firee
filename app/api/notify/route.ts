@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerSupabase } from "../../../lib/supabase/server";
+import { isRateLimited } from "../../../lib/rate-limit";
 
 export async function POST(req: NextRequest) {
   // Auth guard — only authenticated users can trigger notifications
@@ -7,6 +8,11 @@ export async function POST(req: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
+  }
+
+  // Rate limit — max 5 notifications per minute per user
+  if (isRateLimited(`notify:${user.id}`, 5, 60_000)) {
+    return NextResponse.json({ ok: false, error: "Too many requests" }, { status: 429 });
   }
 
   const apiKey = process.env.RESEND_API_KEY;

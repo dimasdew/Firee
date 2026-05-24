@@ -110,7 +110,17 @@ export async function deleteProduct(id: string): Promise<void> {
   if (error) throw error;
 }
 
+const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/svg+xml"];
+const MAX_THUMBNAIL_SIZE = 5 * 1024 * 1024; // 5 MB
+const MAX_PRODUCT_FILE_SIZE = 50 * 1024 * 1024; // 50 MB
+
 export async function uploadThumbnail(userId: string, file: File): Promise<string> {
+  if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+    throw new Error(`Invalid image type: ${file.type}. Allowed: JPEG, PNG, WebP, GIF, SVG.`);
+  }
+  if (file.size > MAX_THUMBNAIL_SIZE) {
+    throw new Error(`Thumbnail too large (${(file.size / 1024 / 1024).toFixed(1)}MB). Max: 5MB.`);
+  }
   const ext = file.name.split(".").pop();
   const path = `${userId}/${Date.now()}.${ext}`;
   const { error } = await getClient().storage
@@ -121,8 +131,16 @@ export async function uploadThumbnail(userId: string, file: File): Promise<strin
   return data.publicUrl;
 }
 
+const BLOCKED_EXTENSIONS = ["exe", "bat", "cmd", "sh", "msi", "dll", "com", "scr", "pif", "vbs", "js", "jar"];
+
 export async function uploadProductFile(userId: string, file: File): Promise<{ url: string; name: string; size: number }> {
-  const ext = file.name.split(".").pop();
+  if (file.size > MAX_PRODUCT_FILE_SIZE) {
+    throw new Error(`File too large (${(file.size / 1024 / 1024).toFixed(1)}MB). Max: 50MB.`);
+  }
+  const ext = (file.name.split(".").pop() || "").toLowerCase();
+  if (BLOCKED_EXTENSIONS.includes(ext)) {
+    throw new Error(`File type .${ext} is not allowed for security reasons.`);
+  }
   const path = `${userId}/${Date.now()}.${ext}`;
   const { error } = await getClient().storage
     .from("products")
