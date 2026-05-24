@@ -1,5 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createServerSupabase } from "../../../lib/supabase/server";
+
 export async function POST(req: NextRequest) {
+  // Auth guard — only authenticated users can trigger notifications
+  const supabase = await createServerSupabase();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
+  }
+
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     return NextResponse.json({ ok: false, error: "Email not configured" }, { status: 200 });
