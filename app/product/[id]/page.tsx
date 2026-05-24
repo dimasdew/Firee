@@ -13,7 +13,8 @@ import { getProductById } from "../../../lib/supabase/products";
 import { getDownloadUrl } from "../../../lib/supabase/orders";
 import { createClient } from "../../../lib/supabase/client";
 import type { DbProduct } from "../../../lib/supabase/types";
-import { ArrowLeft, ShoppingBag, CheckCircle, Share2, Wallet, Download, Loader2, User } from "lucide-react";
+import { ArrowLeft, ShoppingBag, CheckCircle, Share2, Wallet, Download, Loader2, User, Flag } from "lucide-react";
+import { reportProduct, hasReported, type ReportReason } from "../../../lib/supabase/reports";
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -25,6 +26,11 @@ export default function ProductDetailPage() {
   const [purchased, setPurchased] = useState(false);
   const [downloadLink, setDownloadLink] = useState<string | null>(null);
   const [downloading, setDownloading] = useState(false);
+  const [showReport, setShowReport] = useState(false);
+  const [reportReason, setReportReason] = useState<ReportReason>("copyright");
+  const [reportDetails, setReportDetails] = useState("");
+  const [reportSubmitting, setReportSubmitting] = useState(false);
+  const [alreadyReported, setAlreadyReported] = useState(false);
 
   const productId = params.id as string;
 
@@ -39,7 +45,7 @@ export default function ProductDetailPage() {
       .finally(() => setLoading(false));
   }, [productId, router]);
 
-  // Check if buyer already purchased this product
+  // Check if buyer already purchased + already reported
   useEffect(() => {
     if (!product) return;
     const supabase = createClient();
@@ -55,8 +61,27 @@ export default function ProductDetailPage() {
         .then(({ data }) => {
           if (data && data.length > 0) setPurchased(true);
         });
+      hasReported(product.id, user.id).then(setAlreadyReported);
     });
   }, [product]);
+
+  const handleReport = async () => {
+    setReportSubmitting(true);
+    try {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) { showToast("Please login first"); return; }
+      await reportProduct(productId, user.id, reportReason, reportDetails);
+      setAlreadyReported(true);
+      setShowReport(false);
+      setReportDetails("");
+      showToast("Report submitted. We'll review it shortly.");
+    } catch {
+      showToast("Failed to submit report");
+    } finally {
+      setReportSubmitting(false);
+    }
+  };
 
   const handleShare = async () => {
     const url = window.location.href;
@@ -221,8 +246,20 @@ export default function ProductDetailPage() {
               </>
             )}
 
+            <div style={{ marginTop: 16 }}>
+              <button
+                type="button"
+                className="btn-ghost"
+                disabled={alreadyReported}
+                onClick={() => setShowReport(true)}
+                style={{ fontSize: 11, padding: "6px 12px", color: alreadyReported ? "var(--text-muted)" : "#f87171", borderColor: "rgba(248,113,113,0.2)", opacity: alreadyReported ? 0.5 : 1 }}
+              >
+                <Flag size={12} /> {alreadyReported ? "Reported" : "Report Product"}
+              </button>
+            </div>
+
             <div style={{
-              marginTop: 28, padding: "14px 16px", borderRadius: 10,
+              marginTop: 16, padding: "14px 16px", borderRadius: 10,
               background: "rgba(110,172,218,0.05)", border: "1px solid var(--border)",
               display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12,
             }}>
@@ -263,6 +300,55 @@ export default function ProductDetailPage() {
           thumbnail_url: product.thumbnail_url,
         }}
       />
+
+      {/* Report Modal */}
+      {showReport && (
+        <div className="modal-overlay" onClick={() => setShowReport(false)}>
+          <div className="card" onClick={(e) => e.stopPropagation()} style={{ padding: 28, maxWidth: 420, width: "90%", margin: "auto" }}>
+            <h3 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: 18, color: "var(--text, white)", marginBottom: 16 }}>
+              <Flag size={16} color="#f87171" style={{ marginRight: 8, verticalAlign: "middle" }} />
+              Report Product
+            </h3>
+            <label style={{ fontSize: 12, color: "var(--text-muted)", display: "block", marginBottom: 6 }}>Reason</label>
+            <select
+              value={reportReason}
+              onChange={(e) => setReportReason(e.target.value as ReportReason)}
+              style={{
+                width: "100%", padding: "10px 12px", fontSize: 13, borderRadius: 8,
+                border: "1px solid var(--border)", background: "rgba(0,0,0,0.3)",
+                color: "var(--text, white)", marginBottom: 16,
+              }}
+            >
+              <option value="copyright">Copyright / IP violation</option>
+              <option value="malware">Malware / malicious code</option>
+              <option value="scam">Scam / misleading</option>
+              <option value="inappropriate">Inappropriate content</option>
+              <option value="other">Other</option>
+            </select>
+            <label style={{ fontSize: 12, color: "var(--text-muted)", display: "block", marginBottom: 6 }}>Details (optional)</label>
+            <textarea
+              value={reportDetails}
+              onChange={(e) => setReportDetails(e.target.value)}
+              placeholder="Describe the issue..."
+              rows={3}
+              style={{
+                width: "100%", padding: "10px 12px", fontSize: 13, borderRadius: 8,
+                border: "1px solid var(--border)", background: "rgba(0,0,0,0.3)",
+                color: "var(--text, white)", resize: "vertical", marginBottom: 20,
+              }}
+            />
+            <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+              <button type="button" className="btn-ghost" onClick={() => setShowReport(false)} style={{ fontSize: 12 }}>
+                Cancel
+              </button>
+              <button type="button" className="btn-primary" onClick={handleReport} disabled={reportSubmitting} style={{ fontSize: 12, background: "#ef4444", borderColor: "#ef4444" }}>
+                {reportSubmitting ? <Loader2 size={13} style={{ animation: "spin 1s linear infinite" }} /> : <Flag size={13} />}
+                Submit Report
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

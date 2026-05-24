@@ -42,7 +42,10 @@ export default function Footer() {
       </div>
       <div className="container footer-bottom">
         <p>© {new Date().getFullYear()} Firee. Built by dimasdew.</p>
-        <p className="mono" style={{ fontSize: 11, opacity: 0.5 }}>Settled in USDC</p>
+        <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+          <Link href="/terms" style={{ fontSize: 11, color: "var(--text-muted)", textDecoration: "none", opacity: 0.6 }}>Terms</Link>
+          <Link href="/privacy" style={{ fontSize: 11, color: "var(--text-muted)", textDecoration: "none", opacity: 0.6 }}>Privacy</Link>
+        </div>
       </div>
     </footer>
   );
