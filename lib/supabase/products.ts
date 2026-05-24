@@ -22,6 +22,100 @@ export async function getPublishedProducts(): Promise<DbProduct[]> {
   return data ?? [];
 }
 
+export interface SearchProductsParams {
+  search?: string;
+  category?: string;
+  tag?: string;
+  priceMin?: number;
+  priceMax?: number;
+  sort?: "name" | "price-asc" | "price-desc" | "rating" | "newest";
+  page?: number;
+  pageSize?: number;
+}
+
+export interface SearchProductsResult {
+  products: DbProduct[];
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+}
+
+export async function searchProducts(params: SearchProductsParams = {}): Promise<SearchProductsResult> {
+  const {
+    search = "",
+    category,
+    tag,
+    priceMin,
+    priceMax,
+    sort = "newest",
+    page = 1,
+    pageSize = 12,
+  } = params;
+
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
+
+  let query = getClient()
+    .from("products")
+    .select("*, seller:profiles(*), category:categories(*)", { count: "exact" })
+    .eq("is_published", true);
+
+  // Full-text search on title, description, tags
+  if (search.trim()) {
+    const term = search.trim().toLowerCase();
+    query = query.or(`title.ilike.%${term}%,description.ilike.%${term}%,short_description.ilike.%${term}%`);
+  }
+
+  // Category filter
+  if (category && category !== "All") {
+    // Look up category id from name
+    const { data: cat } = await getClient()
+      .from("categories")
+      .select("id")
+      .eq("name", category)
+      .single();
+    if (cat) {
+      query = query.eq("category_id", cat.id);
+    }
+  }
+
+  // Tag filter
+  if (tag) {
+    query = query.contains("tags", [tag]);
+  }
+
+  // Price range
+  if (priceMin !== undefined && priceMin > 0) {
+    query = query.gte("price_usdc", priceMin);
+  }
+  if (priceMax !== undefined && priceMax < Infinity) {
+    query = query.lte("price_usdc", priceMax);
+  }
+
+  // Sort
+  if (sort === "price-asc") query = query.order("price_usdc", { ascending: true });
+  else if (sort === "price-desc") query = query.order("price_usdc", { ascending: false });
+  else if (sort === "name") query = query.order("title", { ascending: true });
+  else query = query.order("created_at", { ascending: false }); // newest (default) + rating (sorted client-side)
+
+  // Pagination
+  query = query.range(from, to);
+
+  const { data, error, count } = await query;
+  if (error) throw error;
+
+  const total = count ?? 0;
+
+  return {
+    products: data ?? [],
+    total,
+    page,
+    pageSize,
+    totalPages: Math.ceil(total / pageSize),
+  };
+}
+
 export async function getProductById(id: string): Promise<DbProduct | null> {
   const { data, error } = await getClient()
     .from("products")

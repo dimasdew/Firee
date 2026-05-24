@@ -1,88 +1,111 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Navbar from "../../components/Navbar";
 import MarketplaceCard from "../../components/MarketplaceCard";
 import MobileBottomNav from "../../components/MobileBottomNav";
-import { getPublishedProducts, getCategories } from "../../lib/supabase/products";
+import ProductSkeleton from "../../components/ProductSkeleton";
+import { searchProducts, getCategories, getPublishedProducts } from "../../lib/supabase/products";
 import { getMultipleProductRatings } from "../../lib/supabase/reviews";
 import type { DbProduct, Category } from "../../lib/supabase/types";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type SortKey = "name" | "price-asc" | "price-desc" | "rating" | "newest";
+const PAGE_SIZE = 12;
 
 export default function DashboardPage() {
   const [search, setSearch] = useState("");
   const [activeCat, setActiveCat] = useState("All");
-  const [sort, setSort] = useState<SortKey>("name");
-  const [dbProducts, setDbProducts] = useState<DbProduct[]>([]);
-  const [dbCategories, setDbCategories] = useState<Category[]>([]);
+  const [sort, setSort] = useState<SortKey>("newest");
+  const [products, setProducts] = useState<DbProduct[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [ratings, setRatings] = useState<Record<string, { avg: number; count: number }>>({});
   const [loading, setLoading] = useState(true);
   const [priceMin, setPriceMin] = useState("");
   const [priceMax, setPriceMax] = useState("");
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [showFilters, setShowFilters] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const [allTags, setAllTags] = useState<string[]>([]);
+  const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Load categories + tags once
   useEffect(() => {
-    Promise.all([getPublishedProducts(), getCategories()])
-      .then(async ([products, cats]) => {
-        setDbProducts(products);
-        setDbCategories(cats);
-        if (products.length > 0) {
-          const ids = products.map((p) => p.id);
-          const ratingsMap = await getMultipleProductRatings(ids);
-          setRatings(ratingsMap);
-        }
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false));
+    getCategories().then(setCategories).catch(() => {});
+    // Fetch all products once just for tags extraction
+    getPublishedProducts().then((all) => {
+      const tags = new Set<string>();
+      all.forEach((p) => p.tags?.forEach((t) => tags.add(t)));
+      setAllTags(Array.from(tags).sort());
+    }).catch(() => {});
   }, []);
 
-  const allCategories = useMemo(() => {
-    const dbCatNames = dbCategories.map((c) => c.name);
-    return ["All", ...dbCatNames];
-  }, [dbCategories]);
+  // Fetch products with search/filter/pagination
+  const fetchProducts = useCallback(async () => {
+    setLoading(true);
+    try {
+      const result = await searchProducts({
+        search,
+        category: activeCat,
+        tag: activeTag ?? undefined,
+        priceMin: priceMin ? parseFloat(priceMin) : undefined,
+        priceMax: priceMax ? parseFloat(priceMax) : undefined,
+        sort,
+        page,
+        pageSize: PAGE_SIZE,
+      });
+      setProducts(result.products);
+      setTotalCount(result.total);
+      setTotalPages(result.totalPages);
 
-  // Collect all unique tags from DB products
-  const allTags = useMemo(() => {
-    const tags = new Set<string>();
-    dbProducts.forEach((p) => p.tags?.forEach((t) => tags.add(t)));
-    return Array.from(tags).sort();
-  }, [dbProducts]);
-
-  // Filter products
-  const filteredDb = useMemo(() => {
-    const minP = priceMin ? parseFloat(priceMin) : 0;
-    const maxP = priceMax ? parseFloat(priceMax) : Infinity;
-    let list = dbProducts.filter((p) => {
-      const catName = p.category?.name || "";
-      const matchCat = activeCat === "All" || catName === activeCat;
-      const matchSearch = p.title.toLowerCase().includes(search.toLowerCase())
-        || (p.description?.toLowerCase().includes(search.toLowerCase()))
-        || (p.tags?.some((t) => t.toLowerCase().includes(search.toLowerCase())));
-      const matchPrice = p.price_usdc >= minP && p.price_usdc <= maxP;
-      const matchTag = !activeTag || p.tags?.includes(activeTag);
-      return matchCat && matchSearch && matchPrice && matchTag;
-    });
-    list = [...list].sort((a, b) => {
-      if (sort === "price-asc") return a.price_usdc - b.price_usdc;
-      if (sort === "price-desc") return b.price_usdc - a.price_usdc;
-      if (sort === "newest") return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-      if (sort === "rating") {
-        const ra = ratings[a.id]?.avg || 0;
-        const rb = ratings[b.id]?.avg || 0;
-        return rb - ra;
+      // Fetch ratings for this page
+      if (result.products.length > 0) {
+        const ids = result.products.map((p) => p.id);
+        const ratingsMap = await getMultipleProductRatings(ids);
+        setRatings(ratingsMap);
+      } else {
+        setRatings({});
       }
-      return a.title.localeCompare(b.title);
-    });
-    return list;
-  }, [dbProducts, search, activeCat, sort, priceMin, priceMax, activeTag, ratings]);
+    } catch {
+      setProducts([]);
+      setTotalCount(0);
+      setTotalPages(1);
+    } finally {
+      setLoading(false);
+    }
+  }, [search, activeCat, sort, priceMin, priceMax, activeTag, page]);
 
-  const totalCount = filteredDb.length;
+  useEffect(() => { fetchProducts(); }, [fetchProducts]);
+
+  // Reset page when filters change
+  const resetPage = useCallback(() => setPage(1), []);
+
+  // Debounced search from Navbar
+  const handleSearch = useCallback((val: string) => {
+    if (searchTimer.current) clearTimeout(searchTimer.current);
+    searchTimer.current = setTimeout(() => {
+      setSearch(val);
+      resetPage();
+    }, 350);
+  }, [resetPage]);
+
+  const allCategories = useMemo(() => {
+    return ["All", ...categories.map((c) => c.name)];
+  }, [categories]);
+
+  // Client-side re-sort for rating (not available in Supabase)
+  const displayProducts = useMemo(() => {
+    if (sort === "rating") {
+      return [...products].sort((a, b) => (ratings[b.id]?.avg || 0) - (ratings[a.id]?.avg || 0));
+    }
+    return products;
+  }, [products, sort, ratings]);
 
   return (
     <div className="page-shell">
-      <Navbar variant="dashboard" onSearch={setSearch} />
+      <Navbar variant="dashboard" onSearch={handleSearch} />
 
       <main className="container" style={{ padding: "32px 0 48px" }}>
         <div className="dashboard-header">
@@ -93,9 +116,9 @@ export default function DashboardPage() {
             </h1>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-            <select className="sort-select" value={sort} onChange={(e) => setSort(e.target.value as SortKey)} aria-label="Sort products">
-              <option value="name">Sort: Name</option>
+            <select className="sort-select" value={sort} onChange={(e) => { setSort(e.target.value as SortKey); resetPage(); }} aria-label="Sort products">
               <option value="newest">Sort: Newest</option>
+              <option value="name">Sort: Name</option>
               <option value="price-asc">Price: Low → High</option>
               <option value="price-desc">Price: High → Low</option>
               <option value="rating">Sort: Top Rated</option>
@@ -114,7 +137,7 @@ export default function DashboardPage() {
 
         <div className="cat-filters" style={{ marginBottom: 20 }}>
           {allCategories.map((cat) => (
-            <button key={cat} type="button" className={`cat-btn ${activeCat === cat ? "active" : ""}`} onClick={() => setActiveCat(cat)}>
+            <button key={cat} type="button" className={`cat-btn ${activeCat === cat ? "active" : ""}`} onClick={() => { setActiveCat(cat); resetPage(); }}>
               {cat}
             </button>
           ))}
@@ -131,7 +154,7 @@ export default function DashboardPage() {
               <label style={{ fontSize: 11, color: "var(--text-muted)", whiteSpace: "nowrap" }}>Price</label>
               <input
                 type="number" min="0" step="0.01" placeholder="Min"
-                value={priceMin} onChange={(e) => setPriceMin(e.target.value)}
+                value={priceMin} onChange={(e) => { setPriceMin(e.target.value); resetPage(); }}
                 style={{
                   width: 72, padding: "6px 8px", fontSize: 12, borderRadius: 6,
                   border: "1px solid var(--border)", background: "rgba(0,0,0,0.2)",
@@ -141,7 +164,7 @@ export default function DashboardPage() {
               <span style={{ fontSize: 11, color: "var(--text-muted)" }}>–</span>
               <input
                 type="number" min="0" step="0.01" placeholder="Max"
-                value={priceMax} onChange={(e) => setPriceMax(e.target.value)}
+                value={priceMax} onChange={(e) => { setPriceMax(e.target.value); resetPage(); }}
                 style={{
                   width: 72, padding: "6px 8px", fontSize: 12, borderRadius: 6,
                   border: "1px solid var(--border)", background: "rgba(0,0,0,0.2)",
@@ -158,7 +181,7 @@ export default function DashboardPage() {
                     type="button"
                     className={`badge ${activeTag === tag ? "badge-green" : "badge-sky"}`}
                     style={{ fontSize: 10, cursor: "pointer", padding: "3px 8px" }}
-                    onClick={() => setActiveTag(activeTag === tag ? null : tag)}
+                    onClick={() => { setActiveTag(activeTag === tag ? null : tag); resetPage(); }}
                   >
                     {tag}
                   </button>
@@ -168,7 +191,7 @@ export default function DashboardPage() {
             {(priceMin || priceMax || activeTag) && (
               <button
                 type="button"
-                onClick={() => { setPriceMin(""); setPriceMax(""); setActiveTag(null); }}
+                onClick={() => { setPriceMin(""); setPriceMax(""); setActiveTag(null); resetPage(); }}
                 style={{ fontSize: 11, color: "var(--sky)", background: "none", border: "none", cursor: "pointer", textDecoration: "underline" }}
               >
                 Clear filters
@@ -180,24 +203,78 @@ export default function DashboardPage() {
         <div className="glow-line" style={{ marginBottom: 24 }} />
 
         <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 16 }}>
-          {loading && totalCount === 0 ? "Loading..." : `${totalCount} product${totalCount !== 1 ? "s" : ""} found`}
+          {loading ? "Searching..." : `${totalCount} product${totalCount !== 1 ? "s" : ""} found`}
+          {!loading && totalPages > 1 && (
+            <span style={{ marginLeft: 8, opacity: 0.6 }}>· Page {page} of {totalPages}</span>
+          )}
         </p>
 
-        {filteredDb.length > 0 && (
+        {loading ? (
+          <ProductSkeleton count={PAGE_SIZE} />
+        ) : displayProducts.length > 0 ? (
           <div className="products-grid">
-            {filteredDb.map((p, i) => (
+            {displayProducts.map((p, i) => (
               <div key={p.id} className="fade-up" style={{ animationDelay: `${i * 0.04}s`, opacity: 0 }}>
                 <MarketplaceCard product={p} rating={ratings[p.id]} />
               </div>
             ))}
           </div>
-        )}
-
-        {totalCount === 0 && !loading && (
+        ) : (
           <div style={{ textAlign: "center", padding: "80px 0" }}>
             <p style={{ fontSize: 40, marginBottom: 12, opacity: 0.2 }}>🔍</p>
             <p style={{ fontSize: 15, color: "var(--text-muted)", fontWeight: 500 }}>No products found</p>
             <p style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 4, opacity: 0.7 }}>Try a different search or category</p>
+          </div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 8, marginTop: 32 }}>
+            <button
+              type="button"
+              className="btn-ghost"
+              disabled={page <= 1}
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              style={{ padding: "8px 12px", fontSize: 12, opacity: page <= 1 ? 0.3 : 1 }}
+            >
+              <ChevronLeft size={14} /> Prev
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1)
+              .filter((p) => p === 1 || p === totalPages || Math.abs(p - page) <= 1)
+              .reduce<(number | "...")[]>((acc, p, i, arr) => {
+                if (i > 0 && p - (arr[i - 1] as number) > 1) acc.push("...");
+                acc.push(p);
+                return acc;
+              }, [])
+              .map((p, i) =>
+                p === "..." ? (
+                  <span key={`dots-${i}`} style={{ fontSize: 12, color: "var(--text-muted)", padding: "0 4px" }}>…</span>
+                ) : (
+                  <button
+                    key={p}
+                    type="button"
+                    onClick={() => setPage(p as number)}
+                    style={{
+                      width: 32, height: 32, borderRadius: 8, fontSize: 12, fontWeight: 600,
+                      border: page === p ? "1px solid var(--sky)" : "1px solid var(--border)",
+                      background: page === p ? "rgba(110,172,218,0.15)" : "transparent",
+                      color: page === p ? "var(--sky)" : "var(--text-muted)",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {p}
+                  </button>
+                )
+              )}
+            <button
+              type="button"
+              className="btn-ghost"
+              disabled={page >= totalPages}
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              style={{ padding: "8px 12px", fontSize: 12, opacity: page >= totalPages ? 0.3 : 1 }}
+            >
+              Next <ChevronRight size={14} />
+            </button>
           </div>
         )}
       </main>
