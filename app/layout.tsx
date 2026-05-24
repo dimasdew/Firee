@@ -37,6 +37,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Script id="theme-init" strategy="beforeInteractive">
           {`(function(){try{var t=localStorage.getItem('firee-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}})();`}
         </Script>
+        <Script id="sw-register" strategy="afterInteractive">
+          {`if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(()=>{})}`}
+        </Script>
         <Providers>{children}</Providers>
       </body>
     </html>

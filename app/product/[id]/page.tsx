@@ -31,6 +31,7 @@ export default function ProductDetailPage() {
   const [reportDetails, setReportDetails] = useState("");
   const [reportSubmitting, setReportSubmitting] = useState(false);
   const [alreadyReported, setAlreadyReported] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(0);
 
   const productId = params.id as string;
 
@@ -155,16 +156,46 @@ export default function ProductDetailPage() {
               </div>
               <div style={{ padding: "32px 24px", textAlign: "center" }}>
                 <p style={{ fontWeight: 600, fontSize: 16, marginBottom: 20, color: "var(--text, white)" }}>{product.title}</p>
-                <div style={{
-                  width: 160, height: 160, margin: "0 auto 20px", borderRadius: 12,
-                  background: "rgba(110,172,218,0.05)", border: "1px solid var(--border)",
-                  display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden",
-                }}>
-                  {product.thumbnail_url
-                    ? <img src={product.thumbnail_url} alt={product.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                    : <ShoppingBag size={40} color="var(--sky)" style={{ opacity: 0.2 }} />
-                  }
-                </div>
+                {(() => {
+                  const allImages = [
+                    ...(product.thumbnail_url ? [product.thumbnail_url] : []),
+                    ...(product.preview_images || []),
+                  ];
+                  const currentImg = allImages[selectedImage] || null;
+                  return (
+                    <>
+                      <div style={{
+                        width: "100%", maxWidth: 320, aspectRatio: "1", margin: "0 auto 16px", borderRadius: 12,
+                        background: "rgba(110,172,218,0.05)", border: "1px solid var(--border)",
+                        display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden",
+                      }}>
+                        {currentImg
+                          ? <img src={currentImg} alt={product.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                          : <ShoppingBag size={40} color="var(--sky)" style={{ opacity: 0.2 }} />
+                        }
+                      </div>
+                      {allImages.length > 1 && (
+                        <div style={{ display: "flex", gap: 8, justifyContent: "center", marginBottom: 16, flexWrap: "wrap" }}>
+                          {allImages.map((img, i) => (
+                            <button
+                              key={i}
+                              type="button"
+                              onClick={() => setSelectedImage(i)}
+                              style={{
+                                width: 48, height: 48, borderRadius: 8, overflow: "hidden", padding: 0,
+                                border: selectedImage === i ? "2px solid var(--sky)" : "1px solid var(--border)",
+                                background: "rgba(110,172,218,0.05)", cursor: "pointer",
+                                opacity: selectedImage === i ? 1 : 0.6,
+                              }}
+                            >
+                              <img src={img} alt={`Preview ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  );
+                })()}
                 <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 16px", borderRadius: 8, background: "rgba(226,226,182,0.06)", border: "1px solid rgba(226,226,182,0.15)", marginBottom: 20 }}>
                   <UsdcAmount value={product.price_usdc} showLabel={false} iconSize={16} style={{ fontSize: 18, fontWeight: 700, color: "var(--sand)" }} />
                 </div>
