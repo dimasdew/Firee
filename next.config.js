@@ -11,7 +11,6 @@ const nextConfig = {
       {
         source: "/(.*)",
         headers: [
-          { key: "X-Frame-Options", value: "DENY" },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           { key: "X-DNS-Prefetch-Control", value: "on" },
@@ -28,6 +27,7 @@ const nextConfig = {
               "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.walletconnect.com wss://*.walletconnect.com https://*.walletconnect.org wss://*.walletconnect.org https://api.resend.com https://rpc.walletconnect.com https://rpc.walletconnect.org https://*.reown.com https://base-sepolia.g.alchemy.com https://mainnet.base.org https://sepolia.base.org https://api.dicebear.com",
               "frame-src 'self' https://accounts.google.com https://verify.walletconnect.com https://verify.walletconnect.org",
               "worker-src 'self' blob:",
+              "frame-ancestors 'self' https://portfolio-dimasdew.vercel.app",
             ].join("; "),
           },
         ],
