@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { adminGetAllUsers, adminToggleBan } from "../../lib/supabase/admin";
+import { adminGetAllUsers, adminToggleBan, adminVerifySeller } from "../../lib/supabase/admin";
 import { useApp } from "../../context/AppContext";
 import type { Profile } from "../../lib/supabase/types";
 import { Loader2, Ban, CheckCircle, User, Store, Shield, Search } from "lucide-react";
@@ -37,6 +37,20 @@ export default function AdminUsersPage() {
       showToast(`User ${action}ned`);
     } catch {
       showToast(`Failed to ${action} user`);
+    }
+  };
+
+  const handleVerifySeller = async (userId: string, currentlyVerified: boolean) => {
+    const action = currentlyVerified ? "revoke verification for" : "verify";
+    if (!confirm(`Are you sure you want to ${action} this seller?`)) return;
+    try {
+      await adminVerifySeller(userId, !currentlyVerified);
+      setUsers((prev) =>
+        prev.map((u) => u.id === userId ? { ...u, seller_verified: !currentlyVerified } : u)
+      );
+      showToast(currentlyVerified ? "Seller verification revoked" : "Seller verified!");
+    } catch {
+      showToast("Failed to update seller verification");
     }
   };
 
@@ -131,16 +145,28 @@ export default function AdminUsersPage() {
                     {timeAgo(u.created_at)}
                   </td>
                   <td style={{ padding: "12px 14px", textAlign: "center" }}>
-                    {!u.is_admin && (
-                      <button
-                        type="button"
-                        className={u.is_banned ? "btn-ghost" : "btn-ghost danger"}
-                        style={{ fontSize: 11, padding: "4px 10px" }}
-                        onClick={() => handleToggleBan(u.id, u.is_banned)}
-                      >
-                        {u.is_banned ? <><CheckCircle size={11} /> Unban</> : <><Ban size={11} /> Ban</>}
-                      </button>
-                    )}
+                    <div style={{ display: "flex", gap: 4, justifyContent: "center", flexWrap: "wrap" }}>
+                      {u.is_seller && !u.is_admin && (
+                        <button
+                          type="button"
+                          className={u.seller_verified ? "btn-ghost" : "btn-ghost"}
+                          style={{ fontSize: 10, padding: "3px 8px", color: u.seller_verified ? "#f87171" : "var(--sky)", borderColor: u.seller_verified ? "rgba(248,113,113,0.2)" : "rgba(110,172,218,0.2)" }}
+                          onClick={() => handleVerifySeller(u.id, u.seller_verified)}
+                        >
+                          {u.seller_verified ? <><Ban size={10} /> Revoke</> : <><CheckCircle size={10} /> Verify</>}
+                        </button>
+                      )}
+                      {!u.is_admin && (
+                        <button
+                          type="button"
+                          className={u.is_banned ? "btn-ghost" : "btn-ghost danger"}
+                          style={{ fontSize: 10, padding: "3px 8px" }}
+                          onClick={() => handleToggleBan(u.id, u.is_banned)}
+                        >
+                          {u.is_banned ? <><CheckCircle size={10} /> Unban</> : <><Ban size={10} /> Ban</>}
+                        </button>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}

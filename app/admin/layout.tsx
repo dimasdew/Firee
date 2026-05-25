@@ -7,12 +7,14 @@ import Navbar from "../../components/Navbar";
 import MobileBottomNav from "../../components/MobileBottomNav";
 import AuthGuard from "../../components/AuthGuard";
 import { isCurrentUserAdmin } from "../../lib/supabase/admin";
-import { Users, Package, ShoppingCart, Shield, Loader2, BarChart3 } from "lucide-react";
+import { Users, Package, ShoppingCart, Shield, Loader2, BarChart3, Flag, AlertCircle } from "lucide-react";
 
 const ADMIN_NAV = [
   { href: "/admin", label: "Users", icon: Users, exact: true },
   { href: "/admin/products", label: "Products", icon: Package },
   { href: "/admin/orders", label: "Orders", icon: ShoppingCart },
+  { href: "/admin/reports", label: "Reports", icon: Flag },
+  { href: "/admin/disputes", label: "Disputes", icon: AlertCircle },
   { href: "/admin/analytics", label: "Analytics", icon: BarChart3 },
 ];
 

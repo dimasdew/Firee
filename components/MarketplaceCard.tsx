@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ShoppingBag, Heart } from "lucide-react";
 import UsdcAmount from "./UsdcAmount";
 import { StarDisplay } from "./ReviewSection";
@@ -38,9 +39,9 @@ export default function MarketplaceCard({ product, rating }: Props) {
       </div>
 
       <div style={{ padding: "16px 14px", flex: 1, display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
-        <div style={{ width: "100%", height: 120, borderRadius: 8, background: "rgba(110,172,218,0.06)", border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 32, marginBottom: 12, overflow: "hidden" }}>
+        <div style={{ position: "relative", width: "100%", height: 120, borderRadius: 8, background: "rgba(110,172,218,0.06)", border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 32, marginBottom: 12, overflow: "hidden" }}>
           {product.thumbnail_url
-            ? <img src={product.thumbnail_url} alt={product.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            ? <Image src={product.thumbnail_url} alt={product.title} fill sizes="(max-width: 768px) 50vw, 25vw" style={{ objectFit: "cover" }} />
             : <ShoppingBag size={28} color="var(--sky)" style={{ opacity: 0.3 }} />
           }
         </div>

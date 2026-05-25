@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { X, Wallet, CheckCircle, Loader2, AlertCircle, ExternalLink, Download } from "lucide-react";
 import { useAccount, useChainId, useSwitchChain } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -138,14 +139,14 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
             border: "1px solid var(--border)", marginBottom: 20,
           }}>
             <div style={{
-              width: 48, height: 48, borderRadius: 8,
+              position: "relative", width: 48, height: 48, borderRadius: 8,
               background: "rgba(110,172,218,0.08)",
               border: "1px solid var(--border)",
               display: "flex", alignItems: "center", justifyContent: "center",
               overflow: "hidden", flexShrink: 0,
             }}>
               {product.thumbnail_url
-                ? <img src={product.thumbnail_url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                ? <Image src={product.thumbnail_url} alt="" fill sizes="48px" style={{ objectFit: "cover" }} />
                 : <Wallet size={18} color="var(--sky)" style={{ opacity: 0.5 }} />
               }
             </div>

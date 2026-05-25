@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ShoppingBag, Download, Loader2, ExternalLink, AlertCircle } from "lucide-react";
 import { createClient } from "../lib/supabase/client";
 import { getBuyerOrders, getDownloadUrl } from "../lib/supabase/orders";
@@ -98,13 +99,13 @@ export default function PurchasedOrderList() {
             <div style={{ padding: "14px 16px", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
               {/* Thumbnail */}
               <div style={{
-                width: 48, height: 48, borderRadius: 8,
+                position: "relative", width: 48, height: 48, borderRadius: 8,
                 background: "rgba(110,172,218,0.08)", border: "1px solid var(--border)",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 flexShrink: 0, overflow: "hidden",
               }}>
                 {order.product?.thumbnail_url
-                  ? <img src={order.product.thumbnail_url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  ? <Image src={order.product.thumbnail_url} alt="" fill sizes="48px" style={{ objectFit: "cover" }} />
                   : <ShoppingBag size={20} color="var(--sky)" style={{ opacity: 0.3 }} />
                 }
               </div>

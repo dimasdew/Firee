@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import Navbar from "../../../components/Navbar";
 import MobileBottomNav from "../../../components/MobileBottomNav";
 import PurchaseModal from "../../../components/PurchaseModal";
@@ -165,12 +166,12 @@ export default function ProductDetailPage() {
                   return (
                     <>
                       <div style={{
-                        width: "100%", maxWidth: 320, aspectRatio: "1", margin: "0 auto 16px", borderRadius: 12,
+                        position: "relative", width: "100%", maxWidth: 320, aspectRatio: "1", margin: "0 auto 16px", borderRadius: 12,
                         background: "rgba(110,172,218,0.05)", border: "1px solid var(--border)",
                         display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden",
                       }}>
                         {currentImg
-                          ? <img src={currentImg} alt={product.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                          ? <Image src={currentImg} alt={product.title} fill sizes="320px" style={{ objectFit: "cover" }} />
                           : <ShoppingBag size={40} color="var(--sky)" style={{ opacity: 0.2 }} />
                         }
                       </div>
@@ -182,13 +183,13 @@ export default function ProductDetailPage() {
                               type="button"
                               onClick={() => setSelectedImage(i)}
                               style={{
-                                width: 48, height: 48, borderRadius: 8, overflow: "hidden", padding: 0,
+                                position: "relative", width: 48, height: 48, borderRadius: 8, overflow: "hidden", padding: 0,
                                 border: selectedImage === i ? "2px solid var(--sky)" : "1px solid var(--border)",
                                 background: "rgba(110,172,218,0.05)", cursor: "pointer",
                                 opacity: selectedImage === i ? 1 : 0.6,
                               }}
                             >
-                              <img src={img} alt={`Preview ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                              <Image src={img} alt={`Preview ${i + 1}`} fill sizes="48px" style={{ objectFit: "cover" }} />
                             </button>
                           ))}
                         </div>
@@ -229,12 +230,12 @@ export default function ProductDetailPage() {
             {/* Seller info */}
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
               <div style={{
-                width: 28, height: 28, borderRadius: "50%",
+                position: "relative", width: 28, height: 28, borderRadius: "50%",
                 background: "rgba(110,172,218,0.1)", border: "1px solid var(--border)",
                 display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden",
               }}>
                 {product.seller?.avatar_url
-                  ? <img src={product.seller.avatar_url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  ? <Image src={product.seller.avatar_url} alt="" fill sizes="28px" style={{ objectFit: "cover" }} />
                   : <User size={13} color="var(--text-muted)" />
                 }
               </div>

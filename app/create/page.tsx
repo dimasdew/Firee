@@ -16,6 +16,7 @@ export default function CreatePage() {
   const [show, setShow] = useState({ pwd: false, re: false });
   const [form, setForm] = useState({ email: "", password: "", retype: "" });
   const [error, setError] = useState("");
+  const [emailSent, setEmailSent] = useState(false);
 
   const pwdChecks = {
     length: form.password.length >= 6,
@@ -31,7 +32,7 @@ export default function CreatePage() {
     const v = validatePassword(form.password);
     if (!v.valid) { setError(v.message); return; }
     const ok = await register(form.email, form.password);
-    if (ok) router.push("/dashboard");
+    if (ok) setEmailSent(true);
     else setError("Registration failed.");
   };
 
@@ -44,6 +45,22 @@ export default function CreatePage() {
           <h1 className="fade-up d1 auth-title">Create account</h1>
           <p className="fade-up d2 auth-sub">Join the decentralized marketplace</p>
           <div className="card fade-up d2 auth-card">
+            {emailSent ? (
+              <div style={{ textAlign: "center", padding: "16px 0" }}>
+                <div style={{ width: 48, height: 48, borderRadius: "50%", background: "rgba(110,172,218,0.1)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
+                  <Mail size={24} color="var(--sky)" />
+                </div>
+                <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)", marginBottom: 8 }}>Check your email</h3>
+                <p style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.6, marginBottom: 20 }}>
+                  We sent a confirmation link to <strong style={{ color: "var(--sky)" }}>{form.email}</strong>.<br />
+                  Click the link to activate your account.
+                </p>
+                <button type="button" className="btn-primary" style={{ width: "100%", justifyContent: "center" }} onClick={() => router.push("/login")}>
+                  Go to Login <ArrowRight size={14} />
+                </button>
+              </div>
+            ) : (
+            <>
             {error && <p style={{ fontSize: 12, color: "#f87171", marginBottom: 12 }}>{error}</p>}
             <GoogleSignInButton mode="signup" />
             <div className="auth-divider">
@@ -89,6 +106,8 @@ export default function CreatePage() {
               </div>
             </div>
             <button type="button" className="btn-primary" style={{ width: "100%", justifyContent: "center", marginTop: 4 }} onClick={submit}>Create Account <ArrowRight size={14} /></button>
+            </>
+            )}
           </div>
           <p className="auth-footer">Already have an account? <Link href="/login">Login</Link></p>
         </div>
