@@ -95,7 +95,7 @@ export default function NewProductPage() {
       </Link>
 
       <form onSubmit={(e) => handleSubmit(e, true)}>
-        <div className="seller-form-grid" style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 20, alignItems: "start" }}>
+        <div className="seller-form-grid" style={{ gap: 20, alignItems: "start" }}>
           {/* Main form */}
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {/* Basic Info */}
@@ -136,7 +136,7 @@ export default function NewProductPage() {
                     style={{ resize: "vertical" }}
                   />
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }}>
                   <div>
                     <label className="label">Category</label>
                     <select

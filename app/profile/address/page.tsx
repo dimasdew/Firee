@@ -218,7 +218,7 @@ export default function AddressPage() {
               <label className="label">Street Address *</label>
               <input className="input" placeholder="Street, building, apartment" value={form.street} onChange={(e) => setForm({ ...form, street: e.target.value })} />
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: 12 }}>
               <div>
                 <label className="label">City *</label>
                 <input className="input" placeholder="City" value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} />
@@ -236,7 +236,7 @@ export default function AddressPage() {
               <label className="label">Country</label>
               <input className="input" placeholder="Country" value={form.country} onChange={(e) => setForm({ ...form, country: e.target.value })} />
             </div>
-            <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 4 }}>
+            <div style={{ display: "flex", justifyContent: "flex-end", flexWrap: "wrap", gap: 10, marginTop: 4 }}>
               <button type="button" className="btn-ghost" onClick={cancel} style={{ padding: "8px 20px", fontSize: 12 }}>Cancel</button>
               <button type="button" className="btn-primary" onClick={saveAddress} style={{ padding: "8px 20px", fontSize: 12 }}>
                 <Check size={13} /> {adding ? "Add Address" : "Save Changes"}

@@ -139,7 +139,7 @@ export default function AdminDisputesPage() {
       {/* Admin Note Modal */}
       {noteModal && (
         <div className="modal-overlay" onClick={() => setNoteModal(null)}>
-          <div className="card" onClick={(e) => e.stopPropagation()} style={{ padding: 28, maxWidth: 420, width: "90%", margin: "auto" }}>
+          <div className="card" onClick={(e) => e.stopPropagation()} style={{ padding: 28, width: "min(420px, 92vw)", margin: "auto" }}>
             <h3 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: 16, color: "var(--text, white)", marginBottom: 12 }}>
               {noteModal.action === "approved" ? "Approve Refund" : "Reject Refund"}
             </h3>

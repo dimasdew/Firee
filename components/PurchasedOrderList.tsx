@@ -188,7 +188,7 @@ export default function PurchasedOrderList() {
       {/* Refund Request Modal */}
       {showRefundModal && (
         <div className="modal-overlay" onClick={() => setShowRefundModal(null)}>
-          <div className="card" onClick={(e) => e.stopPropagation()} style={{ padding: 28, maxWidth: 420, width: "90%", margin: "auto" }}>
+          <div className="card" onClick={(e) => e.stopPropagation()} style={{ padding: 28, width: "min(420px, 92vw)", margin: "auto" }}>
             <h3 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: 18, color: "var(--text, white)", marginBottom: 8 }}>
               <AlertCircle size={16} color="#f87171" style={{ marginRight: 8, verticalAlign: "middle" }} />
               Request Refund

@@ -115,7 +115,7 @@ export default function AnalyticsPage() {
         </div>
       </div>
 
-      <div className="analytics-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+      <div className="analytics-grid" style={{ gap: 16 }}>
         {/* Top Products */}
         <div className="card" style={{ padding: 24 }}>
           <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)", marginBottom: 16 }}>Top Products</h3>

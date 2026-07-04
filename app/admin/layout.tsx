@@ -71,7 +71,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   key={href}
                   href={href}
                   className={`sidebar-link ${active ? "active" : ""}`}
-                  style={{ flex: "0 1 auto", minWidth: 100 }}
+                  style={{ flex: "0 1 auto", minWidth: 0 }}
                 >
                   <Icon size={14} /> {label}
                 </Link>

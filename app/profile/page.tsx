@@ -67,7 +67,7 @@ export default function ProfilePage() {
             }
           </button>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
           <div>
             <label className="label">Display Name</label>
             <input className="input" value={displayName} disabled={!editing} onChange={(e) => setDisplayName(e.target.value)} style={{ opacity: editing ? 1 : 0.6 }} />
@@ -116,7 +116,7 @@ export default function ProfilePage() {
       <div className="card" style={{ padding: 24 }}>
         <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)", marginBottom: 4 }}>Preferences</h3>
         <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 20 }}>Language and notification settings</p>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
           <div>
             <label className="label">Language</label>
             <select className="input" value={language} onChange={(e) => setLanguage(e.target.value)}>

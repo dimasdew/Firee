@@ -76,7 +76,7 @@ export default function SetPasswordPage() {
 
             <div style={{ marginBottom: 16 }}>
               <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.06em" }}>Password requirements</p>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4px 12px" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "4px 12px" }}>
                 {[
                   { label: "At least 6 characters", pass: pwdChecks.length },
                   { label: "One lowercase letter", pass: pwdChecks.lower },

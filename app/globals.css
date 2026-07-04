@@ -574,6 +574,8 @@ select.input { cursor: pointer; }
 .cat-btn { padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; font-family: inherit; transition: all 0.15s; border: 1px solid var(--border); background: transparent; color: rgba(110,172,218,0.5); }
 .cat-btn.active { background: var(--sky); color: var(--midnight); border-color: var(--sky); }
 .sort-select { padding: 8px 12px; border-radius: 8px; font-size: 12px; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: inherit; cursor: pointer; }
+.seller-form-grid { display: grid; grid-template-columns: 1fr 320px; }
+.analytics-grid { display: grid; grid-template-columns: 1fr 1fr; }
 
 /* ── Detail page ── */
 .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); text-decoration: none; margin-bottom: 24px; }
@@ -685,6 +687,14 @@ select.input { cursor: pointer; }
   font-weight: 700; font-size: 14px; color: var(--midnight); flex-shrink: 0;
 }
 
+@media (max-width: 640px) {
+  .cta-box { padding: 28px 20px; }
+  .section { padding: 48px 0; }
+  .profile-banner { height: 120px; }
+  .profile-avatar { width: 72px; height: 72px; font-size: 18px; }
+  .profile-avatar-row { margin-top: -36px; }
+}
+
 @media (max-width: 480px) {
   .footer-grid { grid-template-columns: 1fr; }
   .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -692,6 +702,19 @@ select.input { cursor: pointer; }
   .nav-inner { padding: 0 16px; }
   .purchase-modal { width: calc(100vw - 24px) !important; }
   .section-title { font-size: clamp(20px, 5vw, 28px); }
+  .detail-grid { gap: 12px; }
+  .auth-card { padding: 20px 16px; }
+  .site-footer { padding: 32px 0 16px; }
+  .page-shell main,
+  .page-shell > div > main,
+  .page-shell section,
+  .page-shell > div > section { padding-bottom: 80px !important; }
+}
+
+@media (max-width: 360px) {
+  .products-grid { grid-template-columns: 1fr; }
+  .nav-inner { padding: 0 12px; }
+  .container { padding: 0 12px; }
 }
 
 /* ── Scroll to top ── */

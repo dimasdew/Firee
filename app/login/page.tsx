@@ -115,7 +115,7 @@ export default function LoginPage() {
           position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)",
           display: "flex", alignItems: "center", justifyContent: "center", zIndex: 999,
         }} onClick={() => setShowForgot(false)}>
-          <div className="card" onClick={(e) => e.stopPropagation()} style={{ padding: 28, maxWidth: 380, width: "90%" }}>
+          <div className="card" onClick={(e) => e.stopPropagation()} style={{ padding: 28, width: "min(380px, 90vw)" }}>
             <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)", marginBottom: 8 }}>
               Reset Password
             </h3>

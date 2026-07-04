@@ -126,7 +126,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
       </Link>
 
       <form onSubmit={handleSubmit}>
-        <div className="seller-form-grid" style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 20, alignItems: "start" }}>
+        <div className="seller-form-grid" style={{ gap: 20, alignItems: "start" }}>
           {/* Main form */}
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <div className="card" style={{ padding: 24 }}>
@@ -146,7 +146,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                   <label className="label">Description *</label>
                   <textarea className="input" rows={6} required value={form.description} onChange={(e) => update("description", e.target.value)} style={{ resize: "vertical" }} />
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }}>
                   <div>
                     <label className="label">Category</label>
                     <select className="input" value={form.categoryId} onChange={(e) => setForm((f) => ({ ...f, categoryId: Number(e.target.value) }))}>
