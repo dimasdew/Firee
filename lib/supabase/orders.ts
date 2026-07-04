@@ -11,11 +11,32 @@ export async function createOrder(order: {
   platform_fee_usdc: number;
   seller_revenue_usdc: number;
   tx_hash: string;
+  escrow_order_id?: string | null;
 }): Promise<DbOrder> {
+  // C2: Verify price from DB — never trust client-supplied price
+  const { data: product } = await getClient()
+    .from("products")
+    .select("price_usdc, seller_id")
+    .eq("id", order.product_id)
+    .single();
+
+  if (!product) throw new Error("Product not found");
+  if (product.seller_id !== order.seller_id) throw new Error("Seller mismatch");
+
+  const fee = +(product.price_usdc * 0.03).toFixed(6);
+  const sellerRevenue = +(product.price_usdc - fee).toFixed(6);
+
   const { data, error } = await getClient()
     .from("orders")
     .insert({
-      ...order,
+      buyer_id: order.buyer_id,
+      product_id: order.product_id,
+      seller_id: order.seller_id,
+      price_usdc: product.price_usdc,       // from DB, not client
+      platform_fee_usdc: fee,               // recalculated server-side
+      seller_revenue_usdc: sellerRevenue,   // recalculated server-side
+      tx_hash: order.tx_hash,
+      escrow_order_id: order.escrow_order_id ?? null,
       status: "completed",
     })
     .select("*, product:products(*)")
@@ -27,7 +48,7 @@ export async function createOrder(order: {
 export async function getBuyerOrders(buyerId: string): Promise<DbOrder[]> {
   const { data, error } = await getClient()
     .from("orders")
-    .select("*, product:products(*, seller:profiles(*))")
+    .select("*, product:products(id, title, thumbnail_url, file_url, seller_id, seller:profiles(id, username, display_name, avatar_url))")
     .eq("buyer_id", buyerId)
     .order("created_at", { ascending: false });
   if (error) throw error;
@@ -37,7 +58,7 @@ export async function getBuyerOrders(buyerId: string): Promise<DbOrder[]> {
 export async function getSellerOrders(sellerId: string): Promise<DbOrder[]> {
   const { data, error } = await getClient()
     .from("orders")
-    .select("*, product:products(*), buyer:profiles(*)")
+    .select("*, product:products(id, title, thumbnail_url), buyer:profiles(id, username, display_name)")
     .eq("seller_id", sellerId)
     .order("created_at", { ascending: false });
   if (error) throw error;
@@ -46,13 +67,12 @@ export async function getSellerOrders(sellerId: string): Promise<DbOrder[]> {
 
 /**
  * Generate a signed download URL for a purchased product file.
- * Only works if the buyer has a completed order for this product.
+ * Verifies buyer has a completed order for this product before issuing URL.
  */
 export async function getDownloadUrl(
   buyerId: string,
   productId: string
 ): Promise<string | null> {
-  // Verify buyer has purchased this product
   const { data: order } = await getClient()
     .from("orders")
     .select("id")
@@ -63,7 +83,6 @@ export async function getDownloadUrl(
 
   if (!order) return null;
 
-  // Get the product file_url (storage path)
   const { data: product } = await getClient()
     .from("products")
     .select("file_url")
@@ -72,7 +91,6 @@ export async function getDownloadUrl(
 
   if (!product?.file_url) return null;
 
-  // Generate signed URL (valid for 1 hour)
   const { data, error } = await getClient().storage
     .from("products")
     .createSignedUrl(product.file_url, 3600);

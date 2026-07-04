@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import Navbar from "../../components/Navbar";
 import MobileBottomNav from "../../components/MobileBottomNav";
 import AuthGuard from "../../components/AuthGuard";
+import { useApp } from "../../context/AppContext";
 import { Package, PlusCircle, DollarSign, BarChart3 } from "lucide-react";
 
 const SELLER_NAV = [
@@ -16,6 +18,15 @@ const SELLER_NAV = [
 
 export default function SellerLayout({ children }: { children: React.ReactNode }) {
   const path = usePathname();
+  const router = useRouter();
+  const { user } = useApp();
+
+  // H5: verified-seller gate — is_seller must be true (set by admin after approval)
+  useEffect(() => {
+    if (user && !(user as any).is_seller) {
+      router.replace("/dashboard?seller_required=1");
+    }
+  }, [user, router]);
 
   return (
     <AuthGuard>
@@ -54,3 +65,4 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
     </AuthGuard>
   );
 }
+

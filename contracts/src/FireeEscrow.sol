@@ -28,7 +28,7 @@ contract FireeEscrow is Ownable, ReentrancyGuard {
     struct Order {
         address buyer;
         address seller;
-        uint256 amount; // total USDC paid by buyer (6 decimals)
+        uint256 amount;       // total USDC paid by buyer (6 decimals)
         uint256 sellerAmount;
         uint256 platformFee;
         uint256 timestamp;
@@ -67,6 +67,7 @@ contract FireeEscrow is Ownable, ReentrancyGuard {
      * @param _seller Seller's wallet address
      * @param _amount USDC amount (6 decimals)
      * @param _productId Off-chain product ID for indexing
+     * @return orderId The on-chain order ID (used by off-chain to link DB records)
      */
     function purchase(
         address _seller,
@@ -77,21 +78,17 @@ contract FireeEscrow is Ownable, ReentrancyGuard {
         require(_seller != msg.sender, "Cannot buy own product");
         require(_amount > 0, "Amount must be > 0");
 
-        // Transfer USDC from buyer to this contract
         require(
             usdc.transferFrom(msg.sender, address(this), _amount),
             "USDC transfer failed"
         );
 
-        // Calculate fee split
         uint256 fee = (_amount * platformFeeBps) / 10000;
         uint256 sellerAmt = _amount - fee;
 
-        // Credit balances
         sellerBalances[_seller] += sellerAmt;
         platformBalance += fee;
 
-        // Record order
         orderId = nextOrderId++;
         orders[orderId] = Order({
             buyer: msg.sender,
@@ -135,19 +132,27 @@ contract FireeEscrow is Ownable, ReentrancyGuard {
 
     /**
      * @notice Owner can refund a buyer (e.g. dispute resolution)
+     * @dev C4 fix: check balances before deducting to prevent underflow on already-withdrawn funds
      */
     function refund(uint256 _orderId) external onlyOwner nonReentrant {
         Order storage o = orders[_orderId];
         require(o.buyer != address(0), "Order not found");
         require(!o.refunded, "Already refunded");
 
+        // C4 fix: verify contract has enough balance to refund
+        // (seller may have already withdrawn — in that case owner must top-up or handle off-chain)
+        require(
+            sellerBalances[o.seller] >= o.sellerAmount,
+            "Seller already withdrew — fund contract before refunding"
+        );
+        require(platformBalance >= o.platformFee, "Insufficient platform balance for refund");
+
         o.refunded = true;
 
-        // Deduct from seller balance and platform balance
+        // Safe deduction — both checked above
         sellerBalances[o.seller] -= o.sellerAmount;
         platformBalance -= o.platformFee;
 
-        // Return full amount to buyer
         require(usdc.transfer(o.buyer, o.amount), "Refund failed");
 
         emit Refund(_orderId, o.buyer, o.amount);

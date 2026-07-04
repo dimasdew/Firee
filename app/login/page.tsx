@@ -17,6 +17,11 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
+  // M2: forgot password state
+  const [showForgot, setShowForgot] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotSent, setForgotSent] = useState(false);
+  const [forgotLoading, setForgotLoading] = useState(false);
 
   const submit = async () => {
     if (!form.email.includes("@")) { setError("Enter a valid email."); return; }
@@ -29,6 +34,21 @@ export default function LoginPage() {
       else setError("Login failed.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const submitForgot = async () => {
+    if (!forgotEmail.includes("@")) return;
+    setForgotLoading(true);
+    try {
+      await fetch("/api/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: forgotEmail }),
+      });
+      setForgotSent(true);
+    } finally {
+      setForgotLoading(false);
     }
   };
 
@@ -61,8 +81,13 @@ export default function LoginPage() {
             <div style={{ marginBottom: 8 }}>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
                 <label className="label" style={{ marginBottom: 0 }}>Password</label>
-                <Link href="/support" style={{ fontSize: 11, color: "var(--text-muted)", textDecoration: "none" }}>Forgot password?</Link>
-              </div>
+                <button
+                    type="button"
+                    onClick={() => { setShowForgot(true); setForgotSent(false); setForgotEmail(""); }}
+                    style={{ fontSize: 11, color: "var(--text-muted)", background: "none", border: "none", cursor: "pointer", padding: 0 }}
+                  >
+                    Forgot password?
+                  </button>              </div>
               <div className="input-icon-wrap">
                 <Lock size={14} className="input-icon" />
                 <input className="input" type={showPwd ? "text" : "password"} placeholder="••••••••" style={{ paddingLeft: 36, paddingRight: 36 }} value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} onKeyDown={(e) => e.key === "Enter" && submit()} />
@@ -83,6 +108,50 @@ export default function LoginPage() {
           <p className="auth-footer">No account? <Link href="/create">Create one</Link></p>
         </div>
       </div>
+
+      {/* M2: Forgot password modal */}
+      {showForgot && (
+        <div style={{
+          position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)",
+          display: "flex", alignItems: "center", justifyContent: "center", zIndex: 999,
+        }} onClick={() => setShowForgot(false)}>
+          <div className="card" onClick={(e) => e.stopPropagation()} style={{ padding: 28, maxWidth: 380, width: "90%" }}>
+            <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)", marginBottom: 8 }}>
+              Reset Password
+            </h3>
+            {forgotSent ? (
+              <p style={{ fontSize: 13, color: "#4ade80" }}>
+                If that email is registered, a reset link has been sent. Check your inbox.
+              </p>
+            ) : (
+              <>
+                <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 16 }}>
+                  Enter your email and we'll send a reset link.
+                </p>
+                <input
+                  className="input"
+                  type="email"
+                  placeholder="you@example.com"
+                  value={forgotEmail}
+                  onChange={(e) => setForgotEmail(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && submitForgot()}
+                  style={{ marginBottom: 12 }}
+                />
+                <button
+                  type="button"
+                  className="btn-primary"
+                  onClick={submitForgot}
+                  disabled={forgotLoading || !forgotEmail.includes("@")}
+                  style={{ width: "100%", justifyContent: "center" }}
+                >
+                  {forgotLoading ? "Sending..." : "Send Reset Link"}
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
       <Footer />
     </div>
   );

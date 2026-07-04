@@ -29,7 +29,7 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
   const { switchChain } = useSwitchChain();
-  const { step, error, txHash, purchase, reset, usdcBalance } = useFireePurchase();
+  const { step, error, txHash, escrowOrderId, purchase, reset, usdcBalance } = useFireePurchase();
 
   const wrongChain = chainId !== CHAIN_ID;
   const platformFee = product.price_usdc * 0.03;
@@ -40,13 +40,13 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
 
   const handlePurchase = async () => {
     if (!product.seller_wallet) return;
-    const tx = await purchase(
+    const result = await purchase(
       product.seller_wallet as `0x${string}`,
       product.price_usdc,
       product.id
     );
-    if (tx) {
-      // Record order in Supabase
+    if (result) {
+      // Record order in Supabase — C2: price verified in createOrder against DB
       try {
         const supabase = createClient();
         const { data: { user } } = await supabase.auth.getUser();
@@ -59,7 +59,8 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
             price_usdc: product.price_usdc,
             platform_fee_usdc: fee,
             seller_revenue_usdc: product.price_usdc - fee,
-            tx_hash: tx,
+            tx_hash: result.txHash,
+            escrow_order_id: result.escrowOrderId, // C5
           });
           // Update product sales count (best-effort)
           try {
@@ -68,30 +69,25 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
               amount: product.price_usdc,
             });
           } catch {}
-          // Send email notifications (best-effort)
+          // C8: pass orderId so server resolves emails from DB
           try {
             await fetch("/api/notify", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                type: "purchase",
-                buyerEmail: user.email,
-                sellerEmail: product.seller?.email,
-                productTitle: product.title,
-                priceUsdc: product.price_usdc,
-                txHash: tx,
-              }),
+              body: JSON.stringify({ type: "purchase", orderId: order.id }),
             });
           } catch {}
         }
       } catch (err) {
         console.error("Failed to record order:", err);
       }
-      onSuccess(tx);
+      onSuccess(result.txHash);
     }
   };
 
+  // M7: disable backdrop close while tx is in-flight
   const handleClose = () => {
+    if (step === "approving" || step === "purchasing") return;
     reset();
     onClose();
   };

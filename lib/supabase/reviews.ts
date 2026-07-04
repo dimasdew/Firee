@@ -53,6 +53,25 @@ export async function createReview(review: {
   rating: number;
   comment?: string;
 }): Promise<Review> {
+  // Verify the order exists, belongs to this buyer AND this product, and is completed
+  const { data: order } = await getClient()
+    .from("orders")
+    .select("id")
+    .eq("id", review.order_id)
+    .eq("buyer_id", review.buyer_id)
+    .eq("product_id", review.product_id)
+    .eq("status", "completed")
+    .single();
+
+  if (!order) {
+    throw new Error("No completed order found for this product. Purchase required to review.");
+  }
+
+  // Validate rating range
+  if (review.rating < 1 || review.rating > 5 || !Number.isInteger(review.rating)) {
+    throw new Error("Rating must be an integer between 1 and 5.");
+  }
+
   const { data, error } = await getClient()
     .from("reviews")
     .insert(review)
@@ -66,11 +85,12 @@ export async function getBuyerReviewForOrder(
   buyerId: string,
   orderId: string
 ): Promise<Review | null> {
-  const { data } = await getClient()
+  const { data, error } = await getClient()
     .from("reviews")
     .select("*, buyer:profiles(id, username, display_name, avatar_url)")
     .eq("buyer_id", buyerId)
     .eq("order_id", orderId)
     .single();
+  if (error) return null;
   return data ?? null;
 }

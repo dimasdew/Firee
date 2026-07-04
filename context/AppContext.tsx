@@ -70,6 +70,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const [hydrated, setHydrated] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  // C7: track whether Supabase session is active — wallet-only connection must NOT set this true
+  const [hasSupabaseSession, setHasSupabaseSession] = useState(false);
   const [needsPassword, setNeedsPassword] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>(DEFAULT_NOTIFICATIONS);
   const [toast, setToast] = useState<string | null>(null);
@@ -150,15 +152,20 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (session?.user) {
         await hydrateUser(session.user);
+        setHasSupabaseSession(true);
       } else {
         setUser(null);
+        setHasSupabaseSession(false);
         setNeedsPassword(false);
         localStorage.removeItem("firee-needs-password");
       }
     });
     // Check existing session on mount
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) hydrateUser(session.user);
+      if (session?.user) {
+        hydrateUser(session.user);
+        setHasSupabaseSession(true);
+      }
     });
     return () => subscription.unsubscribe();
   }, [supabase, checkNeedsPassword]);
@@ -282,6 +289,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const logout = useCallback(async () => {
     await supabase.auth.signOut();
     setUser(null);
+    setHasSupabaseSession(false);
     setNeedsPassword(false);
     localStorage.removeItem("firee-needs-password");
     showToast("Logged out");
@@ -300,22 +308,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
       if (normalized === lastSyncedWallet.current) return;
       lastSyncedWallet.current = normalized;
 
+      // C7: only update walletAddress on an EXISTING Supabase-authenticated user.
+      // Never create a phantom user from wallet connection alone — that bypasses AuthGuard.
       if (!normalized) {
         setUser((u) => (u ? { ...u, walletAddress: null } : u));
         return;
       }
-
-      setUser((u) => {
-        if (u) return { ...u, walletAddress: normalized };
-        return {
-          id: normalized,
-          email: `${normalized.slice(2, 10)}@wallet.firee`,
-          username: `wallet_${normalized.slice(2, 8)}`,
-          authProvider: "wallet",
-          walletAddress: normalized,
-          joinedAt: new Date().toISOString(),
-        };
-      });
+      setUser((u) => (u ? { ...u, walletAddress: normalized } : u));
     },
     []
   );
@@ -372,7 +371,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setUser,
     notifications,
     toast,
-    isLoggedIn: !!user,
+    isLoggedIn: hasSupabaseSession && !!user,
     needsPassword,
     login,
     register,

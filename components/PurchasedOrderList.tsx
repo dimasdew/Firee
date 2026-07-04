@@ -52,7 +52,13 @@ export default function PurchasedOrderList() {
       if (!user) { showToast("Please log in"); return; }
       const url = await getDownloadUrl(user.id, order.product_id);
       if (url) {
-        window.open(url, "_blank");
+        // M12: use programmatic anchor to bypass popup blocker
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = (order.product as any)?.file_name || "download";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
       } else {
         showToast("Download not available");
       }

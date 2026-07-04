@@ -3,6 +3,12 @@ import type { Profile } from "./types";
 
 function getClient() { return createClient(); }
 
+// Safe profile fields a user can update themselves — never includes is_admin/is_banned/seller_verified
+type SafeProfileUpdate = Pick<
+  Profile,
+  "username" | "display_name" | "avatar_url" | "bio" | "website" | "twitter" | "wallet_address"
+>;
+
 export async function signUp(email: string, password: string, displayName?: string) {
   const { data, error } = await getClient().auth.signUp({
     email,
@@ -50,10 +56,18 @@ export async function getProfile(userId: string): Promise<Profile | null> {
   return data;
 }
 
-export async function updateProfile(userId: string, updates: Partial<Profile>): Promise<Profile> {
+/**
+ * Update safe profile fields only.
+ * is_admin / is_banned / seller_verified / is_seller are stripped — those require server-side admin RPCs.
+ */
+export async function updateProfile(userId: string, updates: Partial<SafeProfileUpdate>): Promise<Profile> {
+  // Strip any privileged fields the caller might accidentally pass
+  const { is_admin, is_banned, seller_verified, is_seller, ...safe } = updates as any;
+  void is_admin; void is_banned; void seller_verified; void is_seller;
+
   const { data, error } = await getClient()
     .from("profiles")
-    .update(updates)
+    .update(safe)
     .eq("id", userId)
     .select()
     .single();
@@ -61,8 +75,17 @@ export async function updateProfile(userId: string, updates: Partial<Profile>): 
   return data;
 }
 
+/** Request seller status — server-side RLS + admin approval required */
 export async function becomeSeller(userId: string): Promise<Profile> {
-  return updateProfile(userId, { is_seller: true });
+  // Only sets is_seller=true; seller_verified stays false until admin approves
+  const { data, error } = await getClient()
+    .from("profiles")
+    .update({ is_seller: true })
+    .eq("id", userId)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
 }
 
 export function onAuthStateChange(callback: (event: string, session: any) => void) {
