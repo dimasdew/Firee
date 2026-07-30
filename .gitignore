@@ -19,3 +19,4 @@ contracts/cache/
 contracts/artifacts/
 contracts/typechain-types/
 supabase/.temp
+.vercel

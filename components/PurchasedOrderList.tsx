@@ -8,6 +8,7 @@ import { createClient } from "../lib/supabase/client";
 import { getBuyerOrders, confirmOrderDelivered } from "../lib/supabase/orders";
 import { createDispute, getDisputeByOrder } from "../lib/supabase/disputes";
 import { CHAIN_ID } from "../lib/contracts";
+import { useOrderLifecycle } from "../lib/contracts/useFireeEscrow";
 import { useApp } from "../context/AppContext";
 import UsdcAmount from "./UsdcAmount";
 import type { DbOrder } from "../lib/supabase/types";
@@ -44,12 +45,20 @@ export default function PurchasedOrderList() {
     });
   }, []);
 
+  const lifecycle = useOrderLifecycle();
+
   const handleConfirmDelivery = async (order: DbOrder) => {
     setConfirmingId(order.id);
     try {
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { showToast("Please log in"); return; }
+      // On-chain: release escrow to seller (requires connected buyer wallet)
+      const escrowId = order.escrow_order_id;
+      if (escrowId) {
+        const tx = await lifecycle.confirmDelivery(String(escrowId));
+        if (!tx) { showToast(lifecycle.error || "On-chain confirmation failed"); return; }
+      }
       await confirmOrderDelivered(user.id, order.id);
       setOrders((prev) => prev.map((o) => o.id === order.id ? { ...o, status: "delivered" } : o));
       showToast("Delivery confirmed. Payment released to seller.");
