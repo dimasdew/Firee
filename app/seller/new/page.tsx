@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Upload, Image, FileText, Tag, DollarSign, ArrowLeft } from "lucide-react";
+import { Image, Truck, DollarSign, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useApp } from "../../../context/AppContext";
-import { createProduct, uploadThumbnail, uploadProductFile, getCategories } from "../../../lib/supabase/products";
+import { createProduct, uploadThumbnail, getCategories } from "../../../lib/supabase/products";
 import { createClient } from "../../../lib/supabase/client";
 import type { Category } from "../../../lib/supabase/types";
 
@@ -21,9 +21,11 @@ export default function NewProductPage() {
     price: "",
     categoryId: 0,
     tags: "",
+    weightGrams: "",
+    shipsFrom: "",
+    shippingFee: "",
   });
   const [thumbnail, setThumbnail] = useState<File | null>(null);
-  const [productFile, setProductFile] = useState<File | null>(null);
 
   useEffect(() => {
     getCategories().then((cats) => {
@@ -43,8 +45,8 @@ export default function NewProductPage() {
       showToast("Please fill in all required fields");
       return;
     }
-    if (!productFile) {
-      showToast("Please upload a product file");
+    if (!form.shipsFrom) {
+      showToast("Please set where the item ships from");
       return;
     }
     setLoading(true);
@@ -54,12 +56,11 @@ export default function NewProductPage() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { showToast("Please login first"); setLoading(false); return; }
 
-      // Upload files
+      // Upload thumbnail
       let thumbnailUrl: string | undefined;
       if (thumbnail) {
         thumbnailUrl = await uploadThumbnail(user.id, thumbnail);
       }
-      const fileData = await uploadProductFile(user.id, productFile);
 
       // Create product
       await createProduct({
@@ -71,10 +72,10 @@ export default function NewProductPage() {
         price_usdc: parseFloat(form.price),
         category_id: form.categoryId,
         thumbnail_url: thumbnailUrl,
-        file_url: fileData.url,
-        file_name: fileData.name,
-        file_size_bytes: fileData.size,
         tags: form.tags ? form.tags.split(",").map((t) => t.trim()).filter(Boolean) : [],
+        weight_grams: form.weightGrams ? Math.round(parseFloat(form.weightGrams)) : undefined,
+        ships_from_country: form.shipsFrom,
+        shipping_fee_usdc: form.shippingFee ? parseFloat(form.shippingFee) : 0,
         is_published: publish,
       });
 
@@ -161,42 +162,48 @@ export default function NewProductPage() {
               </div>
             </div>
 
-            {/* File Upload */}
+            {/* Shipping */}
             <div className="card" style={{ padding: 24 }}>
               <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)", marginBottom: 16 }}>
-                <FileText size={15} style={{ marginRight: 6, verticalAlign: "middle" }} />
-                Product File *
+                <Truck size={15} style={{ marginRight: 6, verticalAlign: "middle" }} />
+                Shipping *
               </h3>
-              <label
-                style={{
-                  display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
-                  padding: "32px 20px", borderRadius: 10,
-                  border: "2px dashed var(--border)", cursor: "pointer",
-                  background: productFile ? "rgba(110,172,218,0.04)" : "transparent",
-                  transition: "border-color 0.2s",
-                }}
-              >
-                <Upload size={24} color="var(--sky)" style={{ opacity: 0.6 }} />
-                {productFile ? (
-                  <>
-                    <p style={{ fontSize: 13, fontWeight: 600, color: "var(--text, white)" }}>{productFile.name}</p>
-                    <p style={{ fontSize: 11, color: "var(--text-muted)" }}>
-                      {(productFile.size / 1024 / 1024).toFixed(1)} MB
-                    </p>
-                  </>
-                ) : (
-                  <>
-                    <p style={{ fontSize: 13, color: "var(--text-muted)" }}>Click to upload product file</p>
-                    <p style={{ fontSize: 11, color: "var(--text-muted)", opacity: 0.6 }}>ZIP, RAR, PDF up to 100MB</p>
-                  </>
-                )}
-                <input
-                  type="file"
-                  accept=".zip,.rar,.pdf,.fig,.sketch"
-                  style={{ display: "none" }}
-                  onChange={(e) => setProductFile(e.target.files?.[0] ?? null)}
-                />
-              </label>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 12 }}>
+                <div>
+                  <label className="label">Ships From (Country) *</label>
+                  <input
+                    className="input"
+                    placeholder="e.g. Indonesia"
+                    required
+                    value={form.shipsFrom}
+                    onChange={(e) => update("shipsFrom", e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="label">Weight (grams)</label>
+                  <input
+                    className="input"
+                    type="number"
+                    min="0"
+                    placeholder="500"
+                    value={form.weightGrams}
+                    onChange={(e) => update("weightGrams", e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="label">Shipping Fee (USDC)</label>
+                  <input
+                    className="input"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    placeholder="0.00"
+                    value={form.shippingFee}
+                    onChange={(e) => update("shippingFee", e.target.value)}
+                  />
+                  <p style={{ fontSize: 10, color: "var(--text-muted)", marginTop: 4 }}>Included in buyer checkout total</p>
+                </div>
+              </div>
             </div>
           </div>
 

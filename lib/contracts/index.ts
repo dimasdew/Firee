@@ -1,4 +1,4 @@
-import FireeEscrowABI from "./FireeEscrow.abi.json";
+import FireeEscrowABI from "./FireeEscrowV2.abi.json";
 
 // Network config — set NEXT_PUBLIC_CHAIN=mainnet to switch to Base mainnet
 const IS_MAINNET = process.env.NEXT_PUBLIC_CHAIN === "mainnet";

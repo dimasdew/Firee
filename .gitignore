@@ -18,3 +18,4 @@ contracts/node_modules/
 contracts/cache/
 contracts/artifacts/
 contracts/typechain-types/
+supabase/.temp

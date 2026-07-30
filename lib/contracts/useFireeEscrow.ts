@@ -178,6 +178,55 @@ async function _waitForTx(hash: `0x${string}`, maxWaitMs = 300_000) {
   throw new Error("Transaction confirmation timeout");
 }
 
+/**
+ * On-chain order lifecycle actions for FireeEscrowV2.
+ * Each takes the escrow orderId (from orders.escrow_order_id).
+ */
+export function useOrderLifecycle() {
+  const { address } = useAccount();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const { writeContractAsync } = useWriteContract();
+
+  const call = useCallback(
+    async (functionName: string, args: unknown[]): Promise<`0x${string}` | null> => {
+      if (!address) { setError("Connect wallet first"); return null; }
+      setLoading(true);
+      setError(null);
+      try {
+        const tx = await writeContractAsync({
+          address: ESCROW_ADDRESS,
+          abi: FireeEscrowABI,
+          functionName,
+          args,
+        } as any);
+        await _waitForTx(tx);
+        return tx;
+      } catch (err: any) {
+        setError(err?.shortMessage || err?.message || "Transaction failed");
+        return null;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [address, writeContractAsync]
+  );
+
+  return {
+    loading,
+    error,
+    markShipped: (orderId: string, trackingRef: string) =>
+      call("markShipped", [BigInt(orderId), trackingRef]),
+    confirmDelivery: (orderId: string) =>
+      call("confirmDelivery", [BigInt(orderId)]),
+    openDispute: (orderId: string) =>
+      call("openDispute", [BigInt(orderId)]),
+    claimRefundNotShipped: (orderId: string) =>
+      call("claimRefundNotShipped", [BigInt(orderId)]),
+  };
+}
+
 export function useSellerWithdraw() {
   const { address } = useAccount();
   const [loading, setLoading] = useState(false);

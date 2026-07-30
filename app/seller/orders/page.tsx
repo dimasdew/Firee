@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Package, Loader2, Truck, MapPin } from "lucide-react";
 import { createClient } from "../../../lib/supabase/client";
 import { getSellerOrders, markOrderShipped } from "../../../lib/supabase/orders";
+import { useOrderLifecycle } from "../../../lib/contracts/useFireeEscrow";
 import { useApp } from "../../../context/AppContext";
 import UsdcAmount from "../../../components/UsdcAmount";
 import type { DbOrder } from "../../../lib/supabase/types";
@@ -29,6 +30,8 @@ export default function SellerOrdersPage() {
     });
   }, []);
 
+  const lifecycle = useOrderLifecycle();
+
   const handleShip = async () => {
     if (!shipModal || !tracking.trim()) return;
     setSubmitting(true);
@@ -36,6 +39,12 @@ export default function SellerOrdersPage() {
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { showToast("Please log in"); return; }
+      // On-chain: start the 30-day auto-release clock (requires connected seller wallet)
+      const order = orders.find((o) => o.id === shipModal);
+      if (order?.escrow_order_id) {
+        const tx = await lifecycle.markShipped(String(order.escrow_order_id), tracking.trim());
+        if (!tx) { showToast(lifecycle.error || "On-chain shipment update failed"); return; }
+      }
       await markOrderShipped(user.id, shipModal, tracking.trim(), carrier.trim() || undefined);
       setOrders((prev) => prev.map((o) => o.id === shipModal
         ? { ...o, status: "shipped", tracking_number: tracking.trim(), shipping_carrier: carrier.trim() || null }

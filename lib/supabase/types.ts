@@ -39,6 +39,9 @@ export interface DbProduct {
   file_name: string | null;
   file_size_bytes: number | null;
   tags: string[];
+  weight_grams: number | null;
+  ships_from_country: string | null;
+  shipping_fee_usdc: number | null;
   is_published: boolean;
   is_featured: boolean;
   total_sales: number;
@@ -61,6 +64,7 @@ export interface DbOrder {
   platform_fee_usdc: number;
   seller_revenue_usdc: number;
   tx_hash: string | null;
+  escrow_order_id: string | null;
   status: OrderStatus;
   download_url: string | null;
   downloaded_at: string | null;

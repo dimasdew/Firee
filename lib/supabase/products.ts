@@ -197,6 +197,9 @@ export async function createProduct(product: {
   file_size_bytes?: number;
   tags?: string[];
   is_published?: boolean;
+  weight_grams?: number;
+  ships_from_country?: string;
+  shipping_fee_usdc?: number;
 }): Promise<DbProduct> {
   const { data, error } = await getClient()
     .from("products")
