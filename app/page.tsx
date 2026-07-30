@@ -45,6 +45,22 @@ const BUYER_FAQ = [
     q: "What if my item never arrives?",
     a: "If the seller does not mark the order as shipped within 14 days, you can claim an automatic full refund straight from the contract. If it shipped but arrived damaged or wrong, open a dispute and our team will review it.",
   },
+  {
+    q: "How do disputes work?",
+    a: "Open a dispute from your Orders page and describe the issue, for example a damaged or wrong item. While a dispute is open, the escrowed funds stay frozen. Our team reviews the evidence from both sides and resolves it as either a refund to you or a release to the seller, typically within 48 hours.",
+  },
+  {
+    q: "Can I cancel an order after paying?",
+    a: "If the seller has not shipped yet, contact them to cancel and you will be refunded from escrow. Once the order is marked as shipped, cancellation is no longer possible, but you can still open a dispute if something is wrong with the delivery.",
+  },
+  {
+    q: "How long does shipping take?",
+    a: "Shipping time depends on the seller's location and the carrier they use. Each product page shows where the item ships from. Once shipped, you get a tracking number so you can follow the package yourself.",
+  },
+  {
+    q: "What happens if I forget to confirm delivery?",
+    a: "If you receive your item but never hit Confirm Delivery, the escrow automatically releases the payment to the seller 30 days after shipment. So confirm when it arrives, or open a dispute before that window closes if there is a problem.",
+  },
 ];
 
 const SELLER_FAQ = [
@@ -66,7 +82,27 @@ const SELLER_FAQ = [
   },
   {
     q: "What blockchain does Firee use?",
-    a: "Firee runs on the Base network (Ethereum L2) — fast transactions, low fees, and full Ethereum security. We currently operate on Base Sepolia testnet during beta.",
+    a: "Firee runs on the Base network (Ethereum L2): fast transactions, low fees, and full Ethereum security. We currently operate on Base Sepolia testnet during beta.",
+  },
+  {
+    q: "What happens after someone buys my product?",
+    a: "You get the order with the buyer's shipping address in your Seller Dashboard under Orders. Pack the item, ship it, then hit Mark as Shipped and enter the tracking number. The buyer follows the tracking and confirms when it arrives.",
+  },
+  {
+    q: "What if the buyer never confirms delivery?",
+    a: "You are protected by auto-release. If the buyer goes silent, the escrow contract automatically releases your payment 30 days after you marked the order as shipped. You do not depend on the buyer pressing a button to get paid.",
+  },
+  {
+    q: "What happens if a buyer opens a dispute?",
+    a: "The escrowed funds for that order stay frozen while our team reviews the case. You can present your side with evidence like the tracking record and photos before shipping. If the dispute is resolved in your favor, the payment is released to you as normal.",
+  },
+  {
+    q: "Do I have to ship within a deadline?",
+    a: "Yes. You have 14 days from payment to mark the order as shipped with a tracking number. After that, the buyer can claim a full refund directly from the contract, so ship promptly or contact the buyer if there is a delay.",
+  },
+  {
+    q: "Who pays for shipping?",
+    a: "You set the shipping fee when listing a product, and it is included in the price the buyer pays at checkout. Choose your own carrier and service level; Firee only requires that you provide a tracking number.",
   },
 ];
 
