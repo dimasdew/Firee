@@ -4,14 +4,14 @@ import "./globals.css";
 import Providers from "../components/Providers";
 
 export const metadata: Metadata = {
-  title: { default: "Firee — Web3 Digital Marketplace", template: "%s | Firee" },
-  description: "Buy and sell smart contracts, DApp templates, UI kits, and developer tools. Pay with USDC on Base. Only 3% fee.",
-  keywords: ["marketplace", "web3", "smart contracts", "dapp templates", "usdc", "firee", "base", "blockchain", "digital products"],
+  title: { default: "Firee — Escrow-Protected Marketplace", template: "%s | Firee" },
+  description: "Buy and sell physical goods with USDC on Base. Payments held in smart contract escrow until delivery. Only 3% fee.",
+  keywords: ["marketplace", "web3", "escrow", "physical goods", "usdc", "firee", "base", "blockchain", "crypto payments"],
   manifest: "/manifest.json",
   metadataBase: new URL("https://mp-firee.vercel.app"),
   openGraph: {
-    title: "Firee — The Marketplace for Web3 Builders",
-    description: "Buy and sell smart contracts, DApp templates, UI kits, and developer tools. Pay with USDC on Base.",
+    title: "Firee — Buy Real Things with Crypto, Safely",
+    description: "Buy and sell physical goods with USDC on Base. Payments held in smart contract escrow until delivery.",
     siteName: "Firee",
     type: "website",
     url: "https://mp-firee.vercel.app",
@@ -19,8 +19,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Firee — Web3 Digital Marketplace",
-    description: "Buy and sell smart contracts, DApp templates, UI kits, and developer tools. Pay with USDC on Base.",
+    title: "Firee — Escrow-Protected Marketplace",
+    description: "Buy and sell physical goods with USDC on Base. Payments held in smart contract escrow until delivery.",
     images: ["/og-image.svg"],
   },
   robots: { index: true, follow: true },

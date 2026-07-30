@@ -3,6 +3,15 @@ import type { DbOrder } from "./types";
 
 function getClient() { return createClient(); }
 
+export interface ShippingInfo {
+  shipping_name: string;
+  shipping_address: string;
+  shipping_city: string;
+  shipping_postal_code: string;
+  shipping_country: string;
+  shipping_phone?: string;
+}
+
 export async function createOrder(order: {
   buyer_id: string;
   product_id: string;
@@ -12,6 +21,7 @@ export async function createOrder(order: {
   seller_revenue_usdc: number;
   tx_hash: string;
   escrow_order_id?: string | null;
+  shipping?: ShippingInfo;
 }): Promise<DbOrder> {
   // C2: Verify price from DB — never trust client-supplied price
   const { data: product } = await getClient()
@@ -37,7 +47,8 @@ export async function createOrder(order: {
       seller_revenue_usdc: sellerRevenue,   // recalculated server-side
       tx_hash: order.tx_hash,
       escrow_order_id: order.escrow_order_id ?? null,
-      status: "completed",
+      status: "paid", // physical goods: waiting for seller to ship
+      ...(order.shipping ?? {}),
     })
     .select("*, product:products(*)")
     .single();
@@ -63,6 +74,48 @@ export async function getSellerOrders(sellerId: string): Promise<DbOrder[]> {
     .order("created_at", { ascending: false });
   if (error) throw error;
   return data ?? [];
+}
+
+/**
+ * Seller marks an order as shipped with a tracking number.
+ */
+export async function markOrderShipped(
+  sellerId: string,
+  orderId: string,
+  trackingNumber: string,
+  carrier?: string
+): Promise<void> {
+  const { error } = await getClient()
+    .from("orders")
+    .update({
+      status: "shipped",
+      tracking_number: trackingNumber,
+      shipping_carrier: carrier ?? null,
+      shipped_at: new Date().toISOString(),
+    })
+    .eq("id", orderId)
+    .eq("seller_id", sellerId)
+    .eq("status", "paid");
+  if (error) throw error;
+}
+
+/**
+ * Buyer confirms the item arrived. Mirrors on-chain confirmDelivery.
+ */
+export async function confirmOrderDelivered(
+  buyerId: string,
+  orderId: string
+): Promise<void> {
+  const { error } = await getClient()
+    .from("orders")
+    .update({
+      status: "delivered",
+      delivered_at: new Date().toISOString(),
+    })
+    .eq("id", orderId)
+    .eq("buyer_id", buyerId)
+    .eq("status", "shipped");
+  if (error) throw error;
 }
 
 /**

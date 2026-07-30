@@ -88,7 +88,7 @@ export default function SellerProductsPage() {
           Become a Seller
         </h2>
         <p style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.7, marginBottom: 24 }}>
-          Apply to sell digital products on Firee. Once approved, you can list smart contracts, DApp templates, UI kits, and developer tools.
+          Apply to sell on Firee. Once approved, you can list physical products and get paid in USDC through escrow-protected orders.
         </p>
         <button type="button" className="btn-primary" onClick={handleApply} style={{ fontSize: 13 }}>
           <ShieldCheck size={14} /> Apply to Sell
@@ -154,7 +154,7 @@ export default function SellerProductsPage() {
             <Package size={48} color="var(--sky)" style={{ margin: "0 auto 16px", opacity: 0.4 }} />
             <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 8 }}>No products yet</p>
             <p style={{ fontSize: 12, color: "var(--text-muted)", opacity: 0.6, marginBottom: 20 }}>
-              Create your first digital product to start selling
+              List your first product to start selling
             </p>
             <Link href="/seller/new" className="btn-primary" style={{ display: "inline-flex", fontSize: 12 }}>
               <PlusCircle size={14} /> Create Product

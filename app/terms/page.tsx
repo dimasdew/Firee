@@ -24,7 +24,7 @@ export default function TermsPage() {
 
           <section>
             <h2 style={{ fontSize: 16, fontWeight: 600, color: "var(--text, white)", marginBottom: 8 }}>2. Platform Overview</h2>
-            <p>Firee is a decentralized digital marketplace that enables users to buy and sell digital products (smart contracts, DApp templates, UI kits, developer tools) using USDC on the Base blockchain. Firee acts as an intermediary platform and does not own, create, or guarantee any listed products.</p>
+            <p>Firee is a decentralized marketplace that enables users to buy and sell physical goods using USDC on the Base blockchain. Payments are held in a smart contract escrow until the buyer confirms delivery. Firee acts as an intermediary platform and does not own, create, ship, or guarantee any listed products.</p>
           </section>
 
           <section>

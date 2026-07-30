@@ -143,7 +143,7 @@ contract FireeEscrow is Ownable, ReentrancyGuard {
         // (seller may have already withdrawn — in that case owner must top-up or handle off-chain)
         require(
             sellerBalances[o.seller] >= o.sellerAmount,
-            "Seller already withdrew — fund contract before refunding"
+            "Seller already withdrew, fund contract before refunding"
         );
         require(platformBalance >= o.platformFee, "Insufficient platform balance for refund");
 

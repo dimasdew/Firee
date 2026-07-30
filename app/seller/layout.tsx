@@ -7,10 +7,11 @@ import Navbar from "../../components/Navbar";
 import MobileBottomNav from "../../components/MobileBottomNav";
 import AuthGuard from "../../components/AuthGuard";
 import { useApp } from "../../context/AppContext";
-import { Package, PlusCircle, DollarSign, BarChart3 } from "lucide-react";
+import { Package, PlusCircle, DollarSign, BarChart3, Truck } from "lucide-react";
 
 const SELLER_NAV = [
   { href: "/seller", label: "My Products", icon: Package, exact: true },
+  { href: "/seller/orders", label: "Orders", icon: Truck },
   { href: "/seller/new", label: "Add Product", icon: PlusCircle },
   { href: "/seller/earnings", label: "Earnings", icon: DollarSign },
   { href: "/seller/analytics", label: "Analytics", icon: BarChart3 },
@@ -38,7 +39,7 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
               Seller Dashboard
             </h1>
             <p style={{ fontSize: 13, color: "var(--text-muted)" }}>
-              Manage your digital products and earnings
+              Manage your products, orders, and earnings
             </p>
           </div>
 

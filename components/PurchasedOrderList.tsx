@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ShoppingBag, Download, Loader2, ExternalLink, AlertCircle } from "lucide-react";
+import { ShoppingBag, Loader2, ExternalLink, AlertCircle, Truck, PackageCheck } from "lucide-react";
 import { createClient } from "../lib/supabase/client";
-import { getBuyerOrders, getDownloadUrl } from "../lib/supabase/orders";
+import { getBuyerOrders, confirmOrderDelivered } from "../lib/supabase/orders";
 import { createDispute, getDisputeByOrder } from "../lib/supabase/disputes";
 import { CHAIN_ID } from "../lib/contracts";
 import { useApp } from "../context/AppContext";
@@ -16,7 +16,7 @@ export default function PurchasedOrderList() {
   const { showToast } = useApp();
   const [orders, setOrders] = useState<DbOrder[]>([]);
   const [loading, setLoading] = useState(true);
-  const [downloadingId, setDownloadingId] = useState<string | null>(null);
+  const [confirmingId, setConfirmingId] = useState<string | null>(null);
   const [disputes, setDisputes] = useState<Record<string, string>>({}); // orderId -> status
   const [refundReason, setRefundReason] = useState("");
   const [showRefundModal, setShowRefundModal] = useState<string | null>(null); // orderId
@@ -44,28 +44,31 @@ export default function PurchasedOrderList() {
     });
   }, []);
 
-  const handleDownload = async (order: DbOrder) => {
-    setDownloadingId(order.id);
+  const handleConfirmDelivery = async (order: DbOrder) => {
+    setConfirmingId(order.id);
     try {
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { showToast("Please log in"); return; }
-      const url = await getDownloadUrl(user.id, order.product_id);
-      if (url) {
-        // M12: use programmatic anchor to bypass popup blocker
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = (order.product as any)?.file_name || "download";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      } else {
-        showToast("Download not available");
-      }
+      await confirmOrderDelivered(user.id, order.id);
+      setOrders((prev) => prev.map((o) => o.id === order.id ? { ...o, status: "delivered" } : o));
+      showToast("Delivery confirmed. Payment released to seller.");
     } catch {
-      showToast("Download failed");
+      showToast("Failed to confirm delivery");
     } finally {
-      setDownloadingId(null);
+      setConfirmingId(null);
+    }
+  };
+
+  const statusBadge = (order: DbOrder) => {
+    switch (order.status) {
+      case "paid": return <span className="badge badge-sand" style={{ fontSize: 9 }}>Awaiting Shipment</span>;
+      case "shipped": return <span className="badge badge-sky" style={{ fontSize: 9 }}>Shipped</span>;
+      case "delivered":
+      case "completed": return <span className="badge badge-green" style={{ fontSize: 9 }}>Delivered</span>;
+      case "refunded": return <span className="badge badge-sky" style={{ fontSize: 9 }}>Refunded</span>;
+      case "disputed": return <span className="badge badge-sand" style={{ fontSize: 9 }}>Disputed</span>;
+      default: return null;
     }
   };
 
@@ -85,7 +88,7 @@ export default function PurchasedOrderList() {
           No purchases yet
         </p>
         <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 16 }}>
-          Buy digital products with USDC to see them here.
+          Buy products with USDC to see your orders here.
         </p>
         <Link href="/dashboard" className="btn-sand">
           Browse Marketplace
@@ -129,6 +132,15 @@ export default function PurchasedOrderList() {
                     year: "numeric", month: "short", day: "numeric",
                   })}
                 </p>
+                <div style={{ marginTop: 6, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                  {statusBadge(order)}
+                  {order.status === "shipped" && order.tracking_number && (
+                    <span className="mono" style={{ fontSize: 10, color: "var(--text-muted)", display: "inline-flex", alignItems: "center", gap: 4 }}>
+                      <Truck size={10} />
+                      {order.shipping_carrier ? `${order.shipping_carrier}: ` : ""}{order.tracking_number}
+                    </span>
+                  )}
+                </div>
               </div>
 
               {/* Price + Actions */}
@@ -151,20 +163,22 @@ export default function PurchasedOrderList() {
                       <ExternalLink size={12} />
                     </a>
                   )}
-                  <button
-                    type="button"
-                    className="btn-sand"
-                    onClick={() => handleDownload(order)}
-                    disabled={downloadingId === order.id}
-                    style={{ padding: "4px 12px", fontSize: 11, gap: 4 }}
-                  >
-                    {downloadingId === order.id
-                      ? <Loader2 size={11} style={{ animation: "spin 1s linear infinite" }} />
-                      : <Download size={11} />
-                    }
-                    Download
-                  </button>
-                  {!disputes[order.id] ? (
+                  {order.status === "shipped" && (
+                    <button
+                      type="button"
+                      className="btn-sand"
+                      onClick={() => handleConfirmDelivery(order)}
+                      disabled={confirmingId === order.id}
+                      style={{ padding: "4px 12px", fontSize: 11, gap: 4 }}
+                    >
+                      {confirmingId === order.id
+                        ? <Loader2 size={11} style={{ animation: "spin 1s linear infinite" }} />
+                        : <PackageCheck size={11} />
+                      }
+                      Confirm Delivery
+                    </button>
+                  )}
+                  {!disputes[order.id] && (order.status === "paid" || order.status === "shipped") ? (
                     <button
                       type="button"
                       className="btn-ghost"
@@ -173,11 +187,11 @@ export default function PurchasedOrderList() {
                     >
                       Refund
                     </button>
-                  ) : (
+                  ) : disputes[order.id] ? (
                     <span className={`badge ${disputes[order.id] === "pending" ? "badge-sand" : disputes[order.id] === "approved" ? "badge-green" : "badge-sky"}`} style={{ fontSize: 9 }}>
                       {disputes[order.id] === "pending" ? "Dispute Pending" : disputes[order.id] === "approved" ? "Refunded" : "Denied"}
                     </span>
-                  )}
+                  ) : null}
                 </div>
               </div>
             </div>

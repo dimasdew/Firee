@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { X, Wallet, CheckCircle, Loader2, AlertCircle, ExternalLink, Download } from "lucide-react";
+import { X, Wallet, CheckCircle, Loader2, AlertCircle, ExternalLink, Truck } from "lucide-react";
 import { useAccount, useChainId, useSwitchChain } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useFireePurchase } from "../lib/contracts/useFireeEscrow";
 import { CHAIN_ID, CHAIN_NAME } from "../lib/contracts";
-import { createOrder } from "../lib/supabase/orders";
+import { createOrder, type ShippingInfo } from "../lib/supabase/orders";
 import { createClient } from "../lib/supabase/client";
 import UsdcAmount from "./UsdcAmount";
 
@@ -36,7 +36,23 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
   const total = product.price_usdc;
   const insufficientBalance = usdcBalance !== null && usdcBalance < total;
 
-  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  // Physical goods: shipping address collected before payment
+  const [shipping, setShipping] = useState<ShippingInfo>({
+    shipping_name: "",
+    shipping_address: "",
+    shipping_city: "",
+    shipping_postal_code: "",
+    shipping_country: "",
+    shipping_phone: "",
+  });
+  const [addressConfirmed, setAddressConfirmed] = useState(false);
+
+  const shippingValid =
+    shipping.shipping_name.trim() !== "" &&
+    shipping.shipping_address.trim() !== "" &&
+    shipping.shipping_city.trim() !== "" &&
+    shipping.shipping_postal_code.trim() !== "" &&
+    shipping.shipping_country.trim() !== "";
 
   const handlePurchase = async () => {
     if (!product.seller_wallet) return;
@@ -61,6 +77,7 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
             seller_revenue_usdc: product.price_usdc - fee,
             tx_hash: result.txHash,
             escrow_order_id: result.escrowOrderId, // C5
+            shipping,
           });
           // Update product sales count (best-effort)
           try {
@@ -197,7 +214,7 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
                 Purchase Complete!
               </p>
               <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 12 }}>
-                Your digital product is ready for download.
+                Payment is held in escrow. The seller will ship your item soon.
               </p>
               {txHash && (
                 <a
@@ -218,8 +235,60 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
                 Try Again
               </button>
             </div>
+          ) : !addressConfirmed ? (
+            <>
+              {/* Shipping address form */}
+              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 12 }}>
+                <Truck size={14} color="var(--sky)" />
+                <span style={{ fontSize: 13, fontWeight: 600, color: "var(--text, white)" }}>Shipping Address</span>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 16 }}>
+                <input className="input" placeholder="Full name" value={shipping.shipping_name}
+                  onChange={(e) => setShipping({ ...shipping, shipping_name: e.target.value })} />
+                <input className="input" placeholder="Street address" value={shipping.shipping_address}
+                  onChange={(e) => setShipping({ ...shipping, shipping_address: e.target.value })} />
+                <div style={{ display: "flex", gap: 8 }}>
+                  <input className="input" placeholder="City" style={{ flex: 1 }} value={shipping.shipping_city}
+                    onChange={(e) => setShipping({ ...shipping, shipping_city: e.target.value })} />
+                  <input className="input" placeholder="Postal code" style={{ width: 120 }} value={shipping.shipping_postal_code}
+                    onChange={(e) => setShipping({ ...shipping, shipping_postal_code: e.target.value })} />
+                </div>
+                <div style={{ display: "flex", gap: 8 }}>
+                  <input className="input" placeholder="Country" style={{ flex: 1 }} value={shipping.shipping_country}
+                    onChange={(e) => setShipping({ ...shipping, shipping_country: e.target.value })} />
+                  <input className="input" placeholder="Phone (optional)" style={{ flex: 1 }} value={shipping.shipping_phone}
+                    onChange={(e) => setShipping({ ...shipping, shipping_phone: e.target.value })} />
+                </div>
+              </div>
+              <button
+                type="button"
+                className="btn-sand"
+                disabled={!shippingValid}
+                onClick={() => setAddressConfirmed(true)}
+                style={{ width: "100%", justifyContent: "center", padding: "14px 20px", fontSize: 14 }}
+              >
+                Continue to Payment
+              </button>
+            </>
           ) : (
             <>
+              {/* Ship-to summary */}
+              <div style={{
+                display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8,
+                padding: "10px 12px", borderRadius: 8, border: "1px solid var(--border)", marginBottom: 12,
+              }}>
+                <div style={{ fontSize: 11, color: "var(--text-muted)", lineHeight: 1.5 }}>
+                  <span style={{ display: "flex", alignItems: "center", gap: 4, color: "var(--text, white)", fontWeight: 600, fontSize: 12 }}>
+                    <Truck size={12} /> {shipping.shipping_name}
+                  </span>
+                  {shipping.shipping_address}, {shipping.shipping_city} {shipping.shipping_postal_code}, {shipping.shipping_country}
+                </div>
+                <button type="button" className="btn-ghost" style={{ fontSize: 11, flexShrink: 0 }}
+                  onClick={() => setAddressConfirmed(false)}>
+                  Edit
+                </button>
+              </div>
+
               {/* Balance info */}
               {usdcBalance !== null && (
                 <p style={{

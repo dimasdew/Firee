@@ -50,7 +50,7 @@ export interface DbProduct {
   category?: Category;
 }
 
-export type OrderStatus = "pending" | "paid" | "completed" | "refunded" | "disputed";
+export type OrderStatus = "pending" | "paid" | "shipped" | "delivered" | "completed" | "refunded" | "disputed";
 
 export interface DbOrder {
   id: string;
@@ -64,6 +64,16 @@ export interface DbOrder {
   status: OrderStatus;
   download_url: string | null;
   downloaded_at: string | null;
+  shipping_name: string | null;
+  shipping_address: string | null;
+  shipping_city: string | null;
+  shipping_postal_code: string | null;
+  shipping_country: string | null;
+  shipping_phone: string | null;
+  tracking_number: string | null;
+  shipping_carrier: string | null;
+  shipped_at: string | null;
+  delivered_at: string | null;
   created_at: string;
   updated_at: string;
   // Joined fields

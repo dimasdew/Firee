@@ -7,23 +7,23 @@ import Footer from "../components/Footer";
 import { Shield, Zap, Globe, Lock, ArrowRight } from "lucide-react";
 
 const FEATURES = [
-  { icon: Shield, title: "Trustless Trading", desc: "Smart contract escrow handles every transaction — no middlemen, no hidden fees. 3% flat." },
-  { icon: Zap, title: "Instant Delivery", desc: "Pay with USDC and get instant download access. No waiting, no approval queues." },
-  { icon: Globe, title: "Global Access", desc: "Buy and sell from anywhere. Borderless peer-to-peer commerce for Web3 builders." },
-  { icon: Lock, title: "Secure File Hosting", desc: "Product files are stored in private buckets. Only paying buyers get signed download URLs." },
+  { icon: Shield, title: "Escrow Protection", desc: "Your payment sits in a smart contract until you confirm delivery. The seller only gets paid when your item arrives. 3% flat fee." },
+  { icon: Zap, title: "Automatic Refunds", desc: "Seller never ships? The contract refunds you automatically after 14 days. No support tickets, no waiting on a human." },
+  { icon: Globe, title: "Global Access", desc: "Buy and sell physical goods from anywhere. No bank account needed, just a wallet with USDC." },
+  { icon: Lock, title: "On-Chain Transparency", desc: "Every order, shipment, and payout is verifiable on the Base blockchain. No hidden holds on seller funds." },
 ];
 
 const STEPS = [
   { n: "01", title: "Create Account", desc: "Sign up with email or Google. Connect your wallet to buy or sell." },
-  { n: "02", title: "Browse & Buy", desc: "Find smart contracts, DApp templates, UI kits, and tools. Pay with USDC on Base." },
-  { n: "03", title: "Instant Download", desc: "After payment, download your files immediately. No delays." },
-  { n: "04", title: "Sell & Earn", desc: "Upload your own digital products and earn USDC with every sale. Only 3% fee." },
+  { n: "02", title: "Browse & Buy", desc: "Find physical products, enter your shipping address, and pay with USDC on Base. Funds go into escrow, not to the seller." },
+  { n: "03", title: "Track & Receive", desc: "The seller ships with a tracking number. When your item arrives, confirm delivery to release the payment." },
+  { n: "04", title: "Sell & Earn", desc: "List your own products and earn USDC with every sale. Payment is guaranteed by the escrow contract. Only 3% fee." },
 ];
 
 const BUYER_FAQ = [
   {
     q: "How do I buy a product?",
-    a: "Browse the marketplace, click a product, then hit \"Buy with USDC\". Connect your wallet, approve the USDC amount, and the smart contract handles the payment. You'll get instant access to download the file.",
+    a: "Browse the marketplace, click a product, enter your shipping address, then pay with USDC. Your payment is held in a smart contract escrow until the item arrives and you confirm delivery.",
   },
   {
     q: "What is USDC and how do I get it?",
@@ -31,30 +31,34 @@ const BUYER_FAQ = [
   },
   {
     q: "Is my payment safe?",
-    a: "Yes. Every payment goes through an on-chain escrow smart contract on the Base blockchain. Funds are held securely and transparently — no middlemen, no chargebacks.",
+    a: "Yes. Your USDC is locked in an on-chain escrow contract, not sent to the seller. The seller only gets paid when you confirm delivery. If they never ship, you can claim a full refund after 14 days.",
   },
   {
     q: "Do I need a crypto wallet?",
     a: "You can create an account with email to browse products. To make purchases, you'll need a wallet like MetaMask or Coinbase Wallet connected to the Base network.",
   },
   {
-    q: "How do I download my purchased file?",
-    a: "After a successful payment, go to your Orders page or the product page — you'll see a Download button. Files are delivered via secure signed URLs.",
+    q: "What happens after I pay?",
+    a: "The seller ships your item and posts a tracking number, which you can follow from your Orders page. When it arrives, hit Confirm Delivery to release the payment. If something is wrong, open a dispute instead.",
+  },
+  {
+    q: "What if my item never arrives?",
+    a: "If the seller does not mark the order as shipped within 14 days, you can claim an automatic full refund straight from the contract. If it shipped but arrived damaged or wrong, open a dispute and our team will review it.",
   },
 ];
 
 const SELLER_FAQ = [
   {
     q: "How do I start selling?",
-    a: "Create an account, go to the Seller Dashboard, and click \"New Product\". Upload your file, add a thumbnail, set a USDC price, and publish. Your product goes live immediately.",
+    a: "Create an account, go to the Seller Dashboard, and click \"New Product\". Add photos, a description, set a USDC price and where you ship from, then publish.",
   },
   {
     q: "What can I sell on Firee?",
-    a: "Digital products for Web3 builders: smart contracts, DApp templates, UI kits, developer tools, scripts, and more. Any downloadable file works.",
+    a: "Physical goods of any kind: electronics, apparel, collectibles, handmade items, and more. You handle the shipping; the escrow contract handles the payment.",
   },
   {
     q: "How do I receive my earnings?",
-    a: "After a buyer purchases your product, your earnings (minus a 3% platform fee) are held in the escrow smart contract. You can withdraw USDC to your wallet anytime from the Seller Dashboard.",
+    a: "When a buyer pays, the USDC is locked in escrow. Ship the item and post the tracking number. Once the buyer confirms delivery (or the 30-day auto-release passes), your earnings minus the 3% fee become withdrawable from the Seller Dashboard.",
   },
   {
     q: "What fees does Firee charge?",
@@ -91,11 +95,11 @@ export default function Home() {
           </div>
 
           <h1 className="fade-up d2" style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: "clamp(32px, 6vw, 68px)", lineHeight: 1.05, letterSpacing: "-0.03em", color: "var(--text, white)", marginBottom: 20 }}>
-            The Marketplace for <span style={{ color: "var(--sand)" }}>Web3 Builders</span>
+            Buy Real Things with <span style={{ color: "var(--sand)" }}>Crypto, Safely</span>
           </h1>
 
           <p className="fade-up d3" style={{ fontSize: 16, lineHeight: 1.7, color: "var(--text-muted)", maxWidth: 500, margin: "0 auto 36px" }}>
-            Buy and sell smart contracts, DApp templates, UI kits, and developer tools. Pay with USDC on Base.
+            A peer-to-peer marketplace for physical goods. Pay with USDC on Base, and your money stays in escrow until your item actually arrives.
           </p>
 
           <div className="fade-up d4" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>
@@ -117,8 +121,8 @@ export default function Home() {
       <section id="features" className="section">
         <div className="container">
           <p style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(110,172,218,0.5)", marginBottom: 8 }}>Why Firee</p>
-          <h2 className="section-title">Built for Web3 builders</h2>
-          <p className="section-sub">Everything you need to buy and sell digital products — on-chain, transparent, instant.</p>
+          <h2 className="section-title">Trust the contract, not the stranger</h2>
+          <p className="section-sub">Everything you need to buy and sell physical goods peer to peer, with payment protection built into the chain.</p>
           <div className="features-grid">
             {FEATURES.map((f) => (
               <div key={f.title} className="card feature-card">
@@ -200,8 +204,8 @@ export default function Home() {
       <section className="section">
         <div className="container">
           <div className="cta-box">
-            <h2 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: "clamp(22px, 4vw, 32px)", color: "var(--text, white)", marginBottom: 12 }}>Start building with the best tools</h2>
-            <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 28, maxWidth: 440, margin: "0 auto 28px" }}>Join Web3 builders buying and selling smart contracts, templates, and tools on Firee.</p>
+            <h2 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: "clamp(22px, 4vw, 32px)", color: "var(--text, white)", marginBottom: 12 }}>Shop without trusting a stranger</h2>
+            <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 28, maxWidth: 440, margin: "0 auto 28px" }}>Join buyers and sellers trading physical goods with escrow-protected USDC payments on Firee.</p>
             <Link href="/login" className="btn-sand">Explore Marketplace <ArrowRight size={14} /></Link>
           </div>
         </div>
