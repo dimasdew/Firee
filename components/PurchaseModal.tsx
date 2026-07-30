@@ -22,6 +22,8 @@ interface Props {
     seller_id?: string;
     seller_wallet: string;
     thumbnail_url?: string | null;
+    shipping_fee_usdc?: number | null;
+    ships_from_country?: string | null;
   };
 }
 
@@ -32,8 +34,9 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
   const { step, error, txHash, escrowOrderId, purchase, reset, usdcBalance } = useFireePurchase();
 
   const wrongChain = chainId !== CHAIN_ID;
-  const platformFee = product.price_usdc * 0.03;
-  const total = product.price_usdc;
+  const shippingFee = product.shipping_fee_usdc ?? 0;
+  const platformFee = (product.price_usdc + shippingFee) * 0.03;
+  const total = product.price_usdc + shippingFee;
   const insufficientBalance = usdcBalance !== null && usdcBalance < total;
 
   // Physical goods: shipping address collected before payment
@@ -58,7 +61,7 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
     if (!product.seller_wallet) return;
     const result = await purchase(
       product.seller_wallet as `0x${string}`,
-      product.price_usdc,
+      total,
       product.id
     );
     if (result) {
@@ -67,14 +70,13 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
         const supabase = createClient();
         const { data: { user } } = await supabase.auth.getUser();
         if (user && product.seller_id) {
-          const fee = product.price_usdc * 0.03;
           const order = await createOrder({
             buyer_id: user.id,
             product_id: product.id,
             seller_id: product.seller_id,
             price_usdc: product.price_usdc,
-            platform_fee_usdc: fee,
-            seller_revenue_usdc: product.price_usdc - fee,
+            platform_fee_usdc: platformFee,
+            seller_revenue_usdc: total - platformFee,
             tx_hash: result.txHash,
             escrow_order_id: result.escrowOrderId, // C5
             shipping,
@@ -176,6 +178,10 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, color: "var(--text-muted)" }}>
               <span>Price</span>
               <span>{product.price_usdc.toFixed(2)} USDC</span>
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, color: "var(--text-muted)" }}>
+              <span>Shipping{product.ships_from_country ? ` (from ${product.ships_from_country})` : ""}</span>
+              <span>{shippingFee > 0 ? `${shippingFee.toFixed(2)} USDC` : "Free"}</span>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, color: "var(--text-muted)", fontSize: 11, opacity: 0.7 }}>
               <span>Platform fee (3%, deducted from seller)</span>

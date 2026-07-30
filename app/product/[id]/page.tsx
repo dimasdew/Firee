@@ -11,10 +11,9 @@ import ReviewSection from "../../../components/ReviewSection";
 import UsdcAmount from "../../../components/UsdcAmount";
 import { useApp } from "../../../context/AppContext";
 import { getProductById } from "../../../lib/supabase/products";
-import { getDownloadUrl } from "../../../lib/supabase/orders";
 import { createClient } from "../../../lib/supabase/client";
 import type { DbProduct } from "../../../lib/supabase/types";
-import { ArrowLeft, ShoppingBag, CheckCircle, Share2, Wallet, Download, Loader2, User, Flag } from "lucide-react";
+import { ArrowLeft, ShoppingBag, CheckCircle, Share2, Wallet, Loader2, User, Flag } from "lucide-react";
 import { reportProduct, hasReported, type ReportReason } from "../../../lib/supabase/reports";
 
 export default function ProductDetailPage() {
@@ -25,8 +24,6 @@ export default function ProductDetailPage() {
   const [loading, setLoading] = useState(true);
   const [showPurchase, setShowPurchase] = useState(false);
   const [purchased, setPurchased] = useState(false);
-  const [downloadLink, setDownloadLink] = useState<string | null>(null);
-  const [downloading, setDownloading] = useState(false);
   const [showReport, setShowReport] = useState(false);
   const [reportReason, setReportReason] = useState<ReportReason>("copyright");
   const [reportDetails, setReportDetails] = useState("");
@@ -58,7 +55,7 @@ export default function ProductDetailPage() {
         .select("id")
         .eq("buyer_id", user.id)
         .eq("product_id", product.id)
-        .eq("status", "completed")
+        .in("status", ["paid", "shipped", "delivered", "completed"])
         .limit(1)
         .then(({ data }) => {
           if (data && data.length > 0) setPurchased(true);
@@ -95,30 +92,9 @@ export default function ProductDetailPage() {
     }
   };
 
-  const handleDownload = async () => {
-    if (!product) return;
-    setDownloading(true);
-    try {
-      const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) { showToast("Please log in"); return; }
-      const url = await getDownloadUrl(user.id, product.id);
-      if (url) {
-        setDownloadLink(url);
-        window.open(url, "_blank");
-      } else {
-        showToast("Download not available");
-      }
-    } catch {
-      showToast("Download failed");
-    } finally {
-      setDownloading(false);
-    }
-  };
-
   const handlePurchaseSuccess = (txHash: string) => {
     setPurchased(true);
-    showToast("Purchase complete! You can now download the file.");
+    showToast("Purchase complete! The seller will ship your item soon.");
   };
 
   if (loading) {
@@ -202,12 +178,9 @@ export default function ProductDetailPage() {
                 </div>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "wrap" }}>
                   {purchased ? (
-                    <button type="button" className="btn-sand" onClick={handleDownload} disabled={downloading} style={{ gap: 6 }}>
-                      {downloading
-                        ? <><Loader2 size={13} style={{ animation: "spin 1s linear infinite" }} /> Preparing...</>
-                        : <><Download size={13} /> Download</>
-                      }
-                    </button>
+                    <Link href="/order" className="btn-sand" style={{ gap: 6, display: "inline-flex", alignItems: "center" }}>
+                      <CheckCircle size={13} /> View Order
+                    </Link>
                   ) : (
                     <button type="button" className="btn-primary" onClick={() => setShowPurchase(true)} style={{ gap: 6 }}>
                       <Wallet size={13} /> Buy with USDC
@@ -221,7 +194,7 @@ export default function ProductDetailPage() {
           {/* Right — Product info */}
           <div className="card" style={{ padding: 28 }}>
             <span className="badge badge-sky" style={{ marginBottom: 16, fontSize: 9 }}>
-              {product.category?.name || "Digital Product"}
+              {product.category?.name || "Product"}
             </span>
             <h2 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: 22, letterSpacing: "-0.02em", marginBottom: 4, color: "var(--text, white)" }}>
               {product.title}
@@ -253,10 +226,11 @@ export default function ProductDetailPage() {
               <p style={{ fontSize: 13, fontWeight: 500, color: "var(--sky)", marginBottom: 16 }}>{product.short_description}</p>
             )}
 
-            {product.file_name && (
+            {(product.ships_from_country || product.shipping_fee_usdc != null) && (
               <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 20 }}>
-                File: {product.file_name}
-                {product.file_size_bytes && ` (${(product.file_size_bytes / 1024 / 1024).toFixed(1)} MB)`}
+                {product.ships_from_country && `Ships from ${product.ships_from_country}`}
+                {product.ships_from_country && " · "}
+                Shipping: {product.shipping_fee_usdc ? `${product.shipping_fee_usdc.toFixed(2)} USDC` : "Free"}
               </p>
             )}
 
@@ -303,9 +277,9 @@ export default function ProductDetailPage() {
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   <CheckCircle size={16} color="#4ade80" />
                   <span style={{ fontSize: 13, fontWeight: 600, color: "#4ade80" }}>Purchased</span>
-                  <button type="button" className="btn-sand" onClick={handleDownload} disabled={downloading} style={{ gap: 6, marginLeft: 8 }}>
-                    <Download size={13} /> Download
-                  </button>
+                  <Link href="/order" className="btn-sand" style={{ gap: 6, marginLeft: 8, display: "inline-flex", alignItems: "center" }}>
+                    View Order
+                  </Link>
                 </div>
               ) : (
                 <button type="button" className="btn-primary" onClick={() => setShowPurchase(true)} style={{ gap: 6 }}>
@@ -330,6 +304,8 @@ export default function ProductDetailPage() {
           seller_id: product.seller_id,
           seller_wallet: product.seller?.wallet_address || "",
           thumbnail_url: product.thumbnail_url,
+          shipping_fee_usdc: product.shipping_fee_usdc,
+          ships_from_country: product.ships_from_country,
         }}
       />
 

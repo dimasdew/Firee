@@ -26,15 +26,16 @@ export async function createOrder(order: {
   // C2: Verify price from DB — never trust client-supplied price
   const { data: product } = await getClient()
     .from("products")
-    .select("price_usdc, seller_id")
+    .select("price_usdc, seller_id, shipping_fee_usdc")
     .eq("id", order.product_id)
     .single();
 
   if (!product) throw new Error("Product not found");
   if (product.seller_id !== order.seller_id) throw new Error("Seller mismatch");
 
-  const fee = +(product.price_usdc * 0.03).toFixed(6);
-  const sellerRevenue = +(product.price_usdc - fee).toFixed(6);
+  const totalPaid = product.price_usdc + (product.shipping_fee_usdc ?? 0);
+  const fee = +(totalPaid * 0.03).toFixed(6);
+  const sellerRevenue = +(totalPaid - fee).toFixed(6);
 
   const { data, error } = await getClient()
     .from("orders")
