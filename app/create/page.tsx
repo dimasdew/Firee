@@ -52,7 +52,7 @@ export default function CreatePage() {
                 </div>
                 <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)", marginBottom: 8 }}>Check your email</h3>
                 <p style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.6, marginBottom: 20 }}>
-                  We sent a confirmation link to <strong style={{ color: "var(--sky)" }}>{form.email}</strong>.<br />
+                  We sent a confirmation link to <strong style={{ color: "var(--accent-text)" }}>{form.email}</strong>.<br />
                   Click the link to activate your account.
                 </p>
                 <button type="button" className="btn-primary" style={{ width: "100%", justifyContent: "center" }} onClick={() => router.push("/login")}>

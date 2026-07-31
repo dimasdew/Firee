@@ -146,7 +146,7 @@ export default function Home() {
             {stats.map((s) => (
               <div key={s.label} style={{ textAlign: "center" }}>
                 <div className="mono" style={{ fontSize: "clamp(18px, 3vw, 24px)", fontWeight: 700, color: "var(--sand)" }}>{s.value}</div>
-                <div style={{ fontSize: 11, color: "rgba(110,172,218,0.5)", marginTop: 4, textTransform: "uppercase", letterSpacing: "0.08em" }}>{s.label}</div>
+                <div style={{ fontSize: 11, color: "var(--label)", marginTop: 4, textTransform: "uppercase", letterSpacing: "0.08em" }}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -155,7 +155,7 @@ export default function Home() {
 
       <section id="features" className="section">
         <div className="container">
-          <p style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(110,172,218,0.5)", marginBottom: 8 }}>Why Firee</p>
+          <p style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--label)", marginBottom: 8 }}>Why Firee</p>
           <h2 className="section-title">Trust the contract, not the stranger</h2>
           <p className="section-sub">Everything you need to buy and sell physical goods peer to peer, with payment protection built into the chain.</p>
           <div className="features-grid">
@@ -172,7 +172,7 @@ export default function Home() {
 
       <section id="how" className="section" style={{ background: "rgba(3,52,110,0.08)" }}>
         <div className="container">
-          <p style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(110,172,218,0.5)", marginBottom: 8 }}>How it works</p>
+          <p style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--label)", marginBottom: 8 }}>How it works</p>
           <h2 className="section-title">Four steps to freedom</h2>
           <div className="steps-grid">
             {STEPS.map((s) => (
@@ -188,7 +188,7 @@ export default function Home() {
 
       <section id="faq" className="section">
         <div className="container" style={{ maxWidth: 680 }}>
-          <p style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(110,172,218,0.5)", marginBottom: 8 }}>FAQ</p>
+          <p style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--label)", marginBottom: 8 }}>FAQ</p>
           <h2 className="section-title">Frequently Asked Questions</h2>
           <p className="section-sub">Everything you need to know about Firee.</p>
 
@@ -223,7 +223,7 @@ export default function Home() {
                   }}
                 >
                   {item.q}
-                  <span style={{ color: "var(--sky)", fontSize: 18, flexShrink: 0 }}>{faqOpen === i ? "−" : "+"}</span>
+                  <span style={{ color: "var(--accent-text)", fontSize: 18, flexShrink: 0 }}>{faqOpen === i ? "−" : "+"}</span>
                 </button>
                 {faqOpen === i && (
                   <p style={{ padding: "0 18px 16px", fontSize: 13, lineHeight: 1.7, color: "var(--text-muted)" }}>

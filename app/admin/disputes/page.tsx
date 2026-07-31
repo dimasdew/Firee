@@ -98,7 +98,7 @@ export default function AdminDisputesPage() {
                   <td style={{ padding: "12px 14px", fontSize: 12, color: "var(--text-muted)", maxWidth: 250 }}>
                     <p style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{d.reason}</p>
                     {d.admin_note && (
-                      <p style={{ fontSize: 10, color: "var(--sky)", marginTop: 2 }}>Note: {d.admin_note}</p>
+                      <p style={{ fontSize: 10, color: "var(--accent-text)", marginTop: 2 }}>Note: {d.admin_note}</p>
                     )}
                   </td>
                   <td style={{ padding: "12px 14px", textAlign: "center" }}>

@@ -57,7 +57,7 @@ export default function SellerProfilePage() {
       <div className="page-shell">
         <Navbar variant="dashboard" />
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "60vh" }}>
-          <Loader2 size={24} style={{ animation: "spin 1s linear infinite", color: "var(--sky)" }} />
+          <Loader2 size={24} style={{ animation: "spin 1s linear infinite", color: "var(--accent-text)" }} />
         </div>
       </div>
     );

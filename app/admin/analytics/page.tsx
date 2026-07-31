@@ -55,9 +55,9 @@ export default function AdminAnalyticsPage() {
   if (!stats) return null;
 
   const cards = [
-    { label: "Total Users", value: stats.totalUsers, icon: Users, color: "var(--sky)" },
+    { label: "Total Users", value: stats.totalUsers, icon: Users, color: "var(--accent-text)" },
     { label: "Sellers", value: stats.totalSellers, icon: Users, color: "var(--sand)" },
-    { label: "Products", value: stats.totalProducts, icon: Package, color: "var(--sky)" },
+    { label: "Products", value: stats.totalProducts, icon: Package, color: "var(--accent-text)" },
     { label: "Orders", value: stats.totalOrders, icon: ShoppingBag, color: "var(--sand)" },
   ];
 
@@ -92,7 +92,7 @@ export default function AdminAnalyticsPage() {
             <TrendingUp size={14} color="var(--sky)" />
             <span style={{ fontSize: 11, color: "var(--text-muted)" }}>Platform Fees (3%)</span>
           </div>
-          <UsdcAmount value={stats.platformFees} iconSize={16} style={{ fontSize: 22, fontWeight: 700, color: "var(--sky)" }} />
+          <UsdcAmount value={stats.platformFees} iconSize={16} style={{ fontSize: 22, fontWeight: 700, color: "var(--accent-text)" }} />
         </div>
       </div>
 

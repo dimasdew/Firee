@@ -122,7 +122,7 @@ export default function SellerProductsPage() {
         </div>
         <div className="card" style={{ padding: 20, textAlign: "center" }}>
           <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 6 }}>Total Sales</p>
-          <p style={{ fontSize: 24, fontWeight: 700, color: "var(--sky)" }}>
+          <p style={{ fontSize: 24, fontWeight: 700, color: "var(--accent-text)" }}>
             {products.reduce((s, p) => s + p.total_sales, 0)}
           </p>
         </div>

@@ -110,7 +110,7 @@ export default function DashboardPage() {
       <main className="container" style={{ padding: "32px 0 48px" }}>
         <div className="dashboard-header">
           <div>
-            <p style={{ fontSize: 11, color: "rgba(110,172,218,0.4)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 4 }}>Marketplace</p>
+            <p style={{ fontSize: 11, color: "var(--label)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 4 }}>Marketplace</p>
             <h1 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: "clamp(20px, 4vw, 26px)", color: "var(--text, white)", letterSpacing: "-0.02em" }}>
               Browse Products
             </h1>
@@ -192,7 +192,7 @@ export default function DashboardPage() {
               <button
                 type="button"
                 onClick={() => { setPriceMin(""); setPriceMax(""); setActiveTag(null); resetPage(); }}
-                style={{ fontSize: 11, color: "var(--sky)", background: "none", border: "none", cursor: "pointer", textDecoration: "underline" }}
+                style={{ fontSize: 11, color: "var(--accent-text)", background: "none", border: "none", cursor: "pointer", textDecoration: "underline" }}
               >
                 Clear filters
               </button>

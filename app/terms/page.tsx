@@ -10,7 +10,7 @@ export default function TermsPage() {
   return (
     <div className="page-shell" style={{ alignItems: "center" }}>
       <main className="container" style={{ maxWidth: 720, padding: "48px 16px 80px" }}>
-        <Link href="/" style={{ fontSize: 12, color: "var(--sky)", textDecoration: "none", marginBottom: 24, display: "inline-block" }}>
+        <Link href="/" style={{ fontSize: 12, color: "var(--accent-text)", textDecoration: "none", marginBottom: 24, display: "inline-block" }}>
           ← Back to Home
         </Link>
         <h1 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: 28, color: "var(--text, white)", marginBottom: 8 }}>Terms of Service</h1>
@@ -69,7 +69,7 @@ export default function TermsPage() {
 
           <section>
             <h2 style={{ fontSize: 16, fontWeight: 600, color: "var(--text, white)", marginBottom: 8 }}>11. Contact</h2>
-            <p>For questions about these Terms, contact us at <a href="mailto:support@firee.app" style={{ color: "var(--sky)" }}>support@firee.app</a>.</p>
+            <p>For questions about these Terms, contact us at <a href="mailto:support@firee.app" style={{ color: "var(--accent-text)" }}>support@firee.app</a>.</p>
           </section>
         </div>
       </main>

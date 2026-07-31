@@ -69,7 +69,7 @@ export default function AdminOrdersPage() {
         </div>
         <div className="card" style={{ padding: 16, textAlign: "center" }}>
           <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>Platform Fees</p>
-          <UsdcAmount value={totalFees} iconSize={14} style={{ fontSize: 18, fontWeight: 700, color: "var(--sky)", justifyContent: "center" }} />
+          <UsdcAmount value={totalFees} iconSize={14} style={{ fontSize: 18, fontWeight: 700, color: "var(--accent-text)", justifyContent: "center" }} />
         </div>
         <div className="card" style={{ padding: 16, textAlign: "center" }}>
           <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>Completed</p>

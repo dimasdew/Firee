@@ -100,7 +100,7 @@ export default function EarningsPage() {
             <Wallet size={14} color="var(--sky)" />
             <span style={{ fontSize: 11, color: "var(--text-muted)" }}>Available</span>
           </div>
-          <UsdcAmount value={stats.availableBalance} iconSize={16} style={{ fontSize: 20, fontWeight: 700, color: "var(--sky)" }} />
+          <UsdcAmount value={stats.availableBalance} iconSize={16} style={{ fontSize: 20, fontWeight: 700, color: "var(--accent-text)" }} />
         </div>
         <div className="card" style={{ padding: 20 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
@@ -175,7 +175,7 @@ export default function EarningsPage() {
                     {payout.status}
                   </span>
                   {payout.tx_hash && (
-                    <a href={`${basescanBase}/tx/${payout.tx_hash}`} target="_blank" rel="noopener noreferrer" className="mono" style={{ fontSize: 10, color: "var(--sky)", textDecoration: "none" }}>
+                    <a href={`${basescanBase}/tx/${payout.tx_hash}`} target="_blank" rel="noopener noreferrer" className="mono" style={{ fontSize: 10, color: "var(--accent-text)", textDecoration: "none" }}>
                       {payout.tx_hash.slice(0, 10)}…
                     </a>
                   )}

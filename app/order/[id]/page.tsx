@@ -79,7 +79,7 @@ export default function OrderDetailPage() {
 
           {loading ? (
             <div style={{ textAlign: "center", padding: "64px 0" }}>
-              <Loader2 size={24} style={{ animation: "spin 1s linear infinite", color: "var(--sky)" }} />
+              <Loader2 size={24} style={{ animation: "spin 1s linear infinite", color: "var(--accent-text)" }} />
             </div>
           ) : !order ? null : (
             <div className="card" style={{ padding: 28 }}>

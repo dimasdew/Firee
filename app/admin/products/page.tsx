@@ -85,7 +85,7 @@ export default function AdminProductsPage() {
         </div>
         <div className="card" style={{ padding: 16, textAlign: "center" }}>
           <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>Total Sales</p>
-          <p style={{ fontSize: 22, fontWeight: 700, color: "var(--sky)" }}>{products.reduce((s, p) => s + p.total_sales, 0)}</p>
+          <p style={{ fontSize: 22, fontWeight: 700, color: "var(--accent-text)" }}>{products.reduce((s, p) => s + p.total_sales, 0)}</p>
         </div>
       </div>
 

@@ -81,7 +81,7 @@ export default function AdminUsersPage() {
         </div>
         <div className="card" style={{ padding: 16, textAlign: "center" }}>
           <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>Sellers</p>
-          <p style={{ fontSize: 22, fontWeight: 700, color: "var(--sky)" }}>{users.filter((u) => u.is_seller).length}</p>
+          <p style={{ fontSize: 22, fontWeight: 700, color: "var(--accent-text)" }}>{users.filter((u) => u.is_seller).length}</p>
         </div>
         <div className="card" style={{ padding: 16, textAlign: "center" }}>
           <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>Admins</p>

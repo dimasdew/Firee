@@ -102,7 +102,7 @@ export default function ProductDetailPage() {
       <div className="page-shell">
         <Navbar variant="dashboard" />
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "60vh" }}>
-          <Loader2 size={24} style={{ animation: "spin 1s linear infinite", color: "var(--sky)" }} />
+          <Loader2 size={24} style={{ animation: "spin 1s linear infinite", color: "var(--accent-text)" }} />
         </div>
       </div>
     );
@@ -215,7 +215,7 @@ export default function ProductDetailPage() {
               <div>
                 <p style={{ fontSize: 12, color: "var(--text-muted)" }}>
                   By{" "}
-                  <Link href={`/shop/${product.seller_id}`} style={{ color: "var(--sky)", fontWeight: 600, textDecoration: "none" }}>
+                  <Link href={`/shop/${product.seller_id}`} style={{ color: "var(--accent-text)", fontWeight: 600, textDecoration: "none" }}>
                     {product.seller?.display_name || product.seller?.username || "Unknown"}
                   </Link>
                 </p>
@@ -223,7 +223,7 @@ export default function ProductDetailPage() {
             </div>
 
             {product.short_description && (
-              <p style={{ fontSize: 13, fontWeight: 500, color: "var(--sky)", marginBottom: 16 }}>{product.short_description}</p>
+              <p style={{ fontSize: 13, fontWeight: 500, color: "var(--accent-text)", marginBottom: 16 }}>{product.short_description}</p>
             )}
 
             {(product.ships_from_country || product.shipping_fee_usdc != null) && (

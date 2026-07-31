@@ -87,7 +87,7 @@ export default function AnalyticsPage() {
             </div>
             <span style={{ fontSize: 11, color: "var(--text-muted)" }}>Total Sales</span>
           </div>
-          <p style={{ fontSize: 24, fontWeight: 700, color: "var(--sky)" }}>{totalSales}</p>
+          <p style={{ fontSize: 24, fontWeight: 700, color: "var(--accent-text)" }}>{totalSales}</p>
         </div>
 
         <div className="card" style={{ padding: 20 }}>
