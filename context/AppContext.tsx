@@ -146,6 +146,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
         walletAddress: profile?.wallet_address || null,
         joinedAt: su.created_at,
         isAdmin: profile?.is_admin || false,
+        isSeller: profile?.is_seller || false,
+        sellerVerified: profile?.seller_verified || false,
       });
       checkNeedsPassword(su);
     }

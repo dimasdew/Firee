@@ -19,4 +19,6 @@ export interface User {
   walletAddress: string | null;
   joinedAt: string;
   isAdmin?: boolean;
+  isSeller?: boolean;
+  sellerVerified?: boolean;
 }

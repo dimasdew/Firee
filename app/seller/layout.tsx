@@ -22,12 +22,14 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
   const router = useRouter();
   const { user } = useApp();
 
-  // H5: verified-seller gate — is_seller must be true (set by admin after approval)
+  // H5: seller gate. The /seller index page handles its own apply/pending/verified
+  // states, so let it through. Only guard the action subpages (new, orders,
+  // earnings, analytics) for non-sellers.
   useEffect(() => {
-    if (user && !(user as any).is_seller) {
-      router.replace("/dashboard?seller_required=1");
+    if (user && !user.isSeller && path !== "/seller") {
+      router.replace("/seller");
     }
-  }, [user, router]);
+  }, [user, path, router]);
 
   return (
     <AuthGuard>
