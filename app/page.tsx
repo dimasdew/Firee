@@ -126,7 +126,6 @@ export default function Home() {
 
         <div style={{ position: "relative", zIndex: 10, textAlign: "center", padding: "48px 24px", maxWidth: 720 }}>
           <div className="badge badge-sky fade-up d1" style={{ marginBottom: 28, display: "inline-flex" }}>
-            <span style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--sky)" }} />
             Decentralized Marketplace
           </div>
 
