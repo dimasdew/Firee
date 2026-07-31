@@ -149,10 +149,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
       });
       checkNeedsPassword(su);
     }
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      // IMPORTANT: never `await` another supabase call directly inside this
+      // callback — it deadlocks the auth lock and signInWithPassword never
+      // resolves (login stuck at "Logging in..."). Defer with setTimeout(0)
+      // so the callback returns immediately and releases the lock.
       if (session?.user) {
-        await hydrateUser(session.user);
         setHasSupabaseSession(true);
+        setTimeout(() => { hydrateUser(session.user); }, 0);
       } else {
         setUser(null);
         setHasSupabaseSession(false);
