@@ -187,10 +187,6 @@ select.input { cursor: pointer; }
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
 }
-@keyframes pulse-slow {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.8; }
-}
 
 .fade-up { animation: fadeUp 0.5s ease forwards; }
 .d1 { animation-delay: 0.05s; opacity: 0; }
