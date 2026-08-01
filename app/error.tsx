@@ -33,7 +33,7 @@ export default function GlobalError({
           </p>
         )}
         <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
-          <button type="button" className="btn-sand" onClick={reset} style={{ gap: 6 }}>
+          <button type="button" className="btn-sand" onClick={reset} >
             <RotateCcw size={13} /> Try Again
           </button>
           <Link href="/" className="btn-ghost" style={{ textDecoration: "none" }}>

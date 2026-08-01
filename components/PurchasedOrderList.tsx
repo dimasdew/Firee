@@ -184,9 +184,8 @@ export default function PurchasedOrderList() {
                   {!disputes[order.id] && (order.status === "paid" || order.status === "shipped") ? (
                     <button
                       type="button"
-                      className="btn-ghost"
+                      className="btn-danger btn-sm"
                       onClick={() => { setShowRefundModal(order.id); setRefundReason(""); }}
-                      style={{ padding: "4px 10px", fontSize: 10, color: "#f87171", borderColor: "rgba(248,113,113,0.2)" }}
                     >
                       Refund
                     </button>
@@ -225,7 +224,7 @@ export default function PurchasedOrderList() {
               }}
             />
             <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
-              <button type="button" className="btn-ghost" onClick={() => setShowRefundModal(null)} style={{ fontSize: 12 }}>
+              <button type="button" className="btn-ghost btn-sm" onClick={() => setShowRefundModal(null)}>
                 Cancel
               </button>
               <button

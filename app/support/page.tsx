@@ -67,7 +67,7 @@ export default function SupportPage() {
                   )}
                 </div>
               ))}
-              <button type="submit" className="btn-primary" style={{ width: "100%", justifyContent: "center" }}>
+              <button type="submit" className="btn-primary" style={{ width: "100%" }}>
                 <Send size={14} /> Send Message
               </button>
               <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 12, display: "flex", alignItems: "center", gap: 6 }}>

@@ -174,7 +174,7 @@ export default function SellerOrdersPage() {
                 onChange={(e) => setCarrier(e.target.value)} />
             </div>
             <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
-              <button type="button" className="btn-ghost" onClick={() => setShipModal(null)} style={{ fontSize: 12 }}>
+              <button type="button" className="btn-ghost btn-sm" onClick={() => setShipModal(null)}>
                 Cancel
               </button>
               <button

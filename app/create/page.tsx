@@ -55,7 +55,7 @@ export default function CreatePage() {
                   We sent a confirmation link to <strong style={{ color: "var(--accent-text)" }}>{form.email}</strong>.<br />
                   Click the link to activate your account.
                 </p>
-                <button type="button" className="btn-primary" style={{ width: "100%", justifyContent: "center" }} onClick={() => router.push("/login")}>
+                <button type="button" className="btn-primary" style={{ width: "100%" }} onClick={() => router.push("/login")}>
                   Go to Login <ArrowRight size={14} />
                 </button>
               </div>
@@ -105,7 +105,7 @@ export default function CreatePage() {
                 ))}
               </div>
             </div>
-            <button type="button" className="btn-primary" style={{ width: "100%", justifyContent: "center", marginTop: 4 }} onClick={submit}>Create Account <ArrowRight size={14} /></button>
+            <button type="button" className="btn-primary" style={{ width: "100%", marginTop: 4 }} onClick={submit}>Create Account <ArrowRight size={14} /></button>
             </>
             )}
           </div>

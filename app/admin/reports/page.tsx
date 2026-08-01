@@ -122,23 +122,23 @@ export default function AdminReportsPage() {
                   <td style={{ padding: "12px 14px", textAlign: "center" }}>
                     {r.status === "pending" && (
                       <div style={{ display: "flex", gap: 4, justifyContent: "center" }}>
-                        <button type="button" className="btn-ghost" style={{ fontSize: 10, padding: "3px 8px", color: "var(--accent-text)" }} onClick={() => handleStatus(r.id, "reviewed")}>
+                        <button type="button" className="btn-ghost btn-sm" style={{ color: "var(--accent-text)" }} onClick={() => handleStatus(r.id, "reviewed")}>
                           <Eye size={10} /> Review
                         </button>
-                        <button type="button" className="btn-ghost" style={{ fontSize: 10, padding: "3px 8px", color: "var(--sand)" }} onClick={() => handleStatus(r.id, "resolved")}>
+                        <button type="button" className="btn-ghost btn-sm" style={{ color: "var(--sand)" }} onClick={() => handleStatus(r.id, "resolved")}>
                           <CheckCircle size={10} /> Resolve
                         </button>
-                        <button type="button" className="btn-ghost" style={{ fontSize: 10, padding: "3px 8px", color: "var(--text-muted)" }} onClick={() => handleStatus(r.id, "dismissed")}>
+                        <button type="button" className="btn-ghost btn-sm" style={{ color: "var(--text-muted)" }} onClick={() => handleStatus(r.id, "dismissed")}>
                           <XCircle size={10} /> Dismiss
                         </button>
                       </div>
                     )}
                     {r.status === "reviewed" && (
                       <div style={{ display: "flex", gap: 4, justifyContent: "center" }}>
-                        <button type="button" className="btn-ghost" style={{ fontSize: 10, padding: "3px 8px", color: "var(--sand)" }} onClick={() => handleStatus(r.id, "resolved")}>
+                        <button type="button" className="btn-ghost btn-sm" style={{ color: "var(--sand)" }} onClick={() => handleStatus(r.id, "resolved")}>
                           <CheckCircle size={10} /> Resolve
                         </button>
-                        <button type="button" className="btn-ghost" style={{ fontSize: 10, padding: "3px 8px", color: "var(--text-muted)" }} onClick={() => handleStatus(r.id, "dismissed")}>
+                        <button type="button" className="btn-ghost btn-sm" style={{ color: "var(--text-muted)" }} onClick={() => handleStatus(r.id, "dismissed")}>
                           <XCircle size={10} /> Dismiss
                         </button>
                       </div>

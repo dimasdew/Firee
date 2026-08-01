@@ -108,7 +108,7 @@ export default function Navbar({ variant = "landing", onSearch }: NavbarProps) {
                   {isDark ? <Sun size={14} /> : <Moon size={14} />}
                 </button>
                 <Link href="/login" className="nav-link-hide-mobile" style={{ fontSize: 13, color: navText, textDecoration: "none" }}>Login</Link>
-                <Link href="/create" className="btn-ghost" style={{ fontSize: 12 }}>Create</Link>
+                <Link href="/create" className="btn-ghost btn-sm">Create</Link>
                 <button type="button" className="icon-btn nav-menu-btn" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu">
                   {mobileOpen ? <X size={18} /> : <Menu size={18} />}
                 </button>
@@ -186,7 +186,7 @@ export default function Navbar({ variant = "landing", onSearch }: NavbarProps) {
                         ))}
                         <div className="divider" style={{ margin: "6px 0" }} />
                         {wallet ? (
-                          <button type="button" className="btn-ghost" style={{ width: "100%", justifyContent: "center", fontSize: 12, marginBottom: 4 }} onClick={disconnectWallet}>
+                          <button type="button" className="btn-ghost btn-sm" style={{ width: "100%", marginBottom: 4 }} onClick={disconnectWallet}>
                             Disconnect Wallet
                           </button>
                         ) : (
@@ -218,7 +218,7 @@ export default function Navbar({ variant = "landing", onSearch }: NavbarProps) {
                   <Link key={l.href} href={l.href}>{l.label}</Link>
                 ))}
                 <Link href="/login">Login</Link>
-                <Link href="/create" className="btn-primary" style={{ justifyContent: "center" }}>Create</Link>
+                <Link href="/create" className="btn-primary">Create</Link>
               </>
             ) : (
               <>

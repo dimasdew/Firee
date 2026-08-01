@@ -46,7 +46,7 @@ export default function WishlistPage() {
           <Heart size={40} color="var(--sky)" style={{ margin: "0 auto 12px", opacity: 0.4 }} />
           <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 8 }}>Your wishlist is empty</p>
           <p style={{ fontSize: 12, color: "var(--text-muted)", opacity: 0.6 }}>Tap the heart icon on products to save them here</p>
-          <Link href="/dashboard" className="btn-primary" style={{ marginTop: 20, display: "inline-flex", fontSize: 12 }}>
+          <Link href="/dashboard" className="btn-primary btn-sm" style={{ marginTop: 20 }}>
             Browse Marketplace
           </Link>
         </div>
@@ -88,8 +88,7 @@ export default function WishlistPage() {
                 <button
                   type="button"
                   onClick={() => toggleMarketplaceWishlist(p.id)}
-                  className="btn-ghost"
-                  style={{ padding: "6px 10px", fontSize: 11, color: "#f87171", borderColor: "rgba(248,113,113,0.2)" }}
+                  className="btn-danger btn-sm"
                   title="Remove"
                 >
                   <Trash2 size={12} />

@@ -113,11 +113,11 @@ export default function AdminDisputesPage() {
                   <td style={{ padding: "12px 14px", textAlign: "center" }}>
                     {d.status === "pending" && (
                       <div style={{ display: "flex", gap: 4, justifyContent: "center" }}>
-                        <button type="button" className="btn-ghost" style={{ fontSize: 10, padding: "3px 8px", color: "var(--sand)" }}
+                        <button type="button" className="btn-ghost btn-sm" style={{ color: "var(--sand)" }}
                           onClick={() => { setNoteModal({ id: d.id, action: "approved" }); setAdminNote(""); }}>
                           <CheckCircle size={10} /> Approve
                         </button>
-                        <button type="button" className="btn-ghost" style={{ fontSize: 10, padding: "3px 8px", color: "#f87171" }}
+                        <button type="button" className="btn-danger btn-sm"
                           onClick={() => { setNoteModal({ id: d.id, action: "rejected" }); setAdminNote(""); }}>
                           <XCircle size={10} /> Reject
                         </button>
@@ -157,7 +157,7 @@ export default function AdminDisputesPage() {
               }}
             />
             <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
-              <button type="button" className="btn-ghost" onClick={() => setNoteModal(null)} style={{ fontSize: 12 }}>Cancel</button>
+              <button type="button" className="btn-ghost btn-sm" onClick={() => setNoteModal(null)}>Cancel</button>
               <button
                 type="button"
                 className="btn-primary"

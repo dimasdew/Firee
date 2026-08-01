@@ -208,7 +208,7 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
               <p style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 12 }}>
                 Please switch to <strong>{CHAIN_NAME}</strong>
               </p>
-              <button type="button" className="btn-primary" style={{ width: "100%", justifyContent: "center" }}
+              <button type="button" className="btn-primary" style={{ width: "100%" }}
                 onClick={() => switchChain({ chainId: CHAIN_ID })}>
                 Switch Network
               </button>
@@ -237,7 +237,7 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
             <div style={{ textAlign: "center", padding: "12px 0" }}>
               <AlertCircle size={32} color="#f87171" style={{ margin: "0 auto 8px" }} />
               <p style={{ fontSize: 13, color: "#f87171", marginBottom: 8 }}>{error}</p>
-              <button type="button" className="btn-ghost" onClick={reset} style={{ fontSize: 12 }}>
+              <button type="button" className="btn-ghost btn-sm" onClick={reset} >
                 Try Again
               </button>
             </div>
@@ -289,7 +289,7 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
                   </span>
                   {shipping.shipping_address}, {shipping.shipping_city} {shipping.shipping_postal_code}, {shipping.shipping_country}
                 </div>
-                <button type="button" className="btn-ghost" style={{ fontSize: 11, flexShrink: 0 }}
+                <button type="button" className="btn-ghost btn-sm" style={{ flexShrink: 0 }}
                   onClick={() => setAddressConfirmed(false)}>
                   Edit
                 </button>

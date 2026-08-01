@@ -99,7 +99,7 @@ export default function ProfilePage() {
                 <p style={{ fontSize: 13, color: "var(--text-muted)" }}>Upload profile picture</p>
                 <p style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 2, opacity: 0.6 }}>PNG, JPG up to 2MB</p>
               </div>
-              <button type="button" className="btn-ghost" style={{ fontSize: 11, padding: "6px 12px" }}>Upload</button>
+              <button type="button" className="btn-ghost btn-sm">Upload</button>
             </div>
           </div>
           <div>
@@ -131,7 +131,7 @@ export default function ProfilePage() {
           </div>
         </div>
         <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}>
-          <button type="button" className="btn-primary" onClick={() => showToast("Preferences saved!")} style={{ padding: "10px 24px" }}>
+          <button type="button" className="btn-primary" onClick={() => showToast("Preferences saved!")}>
             Save Changes
           </button>
         </div>

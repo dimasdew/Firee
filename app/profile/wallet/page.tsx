@@ -50,7 +50,7 @@ export default function WalletPage() {
               {wallet}
             </p>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-              <button type="button" className="btn-ghost" style={{ fontSize: 12 }} onClick={copy}>
+              <button type="button" className="btn-ghost btn-sm" onClick={copy}>
                 <Copy size={13} /> Copy
               </button>
               <a

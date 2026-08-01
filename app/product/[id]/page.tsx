@@ -178,7 +178,7 @@ export default function ProductDetailPage() {
                 </div>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "wrap" }}>
                   {purchased ? (
-                    <Link href="/order" className="btn-sand" style={{ gap: 6, display: "inline-flex", alignItems: "center" }}>
+                    <Link href="/order" className="btn-sand">
                       <CheckCircle size={13} /> View Order
                     </Link>
                   ) : (
@@ -277,7 +277,7 @@ export default function ProductDetailPage() {
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   <CheckCircle size={16} color="#4ade80" />
                   <span style={{ fontSize: 13, fontWeight: 600, color: "#4ade80" }}>Purchased</span>
-                  <Link href="/order" className="btn-sand" style={{ gap: 6, marginLeft: 8, display: "inline-flex", alignItems: "center" }}>
+                  <Link href="/order" className="btn-sand" style={{ marginLeft: 8 }}>
                     View Order
                   </Link>
                 </div>
@@ -346,10 +346,10 @@ export default function ProductDetailPage() {
               }}
             />
             <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
-              <button type="button" className="btn-ghost" onClick={() => setShowReport(false)} style={{ fontSize: 12 }}>
+              <button type="button" className="btn-ghost btn-sm" onClick={() => setShowReport(false)}>
                 Cancel
               </button>
-              <button type="button" className="btn-primary" onClick={handleReport} disabled={reportSubmitting} style={{ fontSize: 12, background: "#ef4444", borderColor: "#ef4444" }}>
+              <button type="button" className="btn-danger btn-sm" onClick={handleReport} disabled={reportSubmitting}>
                 {reportSubmitting ? <Loader2 size={13} style={{ animation: "spin 1s linear infinite" }} /> : <Flag size={13} />}
                 Submit Report
               </button>

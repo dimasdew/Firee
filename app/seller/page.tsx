@@ -90,7 +90,7 @@ export default function SellerProductsPage() {
         <p style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.7, marginBottom: 24 }}>
           Apply to sell on Firee. Once approved, you can list physical products and get paid in USDC through escrow-protected orders.
         </p>
-        <button type="button" className="btn-primary" onClick={handleApply} style={{ fontSize: 13 }}>
+        <button type="button" className="btn-primary" onClick={handleApply} >
           <ShieldCheck size={14} /> Apply to Sell
         </button>
       </div>
@@ -140,7 +140,7 @@ export default function SellerProductsPage() {
       <div className="card" style={{ padding: 24 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
           <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)" }}>My Products</h3>
-          <Link href="/seller/new" className="btn-primary" style={{ fontSize: 12, padding: "8px 16px" }}>
+          <Link href="/seller/new" className="btn-primary btn-sm">
             <PlusCircle size={14} /> Add Product
           </Link>
         </div>
@@ -156,7 +156,7 @@ export default function SellerProductsPage() {
             <p style={{ fontSize: 12, color: "var(--text-muted)", opacity: 0.6, marginBottom: 20 }}>
               List your first product to start selling
             </p>
-            <Link href="/seller/new" className="btn-primary" style={{ display: "inline-flex", fontSize: 12 }}>
+            <Link href="/seller/new" className="btn-primary btn-sm">
               <PlusCircle size={14} /> Create Product
             </Link>
           </div>

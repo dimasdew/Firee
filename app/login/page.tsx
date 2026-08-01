@@ -94,7 +94,7 @@ export default function LoginPage() {
                 <button type="button" className="input-eye" onClick={() => setShowPwd(!showPwd)}>{showPwd ? <EyeOff size={14} /> : <Eye size={14} />}</button>
               </div>
             </div>
-            <button type="button" className="btn-primary" style={{ width: "100%", justifyContent: "center", marginTop: 4 }} onClick={submit} disabled={loading}>
+            <button type="button" className="btn-primary" style={{ width: "100%", marginTop: 4 }} onClick={submit} disabled={loading}>
               {loading ? "Logging in..." : <>Login <ArrowRight size={14} /></>}
             </button>
 

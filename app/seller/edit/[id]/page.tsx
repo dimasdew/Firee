@@ -251,7 +251,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
 
             {/* Save */}
             <button type="submit" className="btn-sand" disabled={saving}
-              style={{ width: "100%", justifyContent: "center", padding: "12px 20px" }}>
+              style={{ width: "100%" }}>
               {saving ? "Saving..." : "Save Changes"}
             </button>
           </div>

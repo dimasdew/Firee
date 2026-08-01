@@ -120,7 +120,7 @@ export default function AddressPage() {
             <p style={{ fontSize: 12, color: "var(--text-muted)" }}>Manage your delivery addresses</p>
           </div>
           {!isFormOpen && (
-            <button type="button" className="btn-primary" onClick={startAdd} style={{ padding: "8px 16px", fontSize: 12 }}>
+            <button type="button" className="btn-primary btn-sm" onClick={startAdd} >
               <Plus size={13} /> Add
             </button>
           )}
@@ -130,7 +130,7 @@ export default function AddressPage() {
           <div style={{ textAlign: "center", padding: "32px 0" }}>
             <MapPin size={36} color="var(--sky)" style={{ margin: "0 auto 12px", opacity: 0.5 }} />
             <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 16 }}>No addresses saved yet</p>
-            <button type="button" className="btn-primary" onClick={startAdd} style={{ fontSize: 12 }}>
+            <button type="button" className="btn-primary btn-sm" onClick={startAdd} >
               <Plus size={13} /> Add Address
             </button>
           </div>
@@ -158,17 +158,16 @@ export default function AddressPage() {
                 </div>
                 <div style={{ display: "flex", gap: 8, marginTop: 12, paddingTop: 12, borderTop: "1px solid var(--border)" }}>
                   {!addr.isDefault && (
-                    <button type="button" className="btn-ghost" style={{ fontSize: 11, padding: "5px 10px" }} onClick={() => setDefault(addr.id)}>
+                    <button type="button" className="btn-ghost btn-sm" onClick={() => setDefault(addr.id)}>
                       <Check size={12} /> Set Default
                     </button>
                   )}
-                  <button type="button" className="btn-ghost" style={{ fontSize: 11, padding: "5px 10px" }} onClick={() => startEdit(addr)}>
+                  <button type="button" className="btn-ghost btn-sm" onClick={() => startEdit(addr)}>
                     <Pencil size={12} /> Edit
                   </button>
                   <button
                     type="button"
-                    className="btn-ghost"
-                    style={{ fontSize: 11, padding: "5px 10px", color: "#f87171", borderColor: "rgba(248,113,113,0.2)" }}
+                    className="btn-danger btn-sm"
                     onClick={() => remove(addr.id)}
                   >
                     <Trash2 size={12} /> Remove
@@ -237,8 +236,8 @@ export default function AddressPage() {
               <input className="input" placeholder="Country" value={form.country} onChange={(e) => setForm({ ...form, country: e.target.value })} />
             </div>
             <div style={{ display: "flex", justifyContent: "flex-end", flexWrap: "wrap", gap: 10, marginTop: 4 }}>
-              <button type="button" className="btn-ghost" onClick={cancel} style={{ padding: "8px 20px", fontSize: 12 }}>Cancel</button>
-              <button type="button" className="btn-primary" onClick={saveAddress} style={{ padding: "8px 20px", fontSize: 12 }}>
+              <button type="button" className="btn-ghost btn-sm" onClick={cancel} >Cancel</button>
+              <button type="button" className="btn-primary btn-sm" onClick={saveAddress} >
                 <Check size={13} /> {adding ? "Add Address" : "Save Changes"}
               </button>
             </div>
