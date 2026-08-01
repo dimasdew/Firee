@@ -10,6 +10,7 @@ import { useSellerWithdraw } from "../../../lib/contracts/useFireeEscrow";
 import { createClient } from "../../../lib/supabase/client";
 import { getSellerOrders } from "../../../lib/supabase/orders";
 import { CHAIN_ID } from "../../../lib/contracts";
+import { payoutStatusClass } from "../../../lib/orderStatus";
 
 interface PayoutRecord {
   id: string;
@@ -171,7 +172,7 @@ export default function EarningsPage() {
                   </p>
                 </div>
                 <div style={{ textAlign: "right", display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4 }}>
-                  <span className={`badge ${payout.status === "completed" ? "badge-green" : payout.status === "failed" ? "badge-sky" : "badge-sand"}`} style={{ fontSize: 9 }}>
+                  <span className={`badge ${payoutStatusClass(payout.status)}`} style={{ fontSize: 9 }}>
                     {payout.status}
                   </span>
                   {payout.tx_hash && (

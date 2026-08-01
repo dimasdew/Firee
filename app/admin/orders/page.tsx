@@ -7,6 +7,7 @@ import type { DbOrder } from "../../../lib/supabase/types";
 import { Loader2, Search, ExternalLink } from "lucide-react";
 import UsdcAmount from "../../../components/UsdcAmount";
 import { timeAgo } from "../../../lib/utils";
+import { orderStatusClass } from "../../../lib/orderStatus";
 
 export default function AdminOrdersPage() {
   const { showToast } = useApp();
@@ -40,12 +41,7 @@ export default function AdminOrdersPage() {
     );
   });
 
-  const statusClass = (status: string) => {
-    if (status === "completed") return "badge-green";
-    if (status === "paid") return "badge-sky";
-    if (status === "refunded" || status === "disputed") return "badge-sand";
-    return "badge-sky";
-  };
+  const statusClass = orderStatusClass;
 
   if (loading) {
     return (

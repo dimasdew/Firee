@@ -5,6 +5,7 @@ import { adminGetAllDisputes, adminUpdateDispute, type AdminDispute } from "../.
 import { useApp } from "../../../context/AppContext";
 import { Loader2, AlertCircle, CheckCircle, XCircle } from "lucide-react";
 import { timeAgo } from "../../../lib/utils";
+import { disputeStatusClass } from "../../../lib/orderStatus";
 
 export default function AdminDisputesPage() {
   const { showToast } = useApp();
@@ -102,7 +103,7 @@ export default function AdminDisputesPage() {
                     )}
                   </td>
                   <td style={{ padding: "12px 14px", textAlign: "center" }}>
-                    <span className={`badge ${d.status === "pending" ? "badge-sand" : d.status === "approved" ? "badge-green" : "badge-sky"}`} style={{ fontSize: 9 }}>
+                    <span className={`badge ${disputeStatusClass(d.status)}`} style={{ fontSize: 9 }}>
                       {d.status}
                     </span>
                   </td>

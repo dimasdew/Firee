@@ -7,6 +7,7 @@ import { createClient } from "../../../lib/supabase/client";
 import { getSellerOrders, markOrderShipped } from "../../../lib/supabase/orders";
 import { useOrderLifecycle } from "../../../lib/contracts/useFireeEscrow";
 import { useApp } from "../../../context/AppContext";
+import { orderStatusStyle } from "../../../lib/orderStatus";
 import UsdcAmount from "../../../components/UsdcAmount";
 import type { DbOrder } from "../../../lib/supabase/types";
 
@@ -62,15 +63,8 @@ export default function SellerOrdersPage() {
   };
 
   const statusBadge = (status: string) => {
-    switch (status) {
-      case "paid": return <span className="badge badge-sand" style={{ fontSize: 9 }}>To Ship</span>;
-      case "shipped": return <span className="badge badge-sky" style={{ fontSize: 9 }}>Shipped</span>;
-      case "delivered":
-      case "completed": return <span className="badge badge-green" style={{ fontSize: 9 }}>Delivered</span>;
-      case "refunded": return <span className="badge badge-sky" style={{ fontSize: 9 }}>Refunded</span>;
-      case "disputed": return <span className="badge badge-sand" style={{ fontSize: 9 }}>Disputed</span>;
-      default: return <span className="badge badge-sky" style={{ fontSize: 9 }}>{status}</span>;
-    }
+    const { variant, sellerLabel } = orderStatusStyle(status);
+    return <span className={`badge ${variant}`} style={{ fontSize: 9 }}>{sellerLabel}</span>;
   };
 
   if (loading) {

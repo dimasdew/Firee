@@ -10,6 +10,7 @@ import { createDispute, getDisputeByOrder } from "../lib/supabase/disputes";
 import { CHAIN_ID } from "../lib/contracts";
 import { useOrderLifecycle } from "../lib/contracts/useFireeEscrow";
 import { useApp } from "../context/AppContext";
+import { orderStatusStyle } from "../lib/orderStatus";
 import UsdcAmount from "./UsdcAmount";
 import type { DbOrder } from "../lib/supabase/types";
 
@@ -70,15 +71,8 @@ export default function PurchasedOrderList() {
   };
 
   const statusBadge = (order: DbOrder) => {
-    switch (order.status) {
-      case "paid": return <span className="badge badge-sand" style={{ fontSize: 9 }}>Awaiting Shipment</span>;
-      case "shipped": return <span className="badge badge-sky" style={{ fontSize: 9 }}>Shipped</span>;
-      case "delivered":
-      case "completed": return <span className="badge badge-green" style={{ fontSize: 9 }}>Delivered</span>;
-      case "refunded": return <span className="badge badge-sky" style={{ fontSize: 9 }}>Refunded</span>;
-      case "disputed": return <span className="badge badge-sand" style={{ fontSize: 9 }}>Disputed</span>;
-      default: return null;
-    }
+    const { variant, buyerLabel } = orderStatusStyle(order.status);
+    return <span className={`badge ${variant}`} style={{ fontSize: 9 }}>{buyerLabel}</span>;
   };
 
   if (loading) {
