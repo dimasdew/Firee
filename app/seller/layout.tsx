@@ -35,7 +35,7 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
     <AuthGuard>
       <div className="page-shell">
         <Navbar variant="dashboard" />
-        <main className="container" style={{ padding: "28px 0 48px" }}>
+        <main className="container" style={{ padding: "32px 0 80px" }}>
           <div style={{ marginBottom: 24 }}>
             <h1 style={{ fontSize: 20, fontWeight: 700, color: "var(--text, white)", marginBottom: 4 }}>
               Seller Dashboard

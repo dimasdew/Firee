@@ -3,7 +3,7 @@ import ProductSkeleton from "../../components/ProductSkeleton";
 export default function DashboardLoading() {
   return (
     <div className="page-shell">
-      <div className="container" style={{ padding: "32px 0 48px" }}>
+      <div className="container" style={{ padding: "32px 0 80px" }}>
         <div style={{ marginBottom: 24 }}>
           <div className="skeleton" style={{ width: 80, height: 12, borderRadius: 4, marginBottom: 8 }} />
           <div className="skeleton" style={{ width: 180, height: 22, borderRadius: 6 }} />

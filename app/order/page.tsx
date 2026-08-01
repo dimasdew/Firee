@@ -10,7 +10,7 @@ export default function OrderPage() {
     <AuthGuard>
     <div className="page-shell">
       <Navbar variant="dashboard" />
-      <main className="container" style={{ padding: "28px 0 48px" }}>
+      <main className="container" style={{ padding: "32px 0 80px" }}>
         <div style={{ marginBottom: 24 }}>
           <p style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 4 }}>My Orders</p>
           <h1 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: "clamp(22px, 4vw, 28px)", color: "var(--text, white)" }}>Orders</h1>

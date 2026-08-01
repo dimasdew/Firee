@@ -68,7 +68,7 @@ export default function SellerProfilePage() {
   return (
     <div className="page-shell">
       <Navbar variant="dashboard" />
-      <main className="container" style={{ padding: "28px 0 48px" }}>
+      <main className="container" style={{ padding: "32px 0 80px" }}>
         <Link href="/dashboard" className="back-link">
           <ArrowLeft size={14} /> Back to Marketplace
         </Link>

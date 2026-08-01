@@ -68,7 +68,7 @@ export default function OrderDetailPage() {
     <AuthGuard>
       <div className="page-shell">
         <Navbar variant="dashboard" />
-        <main className="container" style={{ padding: "28px 0 48px", maxWidth: 600 }}>
+        <main className="container" style={{ padding: "32px 0 80px", maxWidth: 600 }}>
           <Link
             href="/order"
             className="btn-ghost"

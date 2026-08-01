@@ -50,7 +50,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <AuthGuard>
       <div className="page-shell">
         <Navbar variant="dashboard" />
-        <main className="container" style={{ padding: "28px 0 48px" }}>
+        <main className="container" style={{ padding: "32px 0 80px" }}>
           <div style={{ marginBottom: 24 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
               <Shield size={18} color="var(--sand)" />

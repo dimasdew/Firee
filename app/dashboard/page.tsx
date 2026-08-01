@@ -107,7 +107,7 @@ export default function DashboardPage() {
     <div className="page-shell">
       <Navbar variant="dashboard" onSearch={handleSearch} />
 
-      <main className="container" style={{ padding: "32px 0 48px" }}>
+      <main className="container" style={{ padding: "32px 0 80px" }}>
         <div className="dashboard-header">
           <div>
             <p style={{ fontSize: 11, color: "var(--label)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 4 }}>Marketplace</p>
