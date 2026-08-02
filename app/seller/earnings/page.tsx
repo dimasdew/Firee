@@ -172,7 +172,7 @@ export default function EarningsPage() {
                   </p>
                 </div>
                 <div style={{ textAlign: "right", display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4 }}>
-                  <span className={`badge ${payoutStatusClass(payout.status)}`} style={{ fontSize: 9 }}>
+                  <span className={`badge badge-sm ${payoutStatusClass(payout.status)}`}>
                     {payout.status}
                   </span>
                   {payout.tx_hash && (

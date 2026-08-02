@@ -176,6 +176,10 @@ select.input { cursor: pointer; }
 .badge-danger { color: #f87171; border-color: rgba(248,113,113,0.3); background: rgba(248,113,113,0.08); }
 .badge-neutral { color: var(--text-muted); border-color: var(--border-hover); background: var(--surface2); }
 
+/* Compact badge — the size used on cards and dense tables. Replaces the
+   inline `fontSize: 9` that was pasted onto ~20 call sites. */
+.badge-sm { font-size: 9px; padding: 2px 7px; gap: 4px; }
+
 /* ── Tag mono ── */
 .mono { font-family: 'Space Mono', monospace; }
 

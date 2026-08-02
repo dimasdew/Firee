@@ -7,6 +7,7 @@ import UsdcAmount from "./UsdcAmount";
 import { StarDisplay } from "./ReviewSection";
 import { useApp } from "../context/AppContext";
 import type { DbProduct } from "../lib/supabase/types";
+import { Badge } from "@/components/ui/Badge";
 
 interface Props {
   product: DbProduct;
@@ -32,9 +33,7 @@ export default function MarketplaceCard({ product, rating }: Props) {
           >
             <Heart size={13} fill={wishlisted ? "#f87171" : "none"} color={wishlisted ? "#f87171" : "var(--text-muted)"} />
           </button>
-          <span className="badge badge-sky" style={{ fontSize: 9, padding: "2px 7px" }}>
-            {product.category?.name || "Digital"}
-          </span>
+          <Badge tone="sky">{product.category?.name || "Digital"}</Badge>
         </div>
       </div>
 

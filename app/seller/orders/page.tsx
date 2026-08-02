@@ -64,7 +64,7 @@ export default function SellerOrdersPage() {
 
   const statusBadge = (status: string) => {
     const { variant, sellerLabel } = orderStatusStyle(status);
-    return <span className={`badge ${variant}`} style={{ fontSize: 9 }}>{sellerLabel}</span>;
+    return <span className={`badge badge-sm ${variant}`}>{sellerLabel}</span>;
   };
 
   if (loading) {

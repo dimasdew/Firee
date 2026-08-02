@@ -103,7 +103,7 @@ export default function AdminDisputesPage() {
                     )}
                   </td>
                   <td style={{ padding: "12px 14px", textAlign: "center" }}>
-                    <span className={`badge ${disputeStatusClass(d.status)}`} style={{ fontSize: 9 }}>
+                    <span className={`badge badge-sm ${disputeStatusClass(d.status)}`}>
                       {d.status}
                     </span>
                   </td>

@@ -140,7 +140,7 @@ export default function AdminProductsPage() {
                   </td>
                   <td style={{ padding: "12px 14px", textAlign: "center", color: "var(--text-muted)" }}>{p.total_sales}</td>
                   <td style={{ padding: "12px 14px", textAlign: "center" }}>
-                    <span className={`badge ${p.is_published ? "badge-green" : "badge-sky"}`} style={{ fontSize: 9 }}>
+                    <span className={`badge badge-sm ${p.is_published ? "badge-green" : "badge-sky"}`}>
                       {p.is_published ? "Live" : "Draft"}
                     </span>
                   </td>

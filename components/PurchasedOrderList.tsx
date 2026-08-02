@@ -72,7 +72,7 @@ export default function PurchasedOrderList() {
 
   const statusBadge = (order: DbOrder) => {
     const { variant, buyerLabel } = orderStatusStyle(order.status);
-    return <span className={`badge ${variant}`} style={{ fontSize: 9 }}>{buyerLabel}</span>;
+    return <span className={`badge badge-sm ${variant}`}>{buyerLabel}</span>;
   };
 
   if (loading) {
@@ -190,7 +190,7 @@ export default function PurchasedOrderList() {
                       Refund
                     </button>
                   ) : disputes[order.id] ? (
-                    <span className={`badge ${disputes[order.id] === "pending" ? "badge-sand" : disputes[order.id] === "approved" ? "badge-green" : "badge-sky"}`} style={{ fontSize: 9 }}>
+                    <span className={`badge badge-sm ${disputes[order.id] === "pending" ? "badge-sand" : disputes[order.id] === "approved" ? "badge-green" : "badge-sky"}`}>
                       {disputes[order.id] === "pending" ? "Dispute Pending" : disputes[order.id] === "approved" ? "Refunded" : "Denied"}
                     </span>
                   ) : null}

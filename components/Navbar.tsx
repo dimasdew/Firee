@@ -11,6 +11,7 @@ import {
 import { useApp } from "../context/AppContext";
 import { timeAgo, shortenAddress, avatarUrl } from "../lib/utils";
 import FireeConnectButton from "./FireeConnectButton";
+import { Badge } from "@/components/ui/Badge";
 
 interface NavbarProps {
   variant?: "landing" | "dashboard";
@@ -141,7 +142,7 @@ export default function Navbar({ variant = "landing", onSearch }: NavbarProps) {
                     <div className="dropdown-panel notif-panel">
                       <div className="dropdown-header">
                         <p>Notifications</p>
-                        {unreadCount > 0 && <span className="badge badge-sky" style={{ fontSize: 9 }}>{unreadCount} new</span>}
+                        {unreadCount > 0 && <Badge tone="sky">{unreadCount} new</Badge>}
                       </div>
                       {notifications.slice(0, 6).map((n, i) => (
                         <div key={n.id} className={`dropdown-item ${n.unread ? "unread" : ""}`} style={{ borderBottom: i < 5 ? "1px solid var(--border)" : "none" }}>

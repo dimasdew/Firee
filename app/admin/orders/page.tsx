@@ -116,7 +116,7 @@ export default function AdminOrdersPage() {
                     <UsdcAmount value={Number(o.price_usdc)} iconSize={11} style={{ fontSize: 12, fontWeight: 600, color: "var(--sand)", justifyContent: "center" }} />
                   </td>
                   <td style={{ padding: "12px 14px", textAlign: "center" }}>
-                    <span className={`badge ${statusClass(o.status)}`} style={{ fontSize: 9 }}>
+                    <span className={`badge badge-sm ${statusClass(o.status)}`}>
                       {o.status}
                     </span>
                   </td>

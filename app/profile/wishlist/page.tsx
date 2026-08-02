@@ -7,6 +7,7 @@ import { createClient } from "../../../lib/supabase/client";
 import UsdcAmount from "../../../components/UsdcAmount";
 import Link from "next/link";
 import type { DbProduct } from "../../../lib/supabase/types";
+import { Badge } from "@/components/ui/Badge";
 
 export default function WishlistPage() {
   const { marketplaceWishlist, toggleMarketplaceWishlist } = useApp();
@@ -34,7 +35,7 @@ export default function WishlistPage() {
           <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)", marginBottom: 4 }}>Wishlist</h3>
           <p style={{ fontSize: 12, color: "var(--text-muted)" }}>Products you&apos;ve saved for later</p>
         </div>
-        <span className="badge badge-sand" style={{ fontSize: 10 }}>{mpProducts.length} item{mpProducts.length !== 1 ? "s" : ""}</span>
+        <Badge tone="sand">{mpProducts.length} item{mpProducts.length !== 1 ? "s" : ""}</Badge>
       </div>
 
       {mpLoading ? (

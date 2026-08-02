@@ -6,6 +6,7 @@ import { useApp } from "../../../context/AppContext";
 import { Loader2, Flag, CheckCircle, XCircle, Eye, Package } from "lucide-react";
 import { timeAgo } from "../../../lib/utils";
 import Link from "next/link";
+import { Badge } from "@/components/ui/Badge";
 
 const STATUS_COLORS: Record<string, string> = {
   pending: "badge-sand",
@@ -107,14 +108,14 @@ export default function AdminReportsPage() {
                     </Link>
                   </td>
                   <td style={{ padding: "12px 14px" }}>
-                    <span className="badge badge-sand" style={{ fontSize: 9 }}>{REASON_LABELS[r.reason] || r.reason}</span>
+                    <Badge tone="sand">{REASON_LABELS[r.reason] || r.reason}</Badge>
                     {r.details && <p style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 4, maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.details}</p>}
                   </td>
                   <td style={{ padding: "12px 14px", fontSize: 12, color: "var(--text-muted)" }}>
                     {r.reporter?.display_name || r.reporter?.username || r.reporter_id.slice(0, 8)}
                   </td>
                   <td style={{ padding: "12px 14px", textAlign: "center" }}>
-                    <span className={`badge ${STATUS_COLORS[r.status] || ""}`} style={{ fontSize: 9 }}>{r.status}</span>
+                    <span className={`badge badge-sm ${STATUS_COLORS[r.status] || ""}`}>{r.status}</span>
                   </td>
                   <td style={{ padding: "12px 14px", textAlign: "center", fontSize: 11, color: "var(--text-muted)" }}>
                     {timeAgo(r.created_at)}

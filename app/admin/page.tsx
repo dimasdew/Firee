@@ -6,6 +6,7 @@ import { useApp } from "../../context/AppContext";
 import type { Profile } from "../../lib/supabase/types";
 import { Loader2, Ban, CheckCircle, User, Store, Shield, Search } from "lucide-react";
 import { timeAgo } from "../../lib/utils";
+import { Badge } from "@/components/ui/Badge";
 
 export default function AdminUsersPage() {
   const { showToast } = useApp();
@@ -135,9 +136,9 @@ export default function AdminUsersPage() {
                   <td style={{ padding: "12px 14px", color: "var(--text-muted)" }}>{u.email || "—"}</td>
                   <td style={{ padding: "12px 14px", textAlign: "center" }}>
                     <div style={{ display: "flex", gap: 4, justifyContent: "center", flexWrap: "wrap" }}>
-                      {u.is_admin && <span className="badge badge-sand" style={{ fontSize: 9 }}><Shield size={9} /> Admin</span>}
-                      {u.is_seller && <span className="badge badge-sky" style={{ fontSize: 9 }}><Store size={9} /> Seller</span>}
-                      {u.is_banned && <span className="badge" style={{ fontSize: 9, background: "rgba(248,113,113,0.1)", color: "#f87171", border: "1px solid rgba(248,113,113,0.2)" }}><Ban size={9} /> Banned</span>}
+                      {u.is_admin && <Badge tone="sand"><Shield size={9} /> Admin</Badge>}
+                      {u.is_seller && <Badge tone="sky"><Store size={9} /> Seller</Badge>}
+                      {u.is_banned && <Badge tone="danger"><Ban size={9} /> Banned</Badge>}
                       {!u.is_admin && !u.is_seller && !u.is_banned && <span style={{ fontSize: 11, color: "var(--text-muted)" }}>Buyer</span>}
                     </div>
                   </td>

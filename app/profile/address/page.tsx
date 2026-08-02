@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useApp } from "../../../context/AppContext";
 import { MapPin, Plus, Check, Pencil, Trash2, Home, Building2 } from "lucide-react";
+import { Badge } from "@/components/ui/Badge";
 
 interface Address {
   id: string;
@@ -147,7 +148,7 @@ export default function AddressPage() {
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
                       <p style={{ fontSize: 13, fontWeight: 600, color: "var(--text, white)" }}>{addr.label || addr.type}</p>
-                      {addr.isDefault && <span className="badge badge-sky" style={{ fontSize: 9 }}>Default</span>}
+                      {addr.isDefault && <Badge tone="sky">Default</Badge>}
                     </div>
                     <p style={{ fontSize: 12, color: "var(--text, white)", marginBottom: 2 }}>{addr.recipient}</p>
                     <p style={{ fontSize: 12, color: "var(--text-muted)" }}>{addr.phone}</p>

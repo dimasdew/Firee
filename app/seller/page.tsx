@@ -8,6 +8,7 @@ import { useApp } from "../../context/AppContext";
 import { getSellerProducts, deleteProduct as deleteProductApi } from "../../lib/supabase/products";
 import { createClient } from "../../lib/supabase/client";
 import type { DbProduct } from "../../lib/supabase/types";
+import { Badge } from "@/components/ui/Badge";
 
 export default function SellerProductsPage() {
   const { showToast } = useApp();
@@ -107,7 +108,7 @@ export default function SellerProductsPage() {
         <p style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.7, marginBottom: 16 }}>
           Your seller application is being reviewed. You&apos;ll be notified once approved. This usually takes 24–48 hours.
         </p>
-        <span className="badge badge-sand" style={{ fontSize: 11 }}>Under Review</span>
+        <Badge tone="sand" size="md">Under Review</Badge>
       </div>
     );
   }
@@ -190,7 +191,7 @@ export default function SellerProductsPage() {
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <p style={{ fontSize: 14, fontWeight: 600, color: "var(--text, white)" }}>{product.title}</p>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 4, flexWrap: "wrap" }}>
-                    <span className="badge badge-sky" style={{ fontSize: 9 }}>{product.category?.name ?? "Other"}</span>
+                    <Badge tone="sky">{product.category?.name ?? "Other"}</Badge>
                     <UsdcAmount value={Number(product.price_usdc)} showLabel={false} iconSize={11} style={{ fontSize: 12, fontWeight: 600, color: "var(--sand)" }} />
                     <span style={{ fontSize: 11, color: "var(--text-muted)" }}>{product.total_sales} sales</span>
                   </div>
@@ -198,7 +199,7 @@ export default function SellerProductsPage() {
 
                 {/* Status + Actions */}
                 <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
-                  <span className={`badge ${product.is_published ? "badge-green" : "badge-sky"}`} style={{ fontSize: 9 }}>
+                  <span className={`badge badge-sm ${product.is_published ? "badge-green" : "badge-sky"}`}>
                     {product.is_published ? <><Eye size={9} /> Live</> : <><EyeOff size={9} /> Draft</>}
                   </span>
                   <Link href={`/seller/edit/${product.id}`} className="icon-btn" aria-label="Edit">
