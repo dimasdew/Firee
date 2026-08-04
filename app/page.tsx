@@ -239,7 +239,7 @@ export default function Home() {
       <section className="section">
         <div className="container">
           <div className="cta-box">
-            <h2 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: "clamp(22px, 4vw, 32px)", color: "var(--text, white)", marginBottom: 12 }}>Shop without trusting a stranger</h2>
+            <h2 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: "clamp(24px, 4vw, 40px)", color: "var(--text, white)", marginBottom: 12 }}>Shop without trusting a stranger</h2>
             <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 28, maxWidth: 440, margin: "0 auto 28px" }}>Join buyers and sellers trading physical goods with escrow-protected USDC payments on Firee.</p>
             <Link href="/login" className="btn-sand">Explore Marketplace <ArrowRight size={14} /></Link>
           </div>

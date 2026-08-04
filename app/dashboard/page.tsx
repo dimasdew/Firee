@@ -111,7 +111,7 @@ export default function DashboardPage() {
         <div className="dashboard-header">
           <div>
             <p style={{ fontSize: 11, color: "var(--label)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 4 }}>Marketplace</p>
-            <h1 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: "clamp(20px, 4vw, 26px)", color: "var(--text, white)", letterSpacing: "-0.02em" }}>
+            <h1 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: "clamp(22px, 4vw, 28px)", color: "var(--text, white)", letterSpacing: "-0.02em" }}>
               Browse Products
             </h1>
           </div>
