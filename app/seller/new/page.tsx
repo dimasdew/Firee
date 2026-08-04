@@ -101,7 +101,7 @@ export default function NewProductPage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {/* Basic Info */}
             <div className="card" style={{ padding: 24 }}>
-              <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)", marginBottom: 16 }}>
+              <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)", marginBottom: 16 }}>
                 Product Information
               </h3>
               <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -164,8 +164,8 @@ export default function NewProductPage() {
 
             {/* Shipping */}
             <div className="card" style={{ padding: 24 }}>
-              <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)", marginBottom: 16 }}>
-                <Truck size={15} style={{ marginRight: 6, verticalAlign: "middle" }} />
+              <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)", marginBottom: 16 }}>
+                <Truck size={15} style={{ marginRight: 8, verticalAlign: "middle" }} />
                 Shipping *
               </h3>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 12 }}>
@@ -211,8 +211,8 @@ export default function NewProductPage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {/* Price */}
             <div className="card" style={{ padding: 24 }}>
-              <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)", marginBottom: 16 }}>
-                <DollarSign size={15} style={{ marginRight: 6, verticalAlign: "middle" }} />
+              <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)", marginBottom: 16 }}>
+                <DollarSign size={15} style={{ marginRight: 8, verticalAlign: "middle" }} />
                 Pricing
               </h3>
               <div>
@@ -228,7 +228,7 @@ export default function NewProductPage() {
                   onChange={(e) => update("price", e.target.value)}
                   style={{ fontSize: 18, fontWeight: 700 }}
                 />
-                <p style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 6 }}>
+                <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 6 }}>
                   Platform fee: 3% · You receive: {form.price ? (parseFloat(form.price) * 0.97).toFixed(2) : "0.00"} USDC
                 </p>
               </div>
@@ -236,14 +236,14 @@ export default function NewProductPage() {
 
             {/* Thumbnail */}
             <div className="card" style={{ padding: 24 }}>
-              <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)", marginBottom: 16 }}>
-                <Image size={15} style={{ marginRight: 6, verticalAlign: "middle" }} />
+              <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)", marginBottom: 16 }}>
+                <Image size={15} style={{ marginRight: 8, verticalAlign: "middle" }} />
                 Thumbnail
               </h3>
               <label
                 style={{
                   display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
-                  padding: "24px 16px", borderRadius: 10,
+                  padding: "24px 16px", borderRadius: 12,
                   border: "2px dashed var(--border)", cursor: "pointer",
                   aspectRatio: "16/9", justifyContent: "center",
                   background: thumbnail ? "rgba(110,172,218,0.04)" : "transparent",
@@ -259,7 +259,7 @@ export default function NewProductPage() {
                 ) : (
                   <>
                     <Image size={20} color="var(--sky)" style={{ opacity: 0.5 }} />
-                    <p style={{ fontSize: 11, color: "var(--text-muted)" }}>Upload cover image</p>
+                    <p style={{ fontSize: 12, color: "var(--text-muted)" }}>Upload cover image</p>
                   </>
                 )}
                 <input

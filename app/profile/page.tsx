@@ -51,7 +51,7 @@ export default function ProfilePage() {
       <div className="card" style={{ padding: 24 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
           <div>
-            <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)", marginBottom: 4 }}>Personal Information</h3>
+            <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)", marginBottom: 4 }}>Personal Information</h3>
             <p style={{ fontSize: 12, color: "var(--text-muted)" }}>Manage your display name and username</p>
           </div>
           <button
@@ -79,14 +79,14 @@ export default function ProfilePage() {
           <div style={{ gridColumn: "1 / -1" }}>
             <label className="label">Email</label>
             <input className="input" value={user?.email ?? "guest@firee.app"} disabled style={{ opacity: 0.6 }} />
-            <p style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 4 }}>Email cannot be changed</p>
+            <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4 }}>Email cannot be changed</p>
           </div>
         </div>
       </div>
 
       {/* Appearance */}
       <div className="card" style={{ padding: 24 }}>
-        <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)", marginBottom: 4 }}>Appearance</h3>
+        <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)", marginBottom: 4 }}>Appearance</h3>
         <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 20 }}>Customize your profile look</p>
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div>
@@ -96,8 +96,8 @@ export default function ProfilePage() {
                 <Camera size={16} color="rgba(110,172,218,0.5)" />
               </div>
               <div style={{ flex: 1 }}>
-                <p style={{ fontSize: 13, color: "var(--text-muted)" }}>Upload profile picture</p>
-                <p style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 2, opacity: 0.6 }}>PNG, JPG up to 2MB</p>
+                <p style={{ fontSize: 14, color: "var(--text-muted)" }}>Upload profile picture</p>
+                <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4, opacity: 0.6 }}>PNG, JPG up to 2MB</p>
               </div>
               <button type="button" className="btn-ghost btn-sm">Upload</button>
             </div>
@@ -114,7 +114,7 @@ export default function ProfilePage() {
 
       {/* Preferences */}
       <div className="card" style={{ padding: 24 }}>
-        <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)", marginBottom: 4 }}>Preferences</h3>
+        <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)", marginBottom: 4 }}>Preferences</h3>
         <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 20 }}>Language and notification settings</p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
           <div>

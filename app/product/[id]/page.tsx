@@ -123,7 +123,7 @@ export default function ProductDetailPage() {
           <div>
             <div className="card" style={{ padding: 0, overflow: "hidden" }}>
               <div style={{ padding: "14px 16px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: 8 }}>
-                <span className="mono" style={{ fontSize: 11, color: "var(--text-muted)" }}>
+                <span className="mono" style={{ fontSize: 12, color: "var(--text-muted)" }}>
                   {product.total_sales} sold
                 </span>
                 <button type="button" onClick={handleShare} className="icon-btn" style={{ marginLeft: "auto" }} aria-label="Share">
@@ -173,10 +173,10 @@ export default function ProductDetailPage() {
                     </>
                   );
                 })()}
-                <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 16px", borderRadius: 8, background: "rgba(226,226,182,0.06)", border: "1px solid rgba(226,226,182,0.15)", marginBottom: 20 }}>
+                <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 16px", borderRadius: 8, background: "rgba(226,226,182,0.06)", border: "1px solid rgba(226,226,182,0.15)", marginBottom: 20 }}>
                   <UsdcAmount value={product.price_usdc} showLabel={false} iconSize={16} style={{ fontSize: 18, fontWeight: 700, color: "var(--sand)" }} />
                 </div>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "wrap" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>
                   {purchased ? (
                     <Link href="/order" className="btn-sand">
                       <CheckCircle size={13} /> View Order
@@ -223,7 +223,7 @@ export default function ProductDetailPage() {
             </div>
 
             {product.short_description && (
-              <p style={{ fontSize: 13, fontWeight: 500, color: "var(--accent-text)", marginBottom: 16 }}>{product.short_description}</p>
+              <p style={{ fontSize: 14, fontWeight: 500, color: "var(--accent-text)", marginBottom: 16 }}>{product.short_description}</p>
             )}
 
             {(product.ships_from_country || product.shipping_fee_usdc != null) && (
@@ -258,25 +258,25 @@ export default function ProductDetailPage() {
                 className="btn-ghost"
                 disabled={alreadyReported}
                 onClick={() => setShowReport(true)}
-                style={{ fontSize: 11, padding: "6px 12px", color: alreadyReported ? "var(--text-muted)" : "#f87171", borderColor: "rgba(248,113,113,0.2)", opacity: alreadyReported ? 0.5 : 1 }}
+                style={{ fontSize: 12, padding: "6px 12px", color: alreadyReported ? "var(--text-muted)" : "#f87171", borderColor: "rgba(248,113,113,0.2)", opacity: alreadyReported ? 0.5 : 1 }}
               >
                 <Flag size={12} /> {alreadyReported ? "Reported" : "Report Product"}
               </button>
             </div>
 
             <div style={{
-              marginTop: 16, padding: "14px 16px", borderRadius: 10,
+              marginTop: 16, padding: "14px 16px", borderRadius: 12,
               background: "rgba(110,172,218,0.05)", border: "1px solid var(--border)",
               display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12,
             }}>
               <div>
-                <p style={{ fontSize: 11, color: "var(--text-muted)", textTransform: "uppercase", marginBottom: 2 }}>Price</p>
-                <UsdcAmount value={product.price_usdc} iconSize={18} style={{ fontSize: 20, fontWeight: 700, color: "var(--sand)" }} />
+                <p style={{ fontSize: 12, color: "var(--text-muted)", textTransform: "uppercase", marginBottom: 2 }}>Price</p>
+                <UsdcAmount value={product.price_usdc} iconSize={18} style={{ fontSize: 22, fontWeight: 700, color: "var(--sand)" }} />
               </div>
               {purchased ? (
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   <CheckCircle size={16} color="#4ade80" />
-                  <span style={{ fontSize: 13, fontWeight: 600, color: "#4ade80" }}>Purchased</span>
+                  <span style={{ fontSize: 14, fontWeight: 600, color: "#4ade80" }}>Purchased</span>
                   <Link href="/order" className="btn-sand" style={{ marginLeft: 8 }}>
                     View Order
                   </Link>
@@ -312,7 +312,7 @@ export default function ProductDetailPage() {
       {/* Report Modal */}
       {showReport && (
         <div className="modal-overlay" onClick={() => setShowReport(false)}>
-          <div className="card" onClick={(e) => e.stopPropagation()} style={{ padding: 28, width: "min(420px, 92vw)", margin: "auto" }}>
+          <div className="card" onClick={(e) => e.stopPropagation()} style={{ padding: 32, width: "min(420px, 92vw)", margin: "auto" }}>
             <h3 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: 18, color: "var(--text, white)", marginBottom: 16 }}>
               <Flag size={16} color="#f87171" style={{ marginRight: 8, verticalAlign: "middle" }} />
               Report Product
@@ -322,7 +322,7 @@ export default function ProductDetailPage() {
               value={reportReason}
               onChange={(e) => setReportReason(e.target.value as ReportReason)}
               style={{
-                width: "100%", padding: "10px 12px", fontSize: 13, borderRadius: 8,
+                width: "100%", padding: "10px 12px", fontSize: 14, borderRadius: 8,
                 border: "1px solid var(--border)", background: "rgba(0,0,0,0.3)",
                 color: "var(--text, white)", marginBottom: 16,
               }}
@@ -340,12 +340,12 @@ export default function ProductDetailPage() {
               placeholder="Describe the issue..."
               rows={3}
               style={{
-                width: "100%", padding: "10px 12px", fontSize: 13, borderRadius: 8,
+                width: "100%", padding: "10px 12px", fontSize: 14, borderRadius: 8,
                 border: "1px solid var(--border)", background: "rgba(0,0,0,0.3)",
                 color: "var(--text, white)", resize: "vertical", marginBottom: 20,
               }}
             />
-            <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+            <div style={{ display: "flex", gap: 12, justifyContent: "flex-end" }}>
               <button type="button" className="btn-ghost btn-sm" onClick={() => setShowReport(false)}>
                 Cancel
               </button>

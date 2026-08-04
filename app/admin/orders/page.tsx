@@ -56,19 +56,19 @@ export default function AdminOrdersPage() {
       {/* Stats */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 12, marginBottom: 20 }}>
         <div className="card" style={{ padding: 16, textAlign: "center" }}>
-          <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>Total Orders</p>
+          <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 4 }}>Total Orders</p>
           <p style={{ fontSize: 22, fontWeight: 700, color: "var(--text, white)" }}>{orders.length}</p>
         </div>
         <div className="card" style={{ padding: 16, textAlign: "center" }}>
-          <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>Total Volume</p>
+          <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 4 }}>Total Volume</p>
           <UsdcAmount value={totalRevenue} iconSize={14} style={{ fontSize: 18, fontWeight: 700, color: "var(--sand)", justifyContent: "center" }} />
         </div>
         <div className="card" style={{ padding: 16, textAlign: "center" }}>
-          <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>Platform Fees</p>
+          <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 4 }}>Platform Fees</p>
           <UsdcAmount value={totalFees} iconSize={14} style={{ fontSize: 18, fontWeight: 700, color: "var(--accent-text)", justifyContent: "center" }} />
         </div>
         <div className="card" style={{ padding: 16, textAlign: "center" }}>
-          <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>Completed</p>
+          <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 4 }}>Completed</p>
           <p style={{ fontSize: 22, fontWeight: 700, color: "#4ade80" }}>{orders.filter((o) => o.status === "completed").length}</p>
         </div>
       </div>
@@ -91,13 +91,13 @@ export default function AdminOrdersPage() {
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
               <tr style={{ borderBottom: "1px solid var(--border)" }}>
-                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 11, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Product</th>
-                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 11, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Buyer</th>
-                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 11, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Seller</th>
-                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 11, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Amount</th>
-                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 11, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Status</th>
-                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 11, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Date</th>
-                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 11, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Tx</th>
+                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 12, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Product</th>
+                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 12, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Buyer</th>
+                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 12, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Seller</th>
+                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 12, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Amount</th>
+                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 12, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Status</th>
+                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 12, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Date</th>
+                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 12, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Tx</th>
               </tr>
             </thead>
             <tbody>

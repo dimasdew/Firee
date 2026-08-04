@@ -55,7 +55,7 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
         </div>
 
         {/* Info strip */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 10, margin: "16px 0 24px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12, margin: "16px 0 24px" }}>
           <div className="card" style={{ padding: "12px 16px", display: "flex", alignItems: "center", gap: 10 }}>
             <Mail size={14} color="var(--sky)" style={{ flexShrink: 0 }} />
             <div style={{ minWidth: 0 }}>
@@ -89,7 +89,7 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
         </div>
 
         <div className="divider" style={{ marginBottom: 24 }} />
-        <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 16 }}>My Account</p>
+        <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 16 }}>My Account</p>
         <div className="profile-layout">
           <nav className="profile-sidebar" aria-label="Profile navigation">
             {SIDEBAR.map(({ href, label, icon: Icon, exact }) => {

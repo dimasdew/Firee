@@ -32,7 +32,7 @@ export default function WishlistPage() {
     <div className="card" style={{ padding: 24 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
         <div>
-          <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)", marginBottom: 4 }}>Wishlist</h3>
+          <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)", marginBottom: 4 }}>Wishlist</h3>
           <p style={{ fontSize: 12, color: "var(--text-muted)" }}>Products you&apos;ve saved for later</p>
         </div>
         <Badge tone="sand">{mpProducts.length} item{mpProducts.length !== 1 ? "s" : ""}</Badge>
@@ -58,30 +58,30 @@ export default function WishlistPage() {
               key={p.id}
               style={{
                 display: "flex", alignItems: "center", gap: 12,
-                padding: 14, borderRadius: 10, border: "1px solid var(--border)",
+                padding: 16, borderRadius: 12, border: "1px solid var(--border)",
                 background: "rgba(110,172,218,0.02)",
               }}
             >
-              <div style={{ width: 48, height: 56, borderRadius: 6, background: "rgba(110,172,218,0.06)", border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", flexShrink: 0 }}>
+              <div style={{ width: 48, height: 56, borderRadius: 8, background: "rgba(110,172,218,0.06)", border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", flexShrink: 0 }}>
                 {p.thumbnail_url
                   ? <img src={p.thumbnail_url} alt={p.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                   : <Package size={18} color="var(--sky)" style={{ opacity: 0.5 }} />
                 }
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <Link href={`/product/${p.id}`} style={{ fontSize: 13, fontWeight: 600, color: "var(--text, white)", textDecoration: "none" }}>
+                <Link href={`/product/${p.id}`} style={{ fontSize: 14, fontWeight: 600, color: "var(--text, white)", textDecoration: "none" }}>
                   {p.title}
                 </Link>
-                <p style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 2 }}>
+                <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>
                   {p.seller?.display_name || p.seller?.username || "Seller"}
                 </p>
                 <UsdcAmount value={Number(p.price_usdc)} showLabel={false} iconSize={11} style={{ fontSize: 12, fontWeight: 600, color: "var(--sand)", marginTop: 4 }} />
               </div>
-              <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
+              <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
                 <Link
                   href={`/product/${p.id}`}
                   className="btn-ghost"
-                  style={{ padding: "6px 10px", fontSize: 11, textDecoration: "none" }}
+                  style={{ padding: "6px 10px", fontSize: 12, textDecoration: "none" }}
                   title="View product"
                 >
                   View

@@ -26,7 +26,7 @@ export default function AboutPage() {
             Firee is a decentralized marketplace where buyers and sellers connect directly through smart contracts.
             No intermediaries. Transparent pricing in USDC. Full ownership of your data and transactions.
           </p>
-          <p style={{ fontSize: 15, lineHeight: 1.8, color: "var(--text-muted)", marginBottom: 40 }}>
+          <p style={{ fontSize: 16, lineHeight: 1.8, color: "var(--text-muted)", marginBottom: 40 }}>
             Built by dimasdew — combining Next.js, Supabase, and smart contracts on the Base blockchain.
             Real USDC payments, on-chain escrow, and instant digital delivery. Web3 commerce, simplified.
           </p>

@@ -108,7 +108,7 @@ export default function PurchasedOrderList() {
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         {orders.map((order) => (
           <article key={order.id} className="card card-lift" style={{ padding: 0, overflow: "hidden" }}>
-            <div style={{ padding: "14px 16px", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
+            <div style={{ padding: "14px 16px", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
               {/* Thumbnail */}
               <div style={{
                 position: "relative", width: 48, height: 48, borderRadius: 8,
@@ -130,12 +130,12 @@ export default function PurchasedOrderList() {
                 >
                   {order.product?.title || "Product"}
                 </Link>
-                <p style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 4 }}>
+                <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4 }}>
                   {new Date(order.created_at).toLocaleDateString("en-US", {
                     year: "numeric", month: "short", day: "numeric",
                   })}
                 </p>
-                <div style={{ marginTop: 6, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                <div style={{ marginTop: 8, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
                   {statusBadge(order)}
                   {order.status === "shipped" && order.tracking_number && (
                     <span className="mono" style={{ fontSize: 10, color: "var(--text-muted)", display: "inline-flex", alignItems: "center", gap: 4 }}>
@@ -172,7 +172,7 @@ export default function PurchasedOrderList() {
                       className="btn-sand"
                       onClick={() => handleConfirmDelivery(order)}
                       disabled={confirmingId === order.id}
-                      style={{ padding: "4px 12px", fontSize: 11, gap: 4 }}
+                      style={{ padding: "4px 12px", fontSize: 12, gap: 4 }}
                     >
                       {confirmingId === order.id
                         ? <Loader2 size={11} style={{ animation: "spin 1s linear infinite" }} />
@@ -204,7 +204,7 @@ export default function PurchasedOrderList() {
       {/* Refund Request Modal */}
       {showRefundModal && (
         <div className="modal-overlay" onClick={() => setShowRefundModal(null)}>
-          <div className="card" onClick={(e) => e.stopPropagation()} style={{ padding: 28, width: "min(420px, 92vw)", margin: "auto" }}>
+          <div className="card" onClick={(e) => e.stopPropagation()} style={{ padding: 32, width: "min(420px, 92vw)", margin: "auto" }}>
             <h3 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: 18, color: "var(--text, white)", marginBottom: 8 }}>
               <AlertCircle size={16} color="#f87171" style={{ marginRight: 8, verticalAlign: "middle" }} />
               Request Refund
@@ -218,12 +218,12 @@ export default function PurchasedOrderList() {
               placeholder="Reason for refund..."
               rows={4}
               style={{
-                width: "100%", padding: "10px 12px", fontSize: 13, borderRadius: 8,
+                width: "100%", padding: "10px 12px", fontSize: 14, borderRadius: 8,
                 border: "1px solid var(--border)", background: "rgba(0,0,0,0.3)",
                 color: "var(--text, white)", resize: "vertical", marginBottom: 20,
               }}
             />
-            <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+            <div style={{ display: "flex", gap: 12, justifyContent: "flex-end" }}>
               <button type="button" className="btn-ghost btn-sm" onClick={() => setShowRefundModal(null)}>
                 Cancel
               </button>

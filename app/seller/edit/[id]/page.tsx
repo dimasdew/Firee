@@ -130,7 +130,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
           {/* Main form */}
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <div className="card" style={{ padding: 24 }}>
-              <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)", marginBottom: 16 }}>
+              <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)", marginBottom: 16 }}>
                 Edit Product
               </h3>
               <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -163,28 +163,28 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
 
             {/* File Upload */}
             <div className="card" style={{ padding: 24 }}>
-              <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)", marginBottom: 16 }}>
-                <FileText size={15} style={{ marginRight: 6, verticalAlign: "middle" }} />
+              <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)", marginBottom: 16 }}>
+                <FileText size={15} style={{ marginRight: 8, verticalAlign: "middle" }} />
                 Product File
               </h3>
               <label style={{
                 display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
-                padding: "24px 20px", borderRadius: 10,
+                padding: "24px 20px", borderRadius: 12,
                 border: "2px dashed var(--border)", cursor: "pointer",
                 background: productFile ? "rgba(110,172,218,0.04)" : "transparent",
               }}>
                 <Upload size={24} color="var(--sky)" style={{ opacity: 0.6 }} />
                 {productFile ? (
                   <>
-                    <p style={{ fontSize: 13, fontWeight: 600, color: "var(--text, white)" }}>{productFile.name}</p>
-                    <p style={{ fontSize: 11, color: "var(--text-muted)" }}>{(productFile.size / 1024 / 1024).toFixed(1)} MB</p>
+                    <p style={{ fontSize: 14, fontWeight: 600, color: "var(--text, white)" }}>{productFile.name}</p>
+                    <p style={{ fontSize: 12, color: "var(--text-muted)" }}>{(productFile.size / 1024 / 1024).toFixed(1)} MB</p>
                   </>
                 ) : (
                   <>
-                    <p style={{ fontSize: 13, color: "var(--text-muted)" }}>
+                    <p style={{ fontSize: 14, color: "var(--text-muted)" }}>
                       {product.file_name ? `Current: ${product.file_name}` : "Click to upload"}
                     </p>
-                    <p style={{ fontSize: 11, color: "var(--text-muted)", opacity: 0.6 }}>Upload new file to replace</p>
+                    <p style={{ fontSize: 12, color: "var(--text-muted)", opacity: 0.6 }}>Upload new file to replace</p>
                   </>
                 )}
                 <input type="file" accept=".zip,.rar,.pdf,.fig,.sketch" style={{ display: "none" }} onChange={(e) => setProductFile(e.target.files?.[0] ?? null)} />
@@ -196,14 +196,14 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {/* Price */}
             <div className="card" style={{ padding: 24 }}>
-              <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)", marginBottom: 16 }}>
-                <DollarSign size={15} style={{ marginRight: 6, verticalAlign: "middle" }} />
+              <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)", marginBottom: 16 }}>
+                <DollarSign size={15} style={{ marginRight: 8, verticalAlign: "middle" }} />
                 Pricing
               </h3>
               <div>
                 <label className="label">Price (USDC) *</label>
                 <input className="input" type="number" step="0.01" min="0" required value={form.price} onChange={(e) => update("price", e.target.value)} style={{ fontSize: 18, fontWeight: 700 }} />
-                <p style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 6 }}>
+                <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 6 }}>
                   Platform fee: 3% · You receive: {form.price ? (parseFloat(form.price) * 0.97).toFixed(2) : "0.00"} USDC
                 </p>
               </div>
@@ -211,13 +211,13 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
 
             {/* Thumbnail */}
             <div className="card" style={{ padding: 24 }}>
-              <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)", marginBottom: 16 }}>
-                <Image size={15} style={{ marginRight: 6, verticalAlign: "middle" }} />
+              <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)", marginBottom: 16 }}>
+                <Image size={15} style={{ marginRight: 8, verticalAlign: "middle" }} />
                 Thumbnail
               </h3>
               <label style={{
                 display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
-                padding: "24px 16px", borderRadius: 10,
+                padding: "24px 16px", borderRadius: 12,
                 border: "2px dashed var(--border)", cursor: "pointer",
                 aspectRatio: "16/9", justifyContent: "center", overflow: "hidden",
               }}>
@@ -228,7 +228,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                 ) : (
                   <>
                     <Image size={20} color="var(--sky)" style={{ opacity: 0.5 }} />
-                    <p style={{ fontSize: 11, color: "var(--text-muted)" }}>Upload cover image</p>
+                    <p style={{ fontSize: 12, color: "var(--text-muted)" }}>Upload cover image</p>
                   </>
                 )}
                 <input type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => setThumbnail(e.target.files?.[0] ?? null)} />
@@ -239,11 +239,11 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
             <div className="card" style={{ padding: 20, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 {form.isPublished ? <Eye size={14} color="#4ade80" /> : <EyeOff size={14} color="var(--text-muted)" />}
-                <span style={{ fontSize: 13, fontWeight: 600, color: "var(--text, white)" }}>
+                <span style={{ fontSize: 14, fontWeight: 600, color: "var(--text, white)" }}>
                   {form.isPublished ? "Published" : "Draft"}
                 </span>
               </div>
-              <button type="button" className={`btn-ghost`} style={{ fontSize: 11, padding: "6px 12px" }}
+              <button type="button" className={`btn-ghost`} style={{ fontSize: 12, padding: "6px 12px" }}
                 onClick={() => update("isPublished", !form.isPublished)}>
                 {form.isPublished ? "Unpublish" : "Publish"}
               </button>

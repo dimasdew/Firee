@@ -92,30 +92,30 @@ export default function EarningsPage() {
         <div className="card" style={{ padding: 20 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
             <DollarSign size={14} color="var(--sand)" />
-            <span style={{ fontSize: 11, color: "var(--text-muted)" }}>Total Revenue</span>
+            <span style={{ fontSize: 12, color: "var(--text-muted)" }}>Total Revenue</span>
           </div>
-          <UsdcAmount value={stats.totalRevenue} iconSize={16} style={{ fontSize: 20, fontWeight: 700, color: "var(--sand)" }} />
+          <UsdcAmount value={stats.totalRevenue} iconSize={16} style={{ fontSize: 22, fontWeight: 700, color: "var(--sand)" }} />
         </div>
         <div className="card" style={{ padding: 20 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
             <Wallet size={14} color="var(--sky)" />
-            <span style={{ fontSize: 11, color: "var(--text-muted)" }}>Available</span>
+            <span style={{ fontSize: 12, color: "var(--text-muted)" }}>Available</span>
           </div>
-          <UsdcAmount value={stats.availableBalance} iconSize={16} style={{ fontSize: 20, fontWeight: 700, color: "var(--accent-text)" }} />
+          <UsdcAmount value={stats.availableBalance} iconSize={16} style={{ fontSize: 22, fontWeight: 700, color: "var(--accent-text)" }} />
         </div>
         <div className="card" style={{ padding: 20 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
             <Clock size={14} color="var(--text-muted)" />
-            <span style={{ fontSize: 11, color: "var(--text-muted)" }}>Pending</span>
+            <span style={{ fontSize: 12, color: "var(--text-muted)" }}>Pending</span>
           </div>
-          <UsdcAmount value={stats.pendingPayout} iconSize={16} style={{ fontSize: 20, fontWeight: 700, color: "var(--text-muted)" }} />
+          <UsdcAmount value={stats.pendingPayout} iconSize={16} style={{ fontSize: 22, fontWeight: 700, color: "var(--text-muted)" }} />
         </div>
         <div className="card" style={{ padding: 20 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
             <ArrowUpRight size={14} color="var(--sand)" />
-            <span style={{ fontSize: 11, color: "var(--text-muted)" }}>Withdrawn</span>
+            <span style={{ fontSize: 12, color: "var(--text-muted)" }}>Withdrawn</span>
           </div>
-          <UsdcAmount value={stats.totalWithdrawn} iconSize={16} style={{ fontSize: 20, fontWeight: 700, color: "var(--sand)" }} />
+          <UsdcAmount value={stats.totalWithdrawn} iconSize={16} style={{ fontSize: 22, fontWeight: 700, color: "var(--sand)" }} />
         </div>
       </div>
 
@@ -147,11 +147,11 @@ export default function EarningsPage() {
 
       {/* Payout history */}
       <div className="card" style={{ padding: 24 }}>
-        <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)", marginBottom: 16 }}>
+        <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)", marginBottom: 16 }}>
           Payout History
         </h3>
         {payouts.length === 0 ? (
-          <p style={{ fontSize: 13, color: "var(--text-muted)", textAlign: "center", padding: "24px 0" }}>
+          <p style={{ fontSize: 14, color: "var(--text-muted)", textAlign: "center", padding: "24px 0" }}>
             No payouts yet
           </p>
         ) : (
@@ -167,7 +167,7 @@ export default function EarningsPage() {
               >
                 <div>
                   <UsdcAmount value={payout.amount_usdc} iconSize={12} style={{ fontSize: 14, fontWeight: 600, color: "var(--sand)" }} />
-                  <p style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 2 }}>
+                  <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>
                     {new Date(payout.created_at).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
                   </p>
                 </div>

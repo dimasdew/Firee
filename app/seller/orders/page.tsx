@@ -93,7 +93,7 @@ export default function SellerOrdersPage() {
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         {orders.map((order) => (
           <article key={order.id} className="card" style={{ padding: "14px 16px" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
               <div style={{
                 position: "relative", width: 48, height: 48, borderRadius: 8,
                 background: "rgba(110,172,218,0.08)", border: "1px solid var(--border)",
@@ -110,10 +110,10 @@ export default function SellerOrdersPage() {
                 <p style={{ fontWeight: 600, fontSize: 14, color: "var(--text, white)" }}>
                   {order.product?.title || "Product"}
                 </p>
-                <p style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 2 }}>
+                <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>
                   {order.buyer?.display_name || order.buyer?.username || "Buyer"} · {new Date(order.created_at).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
                 </p>
-                <div style={{ marginTop: 6, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                <div style={{ marginTop: 8, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
                   {statusBadge(order.status)}
                   {order.tracking_number && (
                     <span className="mono" style={{ fontSize: 10, color: "var(--text-muted)" }}>
@@ -130,7 +130,7 @@ export default function SellerOrdersPage() {
                     type="button"
                     className="btn-sand"
                     onClick={() => { setShipModal(order.id); setTracking(""); setCarrier(""); }}
-                    style={{ padding: "4px 12px", fontSize: 11, gap: 4 }}
+                    style={{ padding: "4px 12px", fontSize: 12, gap: 4 }}
                   >
                     <Truck size={11} /> Mark as Shipped
                   </button>
@@ -142,7 +142,7 @@ export default function SellerOrdersPage() {
             {order.shipping_name && (
               <div style={{
                 marginTop: 12, padding: "10px 12px", borderRadius: 8,
-                border: "1px solid var(--border)", fontSize: 11,
+                border: "1px solid var(--border)", fontSize: 12,
                 color: "var(--text-muted)", lineHeight: 1.6,
               }}>
                 <span style={{ display: "flex", alignItems: "center", gap: 4, color: "var(--text, white)", fontWeight: 600, fontSize: 12 }}>
@@ -159,7 +159,7 @@ export default function SellerOrdersPage() {
       {/* Mark as Shipped Modal */}
       {shipModal && (
         <div className="modal-overlay" onClick={() => setShipModal(null)}>
-          <div className="card" onClick={(e) => e.stopPropagation()} style={{ padding: 28, width: "min(420px, 92vw)", margin: "auto" }}>
+          <div className="card" onClick={(e) => e.stopPropagation()} style={{ padding: 32, width: "min(420px, 92vw)", margin: "auto" }}>
             <h3 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: 18, color: "var(--text, white)", marginBottom: 8 }}>
               <Truck size={16} color="var(--sky)" style={{ marginRight: 8, verticalAlign: "middle" }} />
               Mark as Shipped
@@ -173,7 +173,7 @@ export default function SellerOrdersPage() {
               <input className="input" placeholder="Carrier (optional, e.g. DHL, FedEx)" value={carrier}
                 onChange={(e) => setCarrier(e.target.value)} />
             </div>
-            <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+            <div style={{ display: "flex", gap: 12, justifyContent: "flex-end" }}>
               <button type="button" className="btn-ghost btn-sm" onClick={() => setShipModal(null)}>
                 Cancel
               </button>

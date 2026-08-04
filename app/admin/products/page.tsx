@@ -72,19 +72,19 @@ export default function AdminProductsPage() {
       {/* Stats */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 12, marginBottom: 20 }}>
         <div className="card" style={{ padding: 16, textAlign: "center" }}>
-          <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>Total Products</p>
+          <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 4 }}>Total Products</p>
           <p style={{ fontSize: 22, fontWeight: 700, color: "var(--text, white)" }}>{products.length}</p>
         </div>
         <div className="card" style={{ padding: 16, textAlign: "center" }}>
-          <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>Published</p>
+          <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 4 }}>Published</p>
           <p style={{ fontSize: 22, fontWeight: 700, color: "#4ade80" }}>{products.filter((p) => p.is_published).length}</p>
         </div>
         <div className="card" style={{ padding: 16, textAlign: "center" }}>
-          <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>Drafts</p>
+          <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 4 }}>Drafts</p>
           <p style={{ fontSize: 22, fontWeight: 700, color: "var(--text-muted)" }}>{products.filter((p) => !p.is_published).length}</p>
         </div>
         <div className="card" style={{ padding: 16, textAlign: "center" }}>
-          <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>Total Sales</p>
+          <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 4 }}>Total Sales</p>
           <p style={{ fontSize: 22, fontWeight: 700, color: "var(--accent-text)" }}>{products.reduce((s, p) => s + p.total_sales, 0)}</p>
         </div>
       </div>
@@ -107,12 +107,12 @@ export default function AdminProductsPage() {
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
               <tr style={{ borderBottom: "1px solid var(--border)" }}>
-                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 11, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Product</th>
-                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 11, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Seller</th>
-                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 11, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Price</th>
-                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 11, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Sales</th>
-                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 11, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Status</th>
-                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 11, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Actions</th>
+                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 12, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Product</th>
+                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 12, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Seller</th>
+                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 12, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Price</th>
+                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 12, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Sales</th>
+                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 12, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Status</th>
+                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 12, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -120,7 +120,7 @@ export default function AdminProductsPage() {
                 <tr key={p.id} style={{ borderBottom: "1px solid var(--border)" }}>
                   <td style={{ padding: "12px 14px" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                      <div style={{ width: 36, height: 36, borderRadius: 6, background: "rgba(110,172,218,0.06)", border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, overflow: "hidden" }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(110,172,218,0.06)", border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, overflow: "hidden" }}>
                         {p.thumbnail_url
                           ? <img src={p.thumbnail_url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                           : <Package size={14} color="var(--sky)" style={{ opacity: 0.5 }} />
@@ -128,7 +128,7 @@ export default function AdminProductsPage() {
                       </div>
                       <div style={{ minWidth: 0 }}>
                         <p style={{ fontWeight: 600, color: "var(--text, white)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.title}</p>
-                        <p style={{ fontSize: 11, color: "var(--text-muted)" }}>{timeAgo(p.created_at)}</p>
+                        <p style={{ fontSize: 12, color: "var(--text-muted)" }}>{timeAgo(p.created_at)}</p>
                       </div>
                     </div>
                   </td>

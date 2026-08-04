@@ -110,12 +110,12 @@ export default function DashboardPage() {
       <main className="container" style={{ padding: "32px 0 80px" }}>
         <div className="dashboard-header">
           <div>
-            <p style={{ fontSize: 11, color: "var(--label)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 4 }}>Marketplace</p>
+            <p style={{ fontSize: 12, color: "var(--label)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 4 }}>Marketplace</p>
             <h1 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: "clamp(22px, 4vw, 28px)", color: "var(--text, white)", letterSpacing: "-0.02em" }}>
               Browse Products
             </h1>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
             <select className="sort-select" value={sort} onChange={(e) => { setSort(e.target.value as SortKey); resetPage(); }} aria-label="Sort products">
               <option value="newest">Sort: Newest</option>
               <option value="name">Sort: Name</option>
@@ -147,34 +147,34 @@ export default function DashboardPage() {
         {showFilters && (
           <div style={{
             display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 16,
-            padding: 16, borderRadius: 10,
+            padding: 16, borderRadius: 12,
             border: "1px solid var(--border)", background: "rgba(110,172,218,0.03)",
           }}>
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <label style={{ fontSize: 11, color: "var(--text-muted)", whiteSpace: "nowrap" }}>Price</label>
+              <label style={{ fontSize: 12, color: "var(--text-muted)", whiteSpace: "nowrap" }}>Price</label>
               <input
                 type="number" min="0" step="0.01" placeholder="Min"
                 value={priceMin} onChange={(e) => { setPriceMin(e.target.value); resetPage(); }}
                 style={{
-                  width: 72, padding: "6px 8px", fontSize: 12, borderRadius: 6,
+                  width: 72, padding: "6px 8px", fontSize: 12, borderRadius: 8,
                   border: "1px solid var(--border)", background: "rgba(0,0,0,0.2)",
                   color: "var(--text, white)",
                 }}
               />
-              <span style={{ fontSize: 11, color: "var(--text-muted)" }}>–</span>
+              <span style={{ fontSize: 12, color: "var(--text-muted)" }}>–</span>
               <input
                 type="number" min="0" step="0.01" placeholder="Max"
                 value={priceMax} onChange={(e) => { setPriceMax(e.target.value); resetPage(); }}
                 style={{
-                  width: 72, padding: "6px 8px", fontSize: 12, borderRadius: 6,
+                  width: 72, padding: "6px 8px", fontSize: 12, borderRadius: 8,
                   border: "1px solid var(--border)", background: "rgba(0,0,0,0.2)",
                   color: "var(--text, white)",
                 }}
               />
             </div>
             {allTags.length > 0 && (
-              <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
-                <label style={{ fontSize: 11, color: "var(--text-muted)" }}>Tags</label>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                <label style={{ fontSize: 12, color: "var(--text-muted)" }}>Tags</label>
                 {allTags.map((tag) => (
                   <button
                     key={tag}
@@ -192,7 +192,7 @@ export default function DashboardPage() {
               <button
                 type="button"
                 onClick={() => { setPriceMin(""); setPriceMax(""); setActiveTag(null); resetPage(); }}
-                style={{ fontSize: 11, color: "var(--accent-text)", background: "none", border: "none", cursor: "pointer", textDecoration: "underline" }}
+                style={{ fontSize: 12, color: "var(--accent-text)", background: "none", border: "none", cursor: "pointer", textDecoration: "underline" }}
               >
                 Clear filters
               </button>
@@ -222,8 +222,8 @@ export default function DashboardPage() {
         ) : (
           <div style={{ textAlign: "center", padding: "80px 0" }}>
             <p style={{ fontSize: 40, marginBottom: 12, opacity: 0.2 }}>🔍</p>
-            <p style={{ fontSize: 15, color: "var(--text-muted)", fontWeight: 500 }}>No products found</p>
-            <p style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 4, opacity: 0.7 }}>Try a different search or category</p>
+            <p style={{ fontSize: 16, color: "var(--text-muted)", fontWeight: 500 }}>No products found</p>
+            <p style={{ fontSize: 14, color: "var(--text-muted)", marginTop: 4, opacity: 0.7 }}>Try a different search or category</p>
           </div>
         )}
 

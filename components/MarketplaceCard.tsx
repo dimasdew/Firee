@@ -21,14 +21,14 @@ export default function MarketplaceCard({ product, rating }: Props) {
   return (
     <article className="card card-lift" style={{ padding: 0, overflow: "hidden", display: "flex", flexDirection: "column" }}>
       <div style={{ padding: "12px 14px 10px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <Link href={`/shop/${product.seller_id}`} style={{ fontSize: 11, color: "var(--text-muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "60%", textDecoration: "none" }}>
+        <Link href={`/shop/${product.seller_id}`} style={{ fontSize: 12, color: "var(--text-muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "60%", textDecoration: "none" }}>
           {product.seller?.display_name || product.seller?.username || "Seller"}
         </Link>
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
           <button
             type="button"
             onClick={(e) => { e.preventDefault(); toggleMarketplaceWishlist(product.id); }}
-            style={{ background: "none", border: "none", cursor: "pointer", padding: 2, display: "flex" }}
+            style={{ background: "none", border: "none", cursor: "pointer", padding: 4, display: "flex" }}
             aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
           >
             <Heart size={13} fill={wishlisted ? "#f87171" : "none"} color={wishlisted ? "#f87171" : "var(--text-muted)"} />
@@ -48,7 +48,7 @@ export default function MarketplaceCard({ product, rating }: Props) {
           {product.title}
         </p>
         {product.short_description && (
-          <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 6, lineHeight: 1.4, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" as const }}>
+          <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 8, lineHeight: 1.4, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" as const }}>
             {product.short_description}
           </p>
         )}
@@ -70,7 +70,7 @@ export default function MarketplaceCard({ product, rating }: Props) {
       <div style={{ padding: "10px 14px", borderTop: "1px solid var(--border)", display: "flex", gap: 8 }}>
         <Link
           href={`/product/${product.id}`}
-          style={{ flex: 1, textAlign: "center", padding: 8, borderRadius: 6, background: "rgba(226,226,182,0.08)", border: "1px solid rgba(226,226,182,0.15)", color: "var(--sand)", fontSize: 12, fontWeight: 600, textDecoration: "none" }}
+          style={{ flex: 1, textAlign: "center", padding: 8, borderRadius: 8, background: "rgba(226,226,182,0.08)", border: "1px solid rgba(226,226,182,0.15)", color: "var(--sand)", fontSize: 12, fontWeight: 600, textDecoration: "none" }}
         >
           View
         </Link>

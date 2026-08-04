@@ -10,10 +10,10 @@ export default function NotFound() {
         <h1 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: "clamp(24px, 4vw, 40px)", color: "var(--text, white)", marginBottom: 8 }}>
           Page not found
         </h1>
-        <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 28, maxWidth: 360, margin: "0 auto 28px" }}>
+        <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 32, maxWidth: 360, margin: "0 auto 28px" }}>
           The page you're looking for doesn't exist or has been moved.
         </p>
-        <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
           <Link href="/" className="btn-sand"><ArrowLeft size={14} /> Home</Link>
           <Link href="/dashboard" className="btn-ghost">Marketplace</Link>
         </div>

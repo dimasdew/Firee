@@ -77,19 +77,19 @@ export default function AdminUsersPage() {
       {/* Stats */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 12, marginBottom: 20 }}>
         <div className="card" style={{ padding: 16, textAlign: "center" }}>
-          <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>Total Users</p>
+          <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 4 }}>Total Users</p>
           <p style={{ fontSize: 22, fontWeight: 700, color: "var(--text, white)" }}>{users.length}</p>
         </div>
         <div className="card" style={{ padding: 16, textAlign: "center" }}>
-          <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>Sellers</p>
+          <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 4 }}>Sellers</p>
           <p style={{ fontSize: 22, fontWeight: 700, color: "var(--accent-text)" }}>{users.filter((u) => u.is_seller).length}</p>
         </div>
         <div className="card" style={{ padding: 16, textAlign: "center" }}>
-          <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>Admins</p>
+          <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 4 }}>Admins</p>
           <p style={{ fontSize: 22, fontWeight: 700, color: "var(--sand)" }}>{users.filter((u) => u.is_admin).length}</p>
         </div>
         <div className="card" style={{ padding: 16, textAlign: "center" }}>
-          <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>Banned</p>
+          <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 4 }}>Banned</p>
           <p style={{ fontSize: 22, fontWeight: 700, color: "#f87171" }}>{users.filter((u) => u.is_banned).length}</p>
         </div>
       </div>
@@ -112,11 +112,11 @@ export default function AdminUsersPage() {
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
               <tr style={{ borderBottom: "1px solid var(--border)" }}>
-                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 11, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>User</th>
-                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 11, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Email</th>
-                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 11, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Role</th>
-                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 11, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Joined</th>
-                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 11, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Actions</th>
+                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 12, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>User</th>
+                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 12, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Email</th>
+                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 12, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Role</th>
+                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 12, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Joined</th>
+                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 12, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -129,7 +129,7 @@ export default function AdminUsersPage() {
                       </div>
                       <div>
                         <p style={{ fontWeight: 600, color: "var(--text, white)" }}>{u.display_name || u.username}</p>
-                        <p style={{ fontSize: 11, color: "var(--text-muted)" }}>@{u.username}</p>
+                        <p style={{ fontSize: 12, color: "var(--text-muted)" }}>@{u.username}</p>
                       </div>
                     </div>
                   </td>
@@ -139,7 +139,7 @@ export default function AdminUsersPage() {
                       {u.is_admin && <Badge tone="sand"><Shield size={9} /> Admin</Badge>}
                       {u.is_seller && <Badge tone="sky"><Store size={9} /> Seller</Badge>}
                       {u.is_banned && <Badge tone="danger"><Ban size={9} /> Banned</Badge>}
-                      {!u.is_admin && !u.is_seller && !u.is_banned && <span style={{ fontSize: 11, color: "var(--text-muted)" }}>Buyer</span>}
+                      {!u.is_admin && !u.is_seller && !u.is_banned && <span style={{ fontSize: 12, color: "var(--text-muted)" }}>Buyer</span>}
                     </div>
                   </td>
                   <td style={{ padding: "12px 14px", textAlign: "center", color: "var(--text-muted)", fontSize: 11 }}>

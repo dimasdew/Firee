@@ -84,13 +84,13 @@ export default function LoginPage() {
                 <button
                     type="button"
                     onClick={() => { setShowForgot(true); setForgotSent(false); setForgotEmail(""); }}
-                    style={{ fontSize: 11, color: "var(--text-muted)", background: "none", border: "none", cursor: "pointer", padding: 0 }}
+                    style={{ fontSize: 12, color: "var(--text-muted)", background: "none", border: "none", cursor: "pointer", padding: 0 }}
                   >
                     Forgot password?
                   </button>              </div>
               <div className="input-icon-wrap">
                 <Lock size={14} className="input-icon" />
-                <input className="input" type={showPwd ? "text" : "password"} placeholder="••••••••" style={{ paddingLeft: 36, paddingRight: 36 }} value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} onKeyDown={(e) => e.key === "Enter" && submit()} />
+                <input className="input" type={showPwd ? "text" : "password"} placeholder="••••••••" style={{ paddingLeft: 40, paddingRight: 36 }} value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} onKeyDown={(e) => e.key === "Enter" && submit()} />
                 <button type="button" className="input-eye" onClick={() => setShowPwd(!showPwd)}>{showPwd ? <EyeOff size={14} /> : <Eye size={14} />}</button>
               </div>
             </div>
@@ -115,12 +115,12 @@ export default function LoginPage() {
           position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)",
           display: "flex", alignItems: "center", justifyContent: "center", zIndex: 999,
         }} onClick={() => setShowForgot(false)}>
-          <div className="card" onClick={(e) => e.stopPropagation()} style={{ padding: 28, width: "min(380px, 90vw)" }}>
+          <div className="card" onClick={(e) => e.stopPropagation()} style={{ padding: 32, width: "min(380px, 90vw)" }}>
             <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)", marginBottom: 8 }}>
               Reset Password
             </h3>
             {forgotSent ? (
-              <p style={{ fontSize: 13, color: "#4ade80" }}>
+              <p style={{ fontSize: 14, color: "#4ade80" }}>
                 If that email is registered, a reset link has been sent. Check your inbox.
               </p>
             ) : (

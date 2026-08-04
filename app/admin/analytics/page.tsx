@@ -83,14 +83,14 @@ export default function AdminAnalyticsPage() {
         <div className="card" style={{ padding: 20 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
             <DollarSign size={14} color="var(--sand)" />
-            <span style={{ fontSize: 11, color: "var(--text-muted)" }}>Total GMV</span>
+            <span style={{ fontSize: 12, color: "var(--text-muted)" }}>Total GMV</span>
           </div>
           <UsdcAmount value={stats.totalRevenue} iconSize={16} style={{ fontSize: 22, fontWeight: 700, color: "var(--sand)" }} />
         </div>
         <div className="card" style={{ padding: 20 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
             <TrendingUp size={14} color="var(--sky)" />
-            <span style={{ fontSize: 11, color: "var(--text-muted)" }}>Platform Fees (3%)</span>
+            <span style={{ fontSize: 12, color: "var(--text-muted)" }}>Platform Fees (3%)</span>
           </div>
           <UsdcAmount value={stats.platformFees} iconSize={16} style={{ fontSize: 22, fontWeight: 700, color: "var(--accent-text)" }} />
         </div>
@@ -103,8 +103,8 @@ export default function AdminAnalyticsPage() {
             <Flag size={18} color="#f87171" />
           </div>
           <div>
-            <p style={{ fontSize: 11, color: "var(--text-muted)" }}>Pending Reports</p>
-            <p style={{ fontSize: 20, fontWeight: 700, color: stats.pendingReports > 0 ? "#f87171" : "var(--text, white)" }}>
+            <p style={{ fontSize: 12, color: "var(--text-muted)" }}>Pending Reports</p>
+            <p style={{ fontSize: 22, fontWeight: 700, color: stats.pendingReports > 0 ? "#f87171" : "var(--text, white)" }}>
               {stats.pendingReports}
             </p>
           </div>
@@ -114,8 +114,8 @@ export default function AdminAnalyticsPage() {
             <AlertCircle size={18} color="#fbbf24" />
           </div>
           <div>
-            <p style={{ fontSize: 11, color: "var(--text-muted)" }}>Pending Disputes</p>
-            <p style={{ fontSize: 20, fontWeight: 700, color: stats.pendingDisputes > 0 ? "#fbbf24" : "var(--text, white)" }}>
+            <p style={{ fontSize: 12, color: "var(--text-muted)" }}>Pending Disputes</p>
+            <p style={{ fontSize: 22, fontWeight: 700, color: stats.pendingDisputes > 0 ? "#fbbf24" : "var(--text, white)" }}>
               {stats.pendingDisputes}
             </p>
           </div>

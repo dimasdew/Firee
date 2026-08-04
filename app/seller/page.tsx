@@ -85,10 +85,10 @@ export default function SellerProductsPage() {
     return (
       <div className="card" style={{ padding: 48, textAlign: "center", maxWidth: 480, margin: "40px auto" }}>
         <ShieldCheck size={48} color="var(--sky)" style={{ margin: "0 auto 16px", opacity: 0.5 }} />
-        <h2 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: 20, color: "var(--text, white)", marginBottom: 8 }}>
+        <h2 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: 22, color: "var(--text, white)", marginBottom: 8 }}>
           Become a Seller
         </h2>
-        <p style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.7, marginBottom: 24 }}>
+        <p style={{ fontSize: 14, color: "var(--text-muted)", lineHeight: 1.7, marginBottom: 24 }}>
           Apply to sell on Firee. Once approved, you can list physical products and get paid in USDC through escrow-protected orders.
         </p>
         <button type="button" className="btn-primary" onClick={handleApply} >
@@ -102,10 +102,10 @@ export default function SellerProductsPage() {
     return (
       <div className="card" style={{ padding: 48, textAlign: "center", maxWidth: 480, margin: "40px auto" }}>
         <Clock size={48} color="var(--sand)" style={{ margin: "0 auto 16px", opacity: 0.5 }} />
-        <h2 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: 20, color: "var(--text, white)", marginBottom: 8 }}>
+        <h2 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: 22, color: "var(--text, white)", marginBottom: 8 }}>
           Application Pending
         </h2>
-        <p style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.7, marginBottom: 16 }}>
+        <p style={{ fontSize: 14, color: "var(--text-muted)", lineHeight: 1.7, marginBottom: 16 }}>
           Your seller application is being reviewed. You&apos;ll be notified once approved. This usually takes 24–48 hours.
         </p>
         <Badge tone="sand" size="md">Under Review</Badge>
@@ -118,21 +118,21 @@ export default function SellerProductsPage() {
       {/* Stats overview */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 12 }}>
         <div className="card" style={{ padding: 20, textAlign: "center" }}>
-          <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 6 }}>Total Products</p>
-          <p style={{ fontSize: 24, fontWeight: 700, color: "var(--text, white)" }}>{products.length}</p>
+          <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 6 }}>Total Products</p>
+          <p style={{ fontSize: 22, fontWeight: 700, color: "var(--text, white)" }}>{products.length}</p>
         </div>
         <div className="card" style={{ padding: 20, textAlign: "center" }}>
-          <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 6 }}>Total Sales</p>
-          <p style={{ fontSize: 24, fontWeight: 700, color: "var(--accent-text)" }}>
+          <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 6 }}>Total Sales</p>
+          <p style={{ fontSize: 22, fontWeight: 700, color: "var(--accent-text)" }}>
             {products.reduce((s, p) => s + p.total_sales, 0)}
           </p>
         </div>
         <div className="card" style={{ padding: 20, textAlign: "center" }}>
-          <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 6 }}>Revenue</p>
+          <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 6 }}>Revenue</p>
           <UsdcAmount
             value={products.reduce((s, p) => s + p.total_revenue_usdc, 0)}
             iconSize={16}
-            style={{ fontSize: 20, fontWeight: 700, color: "var(--sand)", justifyContent: "center" }}
+            style={{ fontSize: 22, fontWeight: 700, color: "var(--sand)", justifyContent: "center" }}
           />
         </div>
       </div>
@@ -140,7 +140,7 @@ export default function SellerProductsPage() {
       {/* Product list */}
       <div className="card" style={{ padding: 24 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
-          <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)" }}>My Products</h3>
+          <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)" }}>My Products</h3>
           <Link href="/seller/new" className="btn-primary btn-sm">
             <PlusCircle size={14} /> Add Product
           </Link>
@@ -167,8 +167,8 @@ export default function SellerProductsPage() {
               <div
                 key={product.id}
                 style={{
-                  display: "flex", alignItems: "center", gap: 14,
-                  padding: 14, borderRadius: 10,
+                  display: "flex", alignItems: "center", gap: 16,
+                  padding: 16, borderRadius: 12,
                   border: "1px solid var(--border)",
                   background: "rgba(110,172,218,0.02)",
                 }}
@@ -193,12 +193,12 @@ export default function SellerProductsPage() {
                   <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 4, flexWrap: "wrap" }}>
                     <Badge tone="sky">{product.category?.name ?? "Other"}</Badge>
                     <UsdcAmount value={Number(product.price_usdc)} showLabel={false} iconSize={11} style={{ fontSize: 12, fontWeight: 600, color: "var(--sand)" }} />
-                    <span style={{ fontSize: 11, color: "var(--text-muted)" }}>{product.total_sales} sales</span>
+                    <span style={{ fontSize: 12, color: "var(--text-muted)" }}>{product.total_sales} sales</span>
                   </div>
                 </div>
 
                 {/* Status + Actions */}
-                <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
                   <span className={`badge badge-sm ${product.is_published ? "badge-green" : "badge-sky"}`}>
                     {product.is_published ? <><Eye size={9} /> Live</> : <><EyeOff size={9} /> Draft</>}
                   </span>

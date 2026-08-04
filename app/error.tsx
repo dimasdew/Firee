@@ -21,7 +21,7 @@ export default function GlobalError({
         <div style={{ width: 64, height: 64, borderRadius: "50%", background: "rgba(248,113,113,0.08)", border: "1px solid rgba(248,113,113,0.2)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
           <AlertTriangle size={28} color="#f87171" />
         </div>
-        <h1 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: 24, color: "var(--text, white)", marginBottom: 8 }}>
+        <h1 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: 22, color: "var(--text, white)", marginBottom: 8 }}>
           Something went wrong
         </h1>
         <p style={{ fontSize: 14, color: "var(--text-muted)", lineHeight: 1.6, marginBottom: 24 }}>
@@ -32,7 +32,7 @@ export default function GlobalError({
             Error ID: {error.digest}
           </p>
         )}
-        <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
           <button type="button" className="btn-sand" onClick={reset} >
             <RotateCcw size={13} /> Try Again
           </button>

@@ -42,7 +42,7 @@ export default function WalletPage() {
       {wallet ? (
         <>
           <div style={{ padding: 20, borderRadius: 12, background: "rgba(110,172,218,0.06)", border: "1px solid var(--border)", marginBottom: 20 }}>
-            <p style={{ fontSize: 11, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8 }}>
+            <p style={{ fontSize: 12, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8 }}>
               Connected address
               {chain?.name ? ` · ${chain.name}` : ""}
             </p>
@@ -66,17 +66,17 @@ export default function WalletPage() {
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 12, marginBottom: 20 }}>
             <div className="card" style={{ padding: 16, textAlign: "center" }}>
-              <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>USDC Balance</p>
+              <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 4 }}>USDC Balance</p>
               <UsdcAmount value={usdcBalance ?? 0} iconSize={16} style={{ fontSize: 18, fontWeight: 700, color: "var(--sand)", justifyContent: "center" }} />
             </div>
             <div className="card" style={{ padding: 16, textAlign: "center" }}>
-              <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>Escrow Earnings</p>
+              <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 4 }}>Escrow Earnings</p>
               <UsdcAmount value={sellerBalance} iconSize={16} style={{ fontSize: 18, fontWeight: 700, color: "var(--accent-text)", justifyContent: "center" }} />
             </div>
           </div>
 
           {sellerBalance > 0 && (
-            <div style={{ padding: 16, borderRadius: 10, background: "rgba(226,226,182,0.06)", border: "1px solid rgba(226,226,182,0.15)", marginBottom: 20 }}>
+            <div style={{ padding: 16, borderRadius: 12, background: "rgba(226,226,182,0.06)", border: "1px solid rgba(226,226,182,0.15)", marginBottom: 20 }}>
               <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 10 }}>
                 You have <strong style={{ color: "var(--sand)" }}>{sellerBalance.toFixed(2)} USDC</strong> available to withdraw from the escrow contract.
               </p>
@@ -93,7 +93,7 @@ export default function WalletPage() {
                 }
               </button>
               {withdrawError && (
-                <p style={{ fontSize: 11, color: "#f87171", marginTop: 8 }}>{withdrawError}</p>
+                <p style={{ fontSize: 12, color: "#f87171", marginTop: 8 }}>{withdrawError}</p>
               )}
             </div>
           )}

@@ -136,7 +136,7 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
           display: "flex", alignItems: "center", justifyContent: "space-between",
           padding: "18px 20px", borderBottom: "1px solid var(--border)",
         }}>
-          <h3 id="purchase-title" style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)" }}>
+          <h3 id="purchase-title" style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)" }}>
             Checkout
           </h3>
           <button type="button" className="icon-btn" onClick={handleClose} aria-label="Close">
@@ -149,7 +149,7 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
           {/* Product summary */}
           <div style={{
             display: "flex", alignItems: "center", gap: 12,
-            padding: 14, borderRadius: 10,
+            padding: 16, borderRadius: 12,
             background: "rgba(110,172,218,0.04)",
             border: "1px solid var(--border)", marginBottom: 20,
           }}>
@@ -169,21 +169,21 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
               <p style={{ fontSize: 14, fontWeight: 600, color: "var(--text, white)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                 {product.title}
               </p>
-              <UsdcAmount value={product.price_usdc} iconSize={12} style={{ fontSize: 13, fontWeight: 700, color: "var(--sand)", marginTop: 2 }} />
+              <UsdcAmount value={product.price_usdc} iconSize={12} style={{ fontSize: 14, fontWeight: 700, color: "var(--sand)", marginTop: 2 }} />
             </div>
           </div>
 
           {/* Price breakdown */}
           <div style={{ marginBottom: 20, fontSize: 13 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, color: "var(--text-muted)" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8, color: "var(--text-muted)" }}>
               <span>Price</span>
               <span>{product.price_usdc.toFixed(2)} USDC</span>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, color: "var(--text-muted)" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8, color: "var(--text-muted)" }}>
               <span>Shipping{product.ships_from_country ? ` (from ${product.ships_from_country})` : ""}</span>
               <span>{shippingFee > 0 ? `${shippingFee.toFixed(2)} USDC` : "Free"}</span>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, color: "var(--text-muted)", fontSize: 11, opacity: 0.7 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8, color: "var(--text-muted)", fontSize: 12, opacity: 0.7 }}>
               <span>Platform fee (3%, deducted from seller)</span>
               <span>−{platformFee.toFixed(2)} USDC</span>
             </div>
@@ -205,7 +205,7 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
           ) : wrongChain ? (
             <div style={{ textAlign: "center" }}>
               <AlertCircle size={24} color="#f59e0b" style={{ margin: "0 auto 8px" }} />
-              <p style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 12 }}>
+              <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 12 }}>
                 Please switch to <strong>{CHAIN_NAME}</strong>
               </p>
               <button type="button" className="btn-primary" style={{ width: "100%" }}
@@ -216,7 +216,7 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
           ) : step === "success" ? (
             <div style={{ textAlign: "center", padding: "12px 0" }}>
               <CheckCircle size={40} color="#4ade80" style={{ margin: "0 auto 12px" }} />
-              <p style={{ fontSize: 15, fontWeight: 700, color: "#4ade80", marginBottom: 4 }}>
+              <p style={{ fontSize: 16, fontWeight: 700, color: "#4ade80", marginBottom: 4 }}>
                 Purchase Complete!
               </p>
               <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 12 }}>
@@ -236,7 +236,7 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
           ) : step === "error" ? (
             <div style={{ textAlign: "center", padding: "12px 0" }}>
               <AlertCircle size={32} color="#f87171" style={{ margin: "0 auto 8px" }} />
-              <p style={{ fontSize: 13, color: "#f87171", marginBottom: 8 }}>{error}</p>
+              <p style={{ fontSize: 14, color: "#f87171", marginBottom: 8 }}>{error}</p>
               <button type="button" className="btn-ghost btn-sm" onClick={reset} >
                 Try Again
               </button>
@@ -244,9 +244,9 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
           ) : !addressConfirmed ? (
             <>
               {/* Shipping address form */}
-              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 12 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
                 <Truck size={14} color="var(--sky)" />
-                <span style={{ fontSize: 13, fontWeight: 600, color: "var(--text, white)" }}>Shipping Address</span>
+                <span style={{ fontSize: 14, fontWeight: 600, color: "var(--text, white)" }}>Shipping Address</span>
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 16 }}>
                 <input className="input" placeholder="Full name" value={shipping.shipping_name}
@@ -283,7 +283,7 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
                 display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8,
                 padding: "10px 12px", borderRadius: 8, border: "1px solid var(--border)", marginBottom: 12,
               }}>
-                <div style={{ fontSize: 11, color: "var(--text-muted)", lineHeight: 1.5 }}>
+                <div style={{ fontSize: 12, color: "var(--text-muted)", lineHeight: 1.5 }}>
                   <span style={{ display: "flex", alignItems: "center", gap: 4, color: "var(--text, white)", fontWeight: 600, fontSize: 12 }}>
                     <Truck size={12} /> {shipping.shipping_name}
                   </span>
@@ -298,7 +298,7 @@ export default function PurchaseModal({ open, onClose, onSuccess, product }: Pro
               {/* Balance info */}
               {usdcBalance !== null && (
                 <p style={{
-                  fontSize: 11, color: insufficientBalance ? "#f87171" : "var(--text-muted)",
+                  fontSize: 12, color: insufficientBalance ? "#f87171" : "var(--text-muted)",
                   marginBottom: 12,
                 }}>
                   Wallet balance: {usdcBalance.toFixed(2)} USDC

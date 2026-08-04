@@ -7,7 +7,7 @@ export default function ProductSkeleton({ count = 8 }: { count?: number }) {
             <div className="skeleton" style={{ width: 56, height: 16, borderRadius: 8 }} />
           </div>
           <div style={{ padding: "16px 14px", display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <div className="skeleton" style={{ width: 80, height: 14, borderRadius: 6, marginBottom: 12 }} />
+            <div className="skeleton" style={{ width: 80, height: 14, borderRadius: 8, marginBottom: 12 }} />
             <div className="skeleton" style={{ width: 72, height: 88, borderRadius: 8, marginBottom: 12 }} />
             <div className="skeleton" style={{ width: 60, height: 14, borderRadius: 6 }} />
           </div>

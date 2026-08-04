@@ -74,12 +74,12 @@ export default function AdminReportsPage() {
               onClick={() => setFilter(s)}
               className="card"
               style={{
-                padding: 14, textAlign: "center", cursor: "pointer",
+                padding: 16, textAlign: "center", cursor: "pointer",
                 border: filter === s ? "1px solid var(--sky)" : "1px solid var(--border)",
               }}
             >
               <p style={{ fontSize: 10, color: "var(--text-muted)", textTransform: "capitalize", marginBottom: 4 }}>{s}</p>
-              <p style={{ fontSize: 20, fontWeight: 700, color: s === "pending" && count > 0 ? "#f87171" : "var(--text, white)" }}>{count}</p>
+              <p style={{ fontSize: 22, fontWeight: 700, color: s === "pending" && count > 0 ? "#f87171" : "var(--text, white)" }}>{count}</p>
             </button>
           );
         })}
@@ -91,12 +91,12 @@ export default function AdminReportsPage() {
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
               <tr style={{ borderBottom: "1px solid var(--border)" }}>
-                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 11, color: "var(--text-muted)", fontWeight: 600 }}>Product</th>
-                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 11, color: "var(--text-muted)", fontWeight: 600 }}>Reason</th>
-                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 11, color: "var(--text-muted)", fontWeight: 600 }}>Reporter</th>
-                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 11, color: "var(--text-muted)", fontWeight: 600 }}>Status</th>
-                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 11, color: "var(--text-muted)", fontWeight: 600 }}>Date</th>
-                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 11, color: "var(--text-muted)", fontWeight: 600 }}>Actions</th>
+                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 12, color: "var(--text-muted)", fontWeight: 600 }}>Product</th>
+                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 12, color: "var(--text-muted)", fontWeight: 600 }}>Reason</th>
+                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 12, color: "var(--text-muted)", fontWeight: 600 }}>Reporter</th>
+                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 12, color: "var(--text-muted)", fontWeight: 600 }}>Status</th>
+                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 12, color: "var(--text-muted)", fontWeight: 600 }}>Date</th>
+                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 12, color: "var(--text-muted)", fontWeight: 600 }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -109,7 +109,7 @@ export default function AdminReportsPage() {
                   </td>
                   <td style={{ padding: "12px 14px" }}>
                     <Badge tone="sand">{REASON_LABELS[r.reason] || r.reason}</Badge>
-                    {r.details && <p style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 4, maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.details}</p>}
+                    {r.details && <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4, maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.details}</p>}
                   </td>
                   <td style={{ padding: "12px 14px", fontSize: 12, color: "var(--text-muted)" }}>
                     {r.reporter?.display_name || r.reporter?.username || r.reporter_id.slice(0, 8)}
@@ -117,7 +117,7 @@ export default function AdminReportsPage() {
                   <td style={{ padding: "12px 14px", textAlign: "center" }}>
                     <span className={`badge badge-sm ${STATUS_COLORS[r.status] || ""}`}>{r.status}</span>
                   </td>
-                  <td style={{ padding: "12px 14px", textAlign: "center", fontSize: 11, color: "var(--text-muted)" }}>
+                  <td style={{ padding: "12px 14px", textAlign: "center", fontSize: 12, color: "var(--text-muted)" }}>
                     {timeAgo(r.created_at)}
                   </td>
                   <td style={{ padding: "12px 14px", textAlign: "center" }}>
@@ -153,7 +153,7 @@ export default function AdminReportsPage() {
         {filtered.length === 0 && (
           <div style={{ padding: 40, textAlign: "center" }}>
             <Flag size={24} color="var(--text-muted)" style={{ margin: "0 auto 8px", opacity: 0.3 }} />
-            <p style={{ fontSize: 13, color: "var(--text-muted)" }}>No reports found</p>
+            <p style={{ fontSize: 14, color: "var(--text-muted)" }}>No reports found</p>
           </div>
         )}
       </div>

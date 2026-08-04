@@ -54,11 +54,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <div style={{ marginBottom: 24 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
               <Shield size={18} color="var(--sand)" />
-              <h1 style={{ fontSize: 20, fontWeight: 700, color: "var(--text, white)" }}>
+              <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--text, white)" }}>
                 Admin Panel
               </h1>
             </div>
-            <p style={{ fontSize: 13, color: "var(--text-muted)" }}>
+            <p style={{ fontSize: 14, color: "var(--text-muted)" }}>
               Manage users, products, and orders
             </p>
           </div>

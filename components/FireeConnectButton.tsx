@@ -59,7 +59,7 @@ export default function FireeConnectButton({
                   <Image src={avatarUrl(account.address)} alt="" width={28} height={28} className="avatar-sm" style={{ objectFit: "cover" }} unoptimized />
                   <span
                     className="nav-link-hide-mobile mono"
-                    style={{ fontSize: 11, maxWidth: 88, overflow: "hidden", textOverflow: "ellipsis" }}
+                    style={{ fontSize: 12, maxWidth: 88, overflow: "hidden", textOverflow: "ellipsis" }}
                   >
                     {shortenAddress(account.address)}
                   </span>

@@ -62,12 +62,12 @@ export default function AdminDisputesPage() {
               onClick={() => setFilter(s)}
               className="card"
               style={{
-                padding: 14, textAlign: "center", cursor: "pointer",
+                padding: 16, textAlign: "center", cursor: "pointer",
                 border: filter === s ? "1px solid var(--sky)" : "1px solid var(--border)",
               }}
             >
               <p style={{ fontSize: 10, color: "var(--text-muted)", textTransform: "capitalize", marginBottom: 4 }}>{s}</p>
-              <p style={{ fontSize: 20, fontWeight: 700, color: s === "pending" && count > 0 ? "#fbbf24" : "var(--text, white)" }}>{count}</p>
+              <p style={{ fontSize: 22, fontWeight: 700, color: s === "pending" && count > 0 ? "#fbbf24" : "var(--text, white)" }}>{count}</p>
             </button>
           );
         })}
@@ -79,12 +79,12 @@ export default function AdminDisputesPage() {
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
               <tr style={{ borderBottom: "1px solid var(--border)" }}>
-                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 11, color: "var(--text-muted)", fontWeight: 600 }}>Buyer</th>
-                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 11, color: "var(--text-muted)", fontWeight: 600 }}>Seller</th>
-                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 11, color: "var(--text-muted)", fontWeight: 600 }}>Reason</th>
-                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 11, color: "var(--text-muted)", fontWeight: 600 }}>Status</th>
-                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 11, color: "var(--text-muted)", fontWeight: 600 }}>Date</th>
-                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 11, color: "var(--text-muted)", fontWeight: 600 }}>Actions</th>
+                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 12, color: "var(--text-muted)", fontWeight: 600 }}>Buyer</th>
+                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 12, color: "var(--text-muted)", fontWeight: 600 }}>Seller</th>
+                <th style={{ padding: "12px 14px", textAlign: "left", fontSize: 12, color: "var(--text-muted)", fontWeight: 600 }}>Reason</th>
+                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 12, color: "var(--text-muted)", fontWeight: 600 }}>Status</th>
+                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 12, color: "var(--text-muted)", fontWeight: 600 }}>Date</th>
+                <th style={{ padding: "12px 14px", textAlign: "center", fontSize: 12, color: "var(--text-muted)", fontWeight: 600 }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -107,7 +107,7 @@ export default function AdminDisputesPage() {
                       {d.status}
                     </span>
                   </td>
-                  <td style={{ padding: "12px 14px", textAlign: "center", fontSize: 11, color: "var(--text-muted)" }}>
+                  <td style={{ padding: "12px 14px", textAlign: "center", fontSize: 12, color: "var(--text-muted)" }}>
                     {timeAgo(d.created_at)}
                   </td>
                   <td style={{ padding: "12px 14px", textAlign: "center" }}>
@@ -132,7 +132,7 @@ export default function AdminDisputesPage() {
         {filtered.length === 0 && (
           <div style={{ padding: 40, textAlign: "center" }}>
             <AlertCircle size={24} color="var(--text-muted)" style={{ margin: "0 auto 8px", opacity: 0.3 }} />
-            <p style={{ fontSize: 13, color: "var(--text-muted)" }}>No disputes found</p>
+            <p style={{ fontSize: 14, color: "var(--text-muted)" }}>No disputes found</p>
           </div>
         )}
       </div>
@@ -140,7 +140,7 @@ export default function AdminDisputesPage() {
       {/* Admin Note Modal */}
       {noteModal && (
         <div className="modal-overlay" onClick={() => setNoteModal(null)}>
-          <div className="card" onClick={(e) => e.stopPropagation()} style={{ padding: 28, width: "min(420px, 92vw)", margin: "auto" }}>
+          <div className="card" onClick={(e) => e.stopPropagation()} style={{ padding: 32, width: "min(420px, 92vw)", margin: "auto" }}>
             <h3 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: 16, color: "var(--text, white)", marginBottom: 12 }}>
               {noteModal.action === "approved" ? "Approve Refund" : "Reject Refund"}
             </h3>
@@ -151,12 +151,12 @@ export default function AdminDisputesPage() {
               placeholder="Add a note for the buyer..."
               rows={3}
               style={{
-                width: "100%", padding: "10px 12px", fontSize: 13, borderRadius: 8,
+                width: "100%", padding: "10px 12px", fontSize: 14, borderRadius: 8,
                 border: "1px solid var(--border)", background: "rgba(0,0,0,0.3)",
                 color: "var(--text, white)", resize: "vertical", marginBottom: 20,
               }}
             />
-            <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+            <div style={{ display: "flex", gap: 12, justifyContent: "flex-end" }}>
               <button type="button" className="btn-ghost btn-sm" onClick={() => setNoteModal(null)}>Cancel</button>
               <button
                 type="button"

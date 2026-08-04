@@ -101,14 +101,14 @@ export default function Navbar({ variant = "landing", onSearch }: NavbarProps) {
             <>
               <div className="nav-links-desktop">
                 {LANDING_LINKS.map((l) => (
-                  <Link key={l.href} href={l.href} style={{ fontSize: 13, color: navText, textDecoration: "none" }}>{l.label}</Link>
+                  <Link key={l.href} href={l.href} style={{ fontSize: 14, color: navText, textDecoration: "none" }}>{l.label}</Link>
                 ))}
               </div>
               <div className="nav-actions">
                 <button type="button" onClick={toggleTheme} className="icon-btn" aria-label="Toggle theme">
                   {isDark ? <Sun size={14} /> : <Moon size={14} />}
                 </button>
-                <Link href="/login" className="nav-link-hide-mobile" style={{ fontSize: 13, color: navText, textDecoration: "none" }}>Login</Link>
+                <Link href="/login" className="nav-link-hide-mobile" style={{ fontSize: 14, color: navText, textDecoration: "none" }}>Login</Link>
                 <Link href="/create" className="btn-ghost btn-sm">Create</Link>
                 <button type="button" className="icon-btn nav-menu-btn" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu">
                   {mobileOpen ? <X size={18} /> : <Menu size={18} />}
@@ -117,7 +117,7 @@ export default function Navbar({ variant = "landing", onSearch }: NavbarProps) {
             </>
           ) : (
             <>
-              <Link href="/dashboard" className="nav-link-hide-mobile" style={{ fontSize: 13, color: navText, textDecoration: "none", flexShrink: 0 }}>Dashboard</Link>
+              <Link href="/dashboard" className="nav-link-hide-mobile" style={{ fontSize: 14, color: navText, textDecoration: "none", flexShrink: 0 }}>Dashboard</Link>
               <div className="search-wrap nav-search">
                 <Search size={14} className="search-icon" />
                 <input type="search" placeholder="Search products..." onChange={(e) => onSearch?.(e.target.value)} aria-label="Search products" />
@@ -152,7 +152,7 @@ export default function Navbar({ variant = "landing", onSearch }: NavbarProps) {
                               <p style={{ fontSize: 12, fontWeight: 600 }}>{n.title}</p>
                               <span style={{ fontSize: 10, opacity: 0.5, flexShrink: 0 }}>{timeAgo(n.time)}</span>
                             </div>
-                            <p style={{ fontSize: 11, opacity: 0.6, marginTop: 2 }}>{n.desc}</p>
+                            <p style={{ fontSize: 12, opacity: 0.6, marginTop: 2 }}>{n.desc}</p>
                           </div>
                         </div>
                       ))}

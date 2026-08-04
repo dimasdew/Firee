@@ -43,11 +43,11 @@ export default function SupportPage() {
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {FAQ.map((item, i) => (
                   <div key={item.q} className="card" style={{ padding: 0, overflow: "hidden" }}>
-                    <button type="button" onClick={() => setOpen(open === i ? null : i)} style={{ width: "100%", padding: "14px 16px", background: "none", border: "none", cursor: "pointer", textAlign: "left", fontFamily: "inherit", fontSize: 13, fontWeight: 600, color: "var(--text, white)", display: "flex", justifyContent: "space-between" }}>
+                    <button type="button" onClick={() => setOpen(open === i ? null : i)} style={{ width: "100%", padding: "14px 16px", background: "none", border: "none", cursor: "pointer", textAlign: "left", fontFamily: "inherit", fontSize: 14, fontWeight: 600, color: "var(--text, white)", display: "flex", justifyContent: "space-between" }}>
                       {item.q}
                       <span style={{ color: "var(--accent-text)" }}>{open === i ? "−" : "+"}</span>
                     </button>
-                    {open === i && <p style={{ padding: "0 16px 14px", fontSize: 13, lineHeight: 1.65, color: "var(--text-muted)" }}>{item.a}</p>}
+                    {open === i && <p style={{ padding: "0 16px 14px", fontSize: 14, lineHeight: 1.65, color: "var(--text-muted)" }}>{item.a}</p>}
                   </div>
                 ))}
               </div>

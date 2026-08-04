@@ -89,9 +89,9 @@ export default function OrderDetailPage() {
               </div>
 
               {/* Product */}
-              <div style={{ display: "flex", gap: 14, alignItems: "center", marginBottom: 20 }}>
+              <div style={{ display: "flex", gap: 16, alignItems: "center", marginBottom: 20 }}>
                 <div style={{
-                  position: "relative", width: 64, height: 64, borderRadius: 10,
+                  position: "relative", width: 64, height: 64, borderRadius: 12,
                   background: "rgba(110,172,218,0.08)", border: "1px solid var(--border)",
                   overflow: "hidden", flexShrink: 0,
                 }}>
@@ -101,7 +101,7 @@ export default function OrderDetailPage() {
                   }
                 </div>
                 <div>
-                  <p style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)" }}>
+                  <p style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)" }}>
                     {(order.product as any)?.title || "Product"}
                   </p>
                   <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>
@@ -111,7 +111,7 @@ export default function OrderDetailPage() {
               </div>
 
               {/* Details */}
-              <div style={{ fontSize: 13, marginBottom: 24 }}>
+              <div style={{ fontSize: 14, marginBottom: 24 }}>
                 {[
                   ["Order ID", order.id],
                   ["Date", new Date(order.created_at).toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })],
@@ -121,7 +121,7 @@ export default function OrderDetailPage() {
                   <div key={label as string} style={{ display: "flex", justifyContent: "space-between", marginBottom: 8, gap: 12 }}>
                     <span style={{ color: "var(--text-muted)" }}>{label}</span>
                     {label === "Amount"
-                      ? <UsdcAmount value={order.price_usdc} iconSize={12} style={{ fontSize: 13, fontWeight: 700, color: "var(--sand)" }} />
+                      ? <UsdcAmount value={order.price_usdc} iconSize={12} style={{ fontSize: 14, fontWeight: 700, color: "var(--sand)" }} />
                       : <span className={label === "Order ID" ? "mono" : ""} style={{ color: "var(--text, white)", textAlign: "right", wordBreak: "break-all" }}>{val}</span>
                     }
                   </div>
@@ -129,7 +129,7 @@ export default function OrderDetailPage() {
               </div>
 
               {/* Actions */}
-              <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+              <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
                 <button
                   type="button"
                   className="btn-sand"

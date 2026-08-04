@@ -16,7 +16,7 @@ interface Props {
 function StarRating({ value, onChange, size = 18 }: { value: number; onChange?: (v: number) => void; size?: number }) {
   const [hover, setHover] = useState(0);
   return (
-    <div style={{ display: "flex", gap: 2, cursor: onChange ? "pointer" : "default" }}>
+    <div style={{ display: "flex", gap: 4, cursor: onChange ? "pointer" : "default" }}>
       {[1, 2, 3, 4, 5].map((i) => (
         <Star
           key={i}
@@ -157,10 +157,10 @@ export default function ReviewSection({ productId, purchased }: Props) {
       {/* Review form */}
       {purchased && !hasReviewed && orderId && (
         <div style={{
-          padding: 16, borderRadius: 10, marginBottom: 20,
+          padding: 16, borderRadius: 12, marginBottom: 20,
           border: "1px solid var(--border)", background: "rgba(110,172,218,0.03)",
         }}>
-          <p style={{ fontSize: 13, fontWeight: 600, color: "var(--text, white)", marginBottom: 10 }}>
+          <p style={{ fontSize: 14, fontWeight: 600, color: "var(--text, white)", marginBottom: 10 }}>
             Write a review
           </p>
           <div style={{ marginBottom: 12 }}>
@@ -174,7 +174,7 @@ export default function ReviewSection({ productId, purchased }: Props) {
             style={{
               width: "100%", minHeight: 72, padding: "10px 12px", borderRadius: 8,
               border: "1px solid var(--border)", background: "rgba(0,0,0,0.2)",
-              color: "var(--text, white)", fontSize: 13, resize: "vertical",
+              color: "var(--text, white)", fontSize: 14, resize: "vertical",
               fontFamily: "inherit",
             }}
           />
@@ -205,7 +205,7 @@ export default function ReviewSection({ productId, purchased }: Props) {
           <Loader2 size={20} color="var(--sky)" style={{ margin: "0 auto", animation: "spin 1s linear infinite" }} />
         </div>
       ) : reviews.length === 0 ? (
-        <p style={{ fontSize: 13, color: "var(--text-muted)", textAlign: "center", padding: "24px 0" }}>
+        <p style={{ fontSize: 14, color: "var(--text-muted)", textAlign: "center", padding: "24px 0" }}>
           No reviews yet
         </p>
       ) : (
@@ -214,7 +214,7 @@ export default function ReviewSection({ productId, purchased }: Props) {
             <div
               key={review.id}
               style={{
-                padding: 14, borderRadius: 10,
+                padding: 16, borderRadius: 12,
                 border: "1px solid var(--border)",
                 background: "rgba(110,172,218,0.02)",
               }}
@@ -239,7 +239,7 @@ export default function ReviewSection({ productId, purchased }: Props) {
                 <StarRating value={review.rating} size={12} />
               </div>
               {review.comment && (
-                <p style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.5 }}>
+                <p style={{ fontSize: 14, color: "var(--text-muted)", lineHeight: 1.5 }}>
                   {review.comment}
                 </p>
               )}

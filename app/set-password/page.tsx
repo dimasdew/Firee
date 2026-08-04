@@ -63,7 +63,7 @@ export default function SetPasswordPage() {
                     className="input"
                     type={show[f.showKey] ? "text" : "password"}
                     placeholder="••••••••"
-                    style={{ paddingLeft: 36, paddingRight: 36 }}
+                    style={{ paddingLeft: 40, paddingRight: 36 }}
                     value={form[f.key]}
                     onChange={(e) => setForm({ ...form, [f.key]: e.target.value })}
                   />
@@ -75,7 +75,7 @@ export default function SetPasswordPage() {
             ))}
 
             <div style={{ marginBottom: 16 }}>
-              <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.06em" }}>Password requirements</p>
+              <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.06em" }}>Password requirements</p>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "4px 12px" }}>
                 {[
                   { label: "At least 6 characters", pass: pwdChecks.length },
@@ -84,7 +84,7 @@ export default function SetPasswordPage() {
                   { label: "One number", pass: pwdChecks.number },
                   { label: "One special character", pass: pwdChecks.special },
                 ].map((c) => (
-                  <div key={c.label} style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 11, color: c.pass ? "var(--sky)" : "rgba(110,172,218,0.4)" }}>
+                  <div key={c.label} style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 12, color: c.pass ? "var(--sky)" : "rgba(110,172,218,0.4)" }}>
                     {c.pass ? <Check size={10} /> : <X size={10} />}
                     {c.label}
                   </div>

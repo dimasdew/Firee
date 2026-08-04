@@ -37,10 +37,10 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
         <Navbar variant="dashboard" />
         <main className="container" style={{ padding: "32px 0 80px" }}>
           <div style={{ marginBottom: 24 }}>
-            <h1 style={{ fontSize: 20, fontWeight: 700, color: "var(--text, white)", marginBottom: 4 }}>
+            <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--text, white)", marginBottom: 4 }}>
               Seller Dashboard
             </h1>
-            <p style={{ fontSize: 13, color: "var(--text-muted)" }}>
+            <p style={{ fontSize: 14, color: "var(--text-muted)" }}>
               Manage your products, orders, and earnings
             </p>
           </div>

@@ -117,7 +117,7 @@ export default function AddressPage() {
       <div className="card" style={{ padding: 24 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
           <div>
-            <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)", marginBottom: 4 }}>Shipping Addresses</h3>
+            <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)", marginBottom: 4 }}>Shipping Addresses</h3>
             <p style={{ fontSize: 12, color: "var(--text-muted)" }}>Manage your delivery addresses</p>
           </div>
           {!isFormOpen && (
@@ -140,14 +140,14 @@ export default function AddressPage() {
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           {addresses.map((addr) =>
             editing === addr.id ? null : (
-              <div key={addr.id} style={{ padding: 16, borderRadius: 10, border: `1px solid ${addr.isDefault ? "var(--sky)" : "var(--border)"}`, background: addr.isDefault ? "rgba(110,172,218,0.04)" : "transparent", position: "relative" }}>
+              <div key={addr.id} style={{ padding: 16, borderRadius: 12, border: `1px solid ${addr.isDefault ? "var(--sky)" : "var(--border)"}`, background: addr.isDefault ? "rgba(110,172,218,0.04)" : "transparent", position: "relative" }}>
                 <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
                   <div style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(110,172,218,0.08)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                     {addr.type === "office" ? <Building2 size={16} color="var(--sky)" /> : <Home size={16} color="var(--sky)" />}
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-                      <p style={{ fontSize: 13, fontWeight: 600, color: "var(--text, white)" }}>{addr.label || addr.type}</p>
+                      <p style={{ fontSize: 14, fontWeight: 600, color: "var(--text, white)" }}>{addr.label || addr.type}</p>
                       {addr.isDefault && <Badge tone="sky">Default</Badge>}
                     </div>
                     <p style={{ fontSize: 12, color: "var(--text, white)", marginBottom: 2 }}>{addr.recipient}</p>
@@ -183,7 +183,7 @@ export default function AddressPage() {
       {/* Add/Edit Form */}
       {isFormOpen && (
         <div className="card" style={{ padding: 24 }}>
-          <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)", marginBottom: 4 }}>
+          <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)", marginBottom: 4 }}>
             {adding ? "New Address" : "Edit Address"}
           </h3>
           <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 20 }}>
@@ -236,7 +236,7 @@ export default function AddressPage() {
               <label className="label">Country</label>
               <input className="input" placeholder="Country" value={form.country} onChange={(e) => setForm({ ...form, country: e.target.value })} />
             </div>
-            <div style={{ display: "flex", justifyContent: "flex-end", flexWrap: "wrap", gap: 10, marginTop: 4 }}>
+            <div style={{ display: "flex", justifyContent: "flex-end", flexWrap: "wrap", gap: 12, marginTop: 4 }}>
               <button type="button" className="btn-ghost btn-sm" onClick={cancel} >Cancel</button>
               <button type="button" className="btn-primary btn-sm" onClick={saveAddress} >
                 <Check size={13} /> {adding ? "Add Address" : "Save Changes"}

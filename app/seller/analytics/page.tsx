@@ -75,9 +75,9 @@ export default function AnalyticsPage() {
             <div style={{ width: 32, height: 32, borderRadius: 8, background: "rgba(110,172,218,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Package size={15} color="var(--sky)" />
             </div>
-            <span style={{ fontSize: 11, color: "var(--text-muted)" }}>Products</span>
+            <span style={{ fontSize: 12, color: "var(--text-muted)" }}>Products</span>
           </div>
-          <p style={{ fontSize: 24, fontWeight: 700, color: "var(--text, white)" }}>{products.length}</p>
+          <p style={{ fontSize: 22, fontWeight: 700, color: "var(--text, white)" }}>{products.length}</p>
         </div>
 
         <div className="card" style={{ padding: 20 }}>
@@ -85,9 +85,9 @@ export default function AnalyticsPage() {
             <div style={{ width: 32, height: 32, borderRadius: 8, background: "rgba(226,226,182,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <ShoppingCart size={15} color="var(--sand)" />
             </div>
-            <span style={{ fontSize: 11, color: "var(--text-muted)" }}>Total Sales</span>
+            <span style={{ fontSize: 12, color: "var(--text-muted)" }}>Total Sales</span>
           </div>
-          <p style={{ fontSize: 24, fontWeight: 700, color: "var(--accent-text)" }}>{totalSales}</p>
+          <p style={{ fontSize: 22, fontWeight: 700, color: "var(--accent-text)" }}>{totalSales}</p>
         </div>
 
         <div className="card" style={{ padding: 20 }}>
@@ -95,9 +95,9 @@ export default function AnalyticsPage() {
             <div style={{ width: 32, height: 32, borderRadius: 8, background: "rgba(226,226,182,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <TrendingUp size={15} color="var(--sand)" />
             </div>
-            <span style={{ fontSize: 11, color: "var(--text-muted)" }}>Revenue</span>
+            <span style={{ fontSize: 12, color: "var(--text-muted)" }}>Revenue</span>
           </div>
-          <UsdcAmount value={totalRevenue} iconSize={16} style={{ fontSize: 20, fontWeight: 700, color: "var(--sand)" }} />
+          <UsdcAmount value={totalRevenue} iconSize={16} style={{ fontSize: 22, fontWeight: 700, color: "var(--sand)" }} />
         </div>
 
         <div className="card" style={{ padding: 20 }}>
@@ -105,7 +105,7 @@ export default function AnalyticsPage() {
             <div style={{ width: 32, height: 32, borderRadius: 8, background: "rgba(250,204,21,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Star size={15} color="#facc15" />
             </div>
-            <span style={{ fontSize: 11, color: "var(--text-muted)" }}>Avg Rating</span>
+            <span style={{ fontSize: 12, color: "var(--text-muted)" }}>Avg Rating</span>
           </div>
           {totalReviews > 0 ? (
             <StarDisplay avg={avgRating} count={totalReviews} size={16} />
@@ -118,9 +118,9 @@ export default function AnalyticsPage() {
       <div className="analytics-grid" style={{ gap: 16 }}>
         {/* Top Products */}
         <div className="card" style={{ padding: 24 }}>
-          <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)", marginBottom: 16 }}>Top Products</h3>
+          <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)", marginBottom: 16 }}>Top Products</h3>
           {topProducts.length === 0 ? (
-            <p style={{ fontSize: 13, color: "var(--text-muted)", textAlign: "center", padding: "24px 0" }}>No products yet</p>
+            <p style={{ fontSize: 14, color: "var(--text-muted)", textAlign: "center", padding: "24px 0" }}>No products yet</p>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {topProducts.map((p, i) => (
@@ -130,24 +130,24 @@ export default function AnalyticsPage() {
                   border: "1px solid var(--border)",
                 }}>
                   <span style={{
-                    width: 24, height: 24, borderRadius: 6,
+                    width: 24, height: 24, borderRadius: 8,
                     background: i === 0 ? "rgba(250,204,21,0.15)" : "rgba(110,172,218,0.08)",
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    fontSize: 11, fontWeight: 700,
+                    fontSize: 12, fontWeight: 700,
                     color: i === 0 ? "#facc15" : "var(--text-muted)",
                   }}>
                     {i + 1}
                   </span>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ fontSize: 13, fontWeight: 600, color: "var(--text, white)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.title}</p>
-                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 2, flexWrap: "wrap" }}>
-                      <span style={{ fontSize: 11, color: "var(--text-muted)" }}>{p.total_sales} sales</span>
+                    <p style={{ fontSize: 14, fontWeight: 600, color: "var(--text, white)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.title}</p>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 4, flexWrap: "wrap" }}>
+                      <span style={{ fontSize: 12, color: "var(--text-muted)" }}>{p.total_sales} sales</span>
                       {ratings[p.id] && ratings[p.id].count > 0 && (
                         <StarDisplay avg={ratings[p.id].avg} count={ratings[p.id].count} size={10} />
                       )}
                     </div>
                   </div>
-                  <UsdcAmount value={p.total_revenue_usdc} showLabel={false} iconSize={11} style={{ fontSize: 13, fontWeight: 600, color: "var(--sand)" }} />
+                  <UsdcAmount value={p.total_revenue_usdc} showLabel={false} iconSize={11} style={{ fontSize: 14, fontWeight: 600, color: "var(--sand)" }} />
                 </div>
               ))}
             </div>
@@ -156,9 +156,9 @@ export default function AnalyticsPage() {
 
         {/* Recent Orders */}
         <div className="card" style={{ padding: 24 }}>
-          <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text, white)", marginBottom: 16 }}>Recent Sales</h3>
+          <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)", marginBottom: 16 }}>Recent Sales</h3>
           {recentOrders.length === 0 ? (
-            <p style={{ fontSize: 13, color: "var(--text-muted)", textAlign: "center", padding: "24px 0" }}>No sales yet</p>
+            <p style={{ fontSize: 14, color: "var(--text-muted)", textAlign: "center", padding: "24px 0" }}>No sales yet</p>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {recentOrders.map((order) => (
@@ -168,15 +168,15 @@ export default function AnalyticsPage() {
                   border: "1px solid var(--border)",
                 }}>
                   <div style={{ minWidth: 0, flex: 1 }}>
-                    <p style={{ fontSize: 13, fontWeight: 600, color: "var(--text, white)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    <p style={{ fontSize: 14, fontWeight: 600, color: "var(--text, white)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                       {order.buyer?.display_name || order.buyer?.username || "Buyer"}
                     </p>
-                    <p style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                       {order.product?.title || "Product"}
                     </p>
                   </div>
                   <div style={{ textAlign: "right", flexShrink: 0, marginLeft: 12 }}>
-                    <UsdcAmount value={order.price_usdc} showLabel={false} iconSize={11} style={{ fontSize: 13, fontWeight: 600, color: "var(--sand)" }} />
+                    <UsdcAmount value={order.price_usdc} showLabel={false} iconSize={11} style={{ fontSize: 14, fontWeight: 600, color: "var(--sand)" }} />
                     <p style={{ fontSize: 10, color: "var(--text-muted)", marginTop: 2 }}>{timeAgo(order.created_at)}</p>
                   </div>
                 </div>

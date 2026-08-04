@@ -74,7 +74,7 @@ export default function SellerProfilePage() {
         </Link>
 
         {/* Seller header */}
-        <div className="card" style={{ padding: 28, marginBottom: 24, display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
+        <div className="card" style={{ padding: 32, marginBottom: 24, display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
           <div style={{
             width: 72, height: 72, borderRadius: "50%",
             background: "rgba(110,172,218,0.1)", border: "2px solid var(--border)",
@@ -90,14 +90,14 @@ export default function SellerProfilePage() {
             <h1 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: 22, color: "var(--text, white)", marginBottom: 4 }}>
               {seller.display_name || seller.username}
             </h1>
-            <p style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 8 }}>
+            <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 8 }}>
               @{seller.username}
               {seller.seller_verified && (
-                <span style={{ marginLeft: 8, fontSize: 11, color: "#4ade80" }}>✓ Verified Seller</span>
+                <span style={{ marginLeft: 8, fontSize: 12, color: "#4ade80" }}>✓ Verified Seller</span>
               )}
             </p>
             {seller.bio && (
-              <p style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.5, marginBottom: 8 }}>{seller.bio}</p>
+              <p style={{ fontSize: 14, color: "var(--text-muted)", lineHeight: 1.5, marginBottom: 8 }}>{seller.bio}</p>
             )}
             <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 4 }}>

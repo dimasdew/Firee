@@ -51,7 +51,7 @@ export default function CreatePage() {
                   <Mail size={24} color="var(--sky)" />
                 </div>
                 <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text, white)", marginBottom: 8 }}>Check your email</h3>
-                <p style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.6, marginBottom: 20 }}>
+                <p style={{ fontSize: 14, color: "var(--text-muted)", lineHeight: 1.6, marginBottom: 20 }}>
                   We sent a confirmation link to <strong style={{ color: "var(--accent-text)" }}>{form.email}</strong>.<br />
                   Click the link to activate your account.
                 </p>
@@ -83,13 +83,13 @@ export default function CreatePage() {
                 <label className="label">{f.label}</label>
                 <div className="input-icon-wrap">
                   <Lock size={14} className="input-icon" />
-                  <input className="input" type={show[f.showKey] ? "text" : "password"} placeholder="••••••••" style={{ paddingLeft: 36, paddingRight: 36 }} value={form[f.key]} onChange={(e) => setForm({ ...form, [f.key]: e.target.value })} />
+                  <input className="input" type={show[f.showKey] ? "text" : "password"} placeholder="••••••••" style={{ paddingLeft: 40, paddingRight: 36 }} value={form[f.key]} onChange={(e) => setForm({ ...form, [f.key]: e.target.value })} />
                   <button type="button" className="input-eye" onClick={() => setShow({ ...show, [f.showKey]: !show[f.showKey] })}>{show[f.showKey] ? <EyeOff size={14} /> : <Eye size={14} />}</button>
                 </div>
               </div>
             ))}
             <div style={{ marginBottom: 12 }}>
-              <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.06em" }}>Password requirements</p>
+              <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.06em" }}>Password requirements</p>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "4px 12px" }}>
                 {[
                   { label: "At least 6 characters", pass: pwdChecks.length },
@@ -98,7 +98,7 @@ export default function CreatePage() {
                   { label: "One number", pass: pwdChecks.number },
                   { label: "One special character", pass: pwdChecks.special },
                 ].map((c) => (
-                  <div key={c.label} style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 11, color: c.pass ? "var(--sky)" : "rgba(110,172,218,0.4)" }}>
+                  <div key={c.label} style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 12, color: c.pass ? "var(--sky)" : "rgba(110,172,218,0.4)" }}>
                     {c.pass ? <Check size={10} /> : <X size={10} />}
                     {c.label}
                   </div>

@@ -125,7 +125,7 @@ export default function Home() {
         <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: "linear-gradient(90deg, transparent, var(--sky), rgba(226,226,182,0.6) 50%, var(--sky), transparent)", opacity: 0.5 }} />
 
         <div style={{ position: "relative", zIndex: 10, textAlign: "center", padding: "48px 24px", maxWidth: 720 }}>
-          <div className="badge badge-sky fade-up d1" style={{ marginBottom: 28, display: "inline-flex" }}>
+          <div className="badge badge-sky fade-up d1" style={{ marginBottom: 32, display: "inline-flex" }}>
             Decentralized Marketplace
           </div>
 
@@ -142,11 +142,11 @@ export default function Home() {
             <Link href="/create" className="btn-ghost">Create</Link>
           </div>
 
-          <div className="fade-up d5" style={{ marginTop: 56, display: "flex", justifyContent: "center", gap: "clamp(24px, 6vw, 56px)", flexWrap: "wrap" }}>
+          <div className="fade-up d5" style={{ marginTop: 64, display: "flex", justifyContent: "center", gap: "clamp(24px, 6vw, 56px)", flexWrap: "wrap" }}>
             {stats.map((s) => (
               <div key={s.label} style={{ textAlign: "center" }}>
                 <div className="mono" style={{ fontSize: "clamp(18px, 3vw, 24px)", fontWeight: 700, color: "var(--sand)" }}>{s.value}</div>
-                <div style={{ fontSize: 11, color: "var(--label)", marginTop: 4, textTransform: "uppercase", letterSpacing: "0.08em" }}>{s.label}</div>
+                <div style={{ fontSize: 12, color: "var(--label)", marginTop: 4, textTransform: "uppercase", letterSpacing: "0.08em" }}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -155,15 +155,15 @@ export default function Home() {
 
       <section id="features" className="section">
         <div className="container">
-          <p style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--label)", marginBottom: 8 }}>Why Firee</p>
+          <p style={{ fontSize: 12, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--label)", marginBottom: 8 }}>Why Firee</p>
           <h2 className="section-title">Trust the contract, not the stranger</h2>
           <p className="section-sub">Everything you need to buy and sell physical goods peer to peer, with payment protection built into the chain.</p>
           <div className="features-grid">
             {FEATURES.map((f) => (
               <div key={f.title} className="card feature-card">
                 <div className="feature-icon"><f.icon size={20} /></div>
-                <h3 style={{ fontWeight: 600, fontSize: 15, marginBottom: 8, color: "var(--text, white)" }}>{f.title}</h3>
-                <p style={{ fontSize: 13, lineHeight: 1.65, color: "var(--text-muted)" }}>{f.desc}</p>
+                <h3 style={{ fontWeight: 600, fontSize: 16, marginBottom: 8, color: "var(--text, white)" }}>{f.title}</h3>
+                <p style={{ fontSize: 14, lineHeight: 1.65, color: "var(--text-muted)" }}>{f.desc}</p>
               </div>
             ))}
           </div>
@@ -172,14 +172,14 @@ export default function Home() {
 
       <section id="how" className="section" style={{ background: "rgba(3,52,110,0.08)" }}>
         <div className="container">
-          <p style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--label)", marginBottom: 8 }}>How it works</p>
+          <p style={{ fontSize: 12, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--label)", marginBottom: 8 }}>How it works</p>
           <h2 className="section-title">Four steps to freedom</h2>
           <div className="steps-grid">
             {STEPS.map((s) => (
               <div key={s.n} className="card" style={{ padding: 24 }}>
                 <p className="step-num">{s.n}</p>
-                <h3 style={{ fontWeight: 600, fontSize: 15, marginBottom: 8, color: "var(--text, white)" }}>{s.title}</h3>
-                <p style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.6 }}>{s.desc}</p>
+                <h3 style={{ fontWeight: 600, fontSize: 16, marginBottom: 8, color: "var(--text, white)" }}>{s.title}</h3>
+                <p style={{ fontSize: 14, color: "var(--text-muted)", lineHeight: 1.6 }}>{s.desc}</p>
               </div>
             ))}
           </div>
@@ -188,7 +188,7 @@ export default function Home() {
 
       <section id="faq" className="section">
         <div className="container" style={{ maxWidth: 680 }}>
-          <p style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--label)", marginBottom: 8 }}>FAQ</p>
+          <p style={{ fontSize: 12, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--label)", marginBottom: 8 }}>FAQ</p>
           <h2 className="section-title">Frequently Asked Questions</h2>
           <p className="section-sub">Everything you need to know about Firee.</p>
 
@@ -226,7 +226,7 @@ export default function Home() {
                   <span style={{ color: "var(--accent-text)", fontSize: 18, flexShrink: 0 }}>{faqOpen === i ? "−" : "+"}</span>
                 </button>
                 {faqOpen === i && (
-                  <p style={{ padding: "0 18px 16px", fontSize: 13, lineHeight: 1.7, color: "var(--text-muted)" }}>
+                  <p style={{ padding: "0 18px 16px", fontSize: 14, lineHeight: 1.7, color: "var(--text-muted)" }}>
                     {item.a}
                   </p>
                 )}
@@ -240,7 +240,7 @@ export default function Home() {
         <div className="container">
           <div className="cta-box">
             <h2 style={{ fontFamily: "Space Grotesk", fontWeight: 700, fontSize: "clamp(24px, 4vw, 40px)", color: "var(--text, white)", marginBottom: 12 }}>Shop without trusting a stranger</h2>
-            <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 28, maxWidth: 440, margin: "0 auto 28px" }}>Join buyers and sellers trading physical goods with escrow-protected USDC payments on Firee.</p>
+            <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 32, maxWidth: 440, margin: "0 auto 28px" }}>Join buyers and sellers trading physical goods with escrow-protected USDC payments on Firee.</p>
             <Link href="/login" className="btn-sand">Explore Marketplace <ArrowRight size={14} /></Link>
           </div>
         </div>
